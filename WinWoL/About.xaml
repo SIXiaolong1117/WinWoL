@@ -39,7 +39,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <TextBlock Text="⚖️License:" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <HyperlinkButton Content="MIT License" FontSize="14" NavigateUri="https://github.com/Direct5dom/WinWoL/blob/master/LICENSE" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <HyperlinkButton Content="GPL-3.0 License" FontSize="14" NavigateUri="https://github.com/Direct5dom/WinWoL/blob/master/LICENSE" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
     </Grid>
