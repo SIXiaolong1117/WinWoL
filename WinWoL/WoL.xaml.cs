@@ -43,7 +43,6 @@ namespace WinWoL
 {
     public sealed partial class WoL : Page
     {
-        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         public WoL()
         {
             this.InitializeComponent();

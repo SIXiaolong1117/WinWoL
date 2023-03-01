@@ -22,6 +22,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="About.xaml" />
+    <None Remove="RDP.xaml" />
     <None Remove="SettingsPage.xaml" />
     <None Remove="WoL.xaml" />
   </ItemGroup>
@@ -50,6 +51,11 @@
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="RDP.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="About.xaml">

@@ -38,9 +38,14 @@
         </Grid>
         <NavigationView x:Name="NavView" SelectionChanged="NavigationView_SelectionChanged" Grid.Row="1" IsBackButtonVisible="Collapsed" IsSettingsVisible="True">
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Wake on LAN" Tag="WoL">
+                <NavigationViewItem Content="网络唤醒 (WoL)" Tag="WoL">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xeda3;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="远程桌面 (RDP)" Tag="RDP">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe8af;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

@@ -169,6 +169,10 @@ namespace WinWoL
                 {
                     contentFrame.Navigate(typeof(WoL));
                 }
+                else if ((string)selectedItem.Tag == "RDP")
+                {
+                    contentFrame.Navigate(typeof(RDP));
+                }
                 else if ((string)selectedItem.Tag == "About")
                 {
                     contentFrame.Navigate(typeof(About));
