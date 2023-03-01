@@ -47,6 +47,10 @@ namespace WinWoL
         }
         private void RDPPCButton_Click(object sender, RoutedEventArgs e)
         {
+            if (ipPort.Text == "")
+            {
+                ipPort.Text = "3389";
+            }
             localSettings.Values["mstscCMD"] = "mstsc /v:" + ipAddress.Text + ":" + ipPort.Text + ";";
             ThreadStart childref = new ThreadStart(RDPPCChildThread);
             Thread childThread = new Thread(childref);

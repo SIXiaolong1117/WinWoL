@@ -31,10 +31,10 @@
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBox x:Name="ipAddress" Header="IP地址：" Width="268" Margin="0,8,0,0"/>
-                    <TextBlock Text="RDP的IP地址" Foreground="DarkGray" FontSize="12"/>
-                    <TextBox x:Name="ipPort" Header="端口：" Width="268" Margin="0,8,0,0"/>
-                    <TextBlock Text="RDP的端口" Foreground="DarkGray" FontSize="12"/>
+                    <TextBox x:Name="ipAddress" Header="IP地址：" PlaceholderText="192.168.0.2" Width="268" Margin="0,8,0,0"/>
+                    <TextBlock Text="远程主机的IP地址" Foreground="DarkGray" FontSize="12"/>
+                    <TextBox x:Name="ipPort" Header="端口：" PlaceholderText="3389" Width="268" Margin="0,8,0,0"/>
+                    <TextBlock Text="远程主机的RDP端口" Foreground="DarkGray" FontSize="12"/>
 
                     <Button x:Name="RDPPC" Click="RDPPCButton_Click" 
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 

@@ -31,12 +31,12 @@
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBox x:Name="macAddress" Header="Mac地址：" Width="268" Margin="0,8,0,0"/>
+                    <TextBox x:Name="macAddress" Header="Mac地址：" PlaceholderText="AA:BB:CC:DD:EE:FF" Width="268" Margin="0,8,0,0"/>
                     <TextBlock Text="待唤醒设备的MAC地址" Foreground="DarkGray" FontSize="12"/>
-                    <TextBox x:Name="ipAddress" Header="IP地址：" Width="268" Margin="0,8,0,0"/>
-                    <TextBlock Text="待唤醒设备的IP地址" Foreground="DarkGray" FontSize="12"/>
-                    <TextBox x:Name="ipPort" Header="端口：" Width="268" Margin="0,8,0,0"/>
-                    <TextBlock Text="唤醒设备使用的端口" Foreground="DarkGray" FontSize="12"/>
+                    <TextBox x:Name="ipAddress" Header="IP地址：" PlaceholderText="255.255.255.255" Width="268" Margin="0,8,0,0"/>
+                    <TextBlock Text="接收Magic Packet的IP地址" Foreground="DarkGray" FontSize="12"/>
+                    <TextBox x:Name="ipPort" Header="端口：" PlaceholderText="7 or 9" Width="268" Margin="0,8,0,0"/>
+                    <TextBlock Text="接收Magic Packet的端口" Foreground="DarkGray" FontSize="12"/>
 
                     <Button x:Name="WakePC" Click="WakePCButton_Click" 
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 

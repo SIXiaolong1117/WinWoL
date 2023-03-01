@@ -49,6 +49,15 @@ namespace WinWoL
         }
         private void WakePCButton_Click(object sender, RoutedEventArgs e)
         {
+            if (ipAddress.Text == "")
+            {
+                // 255.255.255.255是一个特殊的IP地址，可以向LAN网络内的所有设备发送数据
+                ipAddress.Text = "255.255.255.255";
+            }
+            if (ipPort.Text == "")
+            {
+                ipPort.Text = "9";
+            }
             sendMagicPacket(macAddress.Text, ipAddress.Text, int.Parse(ipPort.Text));
         }
         public void sendMagicPacket(string macAddress, string domain, int port)

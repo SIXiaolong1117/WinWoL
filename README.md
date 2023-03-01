@@ -27,6 +27,10 @@
 
 安装需要注意的是，要右键“使用PowrShell”运行`Install.ps1`，而不是直接双击`WinWoL.msix`。
 
+## 使用教程
+
+参考本项目[Wiki](https://github.com/Direct5dom/WinWoL/wiki)。
+
 ## 🛠️获取源码
 
 要构建此项目，您需要将项目源码克隆到本地。
