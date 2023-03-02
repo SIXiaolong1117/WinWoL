@@ -32,6 +32,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Threading;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -43,7 +44,7 @@ namespace WinWoL
         {
             this.InitializeComponent();
 
-            pingTest("www.baidu.com:443");
+            
         }
         public void pingTest(string pingHostPort)
         {
@@ -111,6 +112,11 @@ namespace WinWoL
                 _portEnable = false;
             }
             return _portEnable;
+        }
+
+        private void pingTestButton_Click(object sender, RoutedEventArgs e)
+        {
+            pingTest(ipAddress.Text + ":" + ipPort.Text);
         }
     }
 

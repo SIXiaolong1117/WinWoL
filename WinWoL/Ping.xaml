@@ -28,30 +28,44 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <GridView x:Name="MyGridView">
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="local:Item">
-                    <StackPanel Orientation="Vertical" Margin="10">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{x:Bind HostName}"/>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <GridView x:Name="MyGridView">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="local:Item">
+                        <StackPanel Orientation="Vertical" Margin="8" MinWidth="252">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{x:Bind HostName}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{x:Bind HostIP}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{x:Bind RTT}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{x:Bind PortIsOpen}"/>
+                            </StackPanel>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{x:Bind HostIP}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{x:Bind RTT}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{x:Bind PortIsOpen}"/>
-                        </StackPanel>
-                    </StackPanel>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-            <GridView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapGrid Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </GridView.ItemsPanel>
-        </GridView>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapGrid Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+            </GridView>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBox x:Name="ipAddress" Header="IP地址：" PlaceholderText="192.168.0.2" Width="268" Margin="0,8,0,0"/>
+                    <TextBlock Text="测试IP地址" Foreground="DarkGray" FontSize="12"/>
+                    <TextBox x:Name="ipPort" Header="端口：" PlaceholderText="80" Width="268" Margin="0,8,0,0"/>
+                    <TextBlock Text="测试IP端口" Foreground="DarkGray" FontSize="12"/>
+                    <Button x:Name="pingTestBut" Click="pingTestButton_Click" 
+                            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                            Width="80" 
+                            Margin="0,8,0,0">测试</Button>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>
