@@ -30,25 +30,20 @@
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    
                     <GridView x:Name="MyGridView">
+                        
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="local:ConfigItem">
-                                <StackPanel x:Name="ConfigPanel" Orientation="Vertical" Margin="8" Width="252">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{x:Bind ConfigID}"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Vertical" Margin="8" Width="252">
+                                    <TextBlock Text="{x:Bind ConfigID}"/>
                                         <TextBlock Text="{x:Bind MacAddress}"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{x:Bind IpAddress}"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{x:Bind IpPort}"/>
-                                    </StackPanel>
+                                    <TextBlock Text="{x:Bind IpPort}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </GridView.ItemTemplate>
+                        
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <ItemsWrapGrid x:Name="MaxItemsWrapGrid"
@@ -56,12 +51,14 @@
                                                Orientation="Horizontal"/>
                             </ItemsPanelTemplate>
                         </GridView.ItemsPanel>
+                        
                     </GridView>
 
                     <Button x:Name="AddConfig" Click="AddConfigButton_Click" 
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                             Width="80" 
                             Margin="0,8,0,0">添加配置</Button>
+                    
                 </StackPanel>
             </StackPanel>
         </StackPanel>
