@@ -38,27 +38,65 @@ using System.Globalization;
 using Windows.Storage;
 using PInvoke;
 using Windows.Services.Maps;
+using Windows.Networking;
+using System.Net.Mail;
+using Validation;
 
 namespace WinWoL
 {
     public sealed partial class WoL : Page
     {
+        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         public WoL()
         {
             this.InitializeComponent();
+
+            refresh();
         }
-        private void WakePCButton_Click(object sender, RoutedEventArgs e)
+        public void refresh()
         {
-            if (ipAddress.Text == "")
+            List<ConfigItem> items = new List<ConfigItem>();
+            for (int i = 0; i < 99; i++)
             {
-                // 255.255.255.255是一个特殊的IP地址，可以向LAN网络内的所有设备发送数据
-                ipAddress.Text = "255.255.255.255";
+                string configInner = localSettings.Values["ConfigID" + i.ToString()] as string;
+                if (configInner != null)
+                {
+                    string[] configInnerSplit = configInner.Split(',');
+                    // configNum.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
+                    string ConfigID = configInnerSplit[0];
+                    string macAddress = configInnerSplit[1];
+                    string ipAddress = configInnerSplit[2];
+                    string ipPort = configInnerSplit[3];
+
+                    items.Add(new ConfigItem(
+                        "配置文件 ID：" + ConfigID,
+                        "主机 Mac：" + macAddress,
+                        "主机 IP：" + ipAddress,
+                        "使用端口：" + ipPort
+                        ));
+                }
             }
-            if (ipPort.Text == "")
+            MyGridView.ItemsSource = items;
+        }
+        private async void AddConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddConfigDialog configDialog = new AddConfigDialog();
+
+            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+            configDialog.XamlRoot = this.XamlRoot;
+            configDialog.Style = Microsoft.UI.Xaml.Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            //configDialog.Title = "添加一个 IP 测试";
+            configDialog.PrimaryButtonText = "添加";
+            configDialog.CloseButtonText = "关闭";
+            configDialog.DefaultButton = ContentDialogButton.Primary;
+            //dialog.Content = new AddPingDialog();
+
+            var result = await configDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
             {
-                ipPort.Text = "9";
+                refresh();
             }
-            sendMagicPacket(macAddress.Text, ipAddress.Text, int.Parse(ipPort.Text));
         }
         public void sendMagicPacket(string macAddress, string domain, int port)
         {
@@ -111,7 +149,7 @@ namespace WinWoL
                 // 是域名
                 ip = Dns.GetHostEntry(domain).AddressList[0];
                 // 将该域名对应的IP写到ipAddress.Text
-                ipAddress.Text = ip.ToString();
+                //ipAddress.Text = ip.ToString();
             }
 
             // 发送数据
@@ -119,6 +157,25 @@ namespace WinWoL
 
             // 关闭Socket对象
             socket.Close();
+        }
+    }
+    // configNum.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
+    public class ConfigItem
+    {
+        // 配置文件ID
+        public string ConfigID { get; set; }
+        // 主机MAC
+        public string MacAddress { get; set; }
+        // 主机IP
+        public string IpAddress { get; set; }
+        // 主机端口
+        public string IpPort { get; set; }
+        public ConfigItem(string configID, string macAddress, string ipAddress, string ipPort)
+        {
+            ConfigID = configID;
+            MacAddress = macAddress;
+            IpAddress = ipAddress;
+            IpPort = ipPort;
         }
     }
 }

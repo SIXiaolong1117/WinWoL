@@ -1,0 +1,38 @@
+﻿<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<!-- Copyright (C) 2023  SI Xiaolong (https://github.com/Direct5dom) (SIXiaolong_GitHub@outlook.com) -->
+
+<!-- This program is free software: you can redistribute it and/or modify -->
+<!-- it under the terms of the GNU General Public License as published by -->
+<!-- the Free Software Foundation, either version 3 of the License, or -->
+<!-- (at your option) any later version.-->
+
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the -->
+<!-- GNU General Public License for more details. -->
+
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program.  If not, see -->
+<!-- <https://www.gnu.org/licenses/> . -->
+
+<ContentDialog
+    x:Class="WinWoL.AddConfigDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    >
+
+    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <TextBlock x:Name="Test" Foreground="DarkGray" FontSize="12"/>
+        <TextBox x:Name="configNum" Header="配置编号：" PlaceholderText="00" Width="268" Margin="0,8,0,0"/>
+        <TextBlock Text="设置一个独一无二的配置编号" Foreground="DarkGray" FontSize="12"/>
+        <TextBox x:Name="macAddress" TextChanged="TextChanged" Header="Mac地址：" PlaceholderText="AA:BB:CC:DD:EE:FF" Width="268" Margin="0,8,0,0"/>
+        <TextBlock Text="待唤醒设备的MAC地址" Foreground="DarkGray" FontSize="12"/>
+        <TextBox x:Name="ipAddress" TextChanged="TextChanged" Header="IP地址：" PlaceholderText="255.255.255.255" Width="268" Margin="0,8,0,0"/>
+        <TextBlock Text="接收Magic Packet的IP地址" Foreground="DarkGray" FontSize="12"/>
+        <TextBox x:Name="ipPort" TextChanged="TextChanged" Header="端口：" PlaceholderText="7 or 9" Width="268" Margin="0,8,0,0"/>
+        <TextBlock Text="接收Magic Packet的端口" Foreground="DarkGray" FontSize="12"/>
+    </StackPanel>
+
+</ContentDialog>

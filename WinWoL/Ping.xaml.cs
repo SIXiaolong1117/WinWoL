@@ -107,7 +107,7 @@ namespace WinWoL
                     _portEnable = true;
                 }
             }
-            catch (SocketException e)
+            catch
             {
                 _portEnable = false;
             }
