@@ -48,7 +48,7 @@ namespace WinWoL
             m_window.Activate();
 
             IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(m_window);
-            SetWindowSize(hwnd, 720, 680);
+            SetWindowSize(hwnd, 720, 580);
         }
         private void SetWindowSize(IntPtr hwnd, int width, int height)
         {

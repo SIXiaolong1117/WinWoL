@@ -41,40 +41,59 @@ using Windows.Services.Maps;
 using Windows.Networking;
 using System.Net.Mail;
 using Validation;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WinWoL
 {
     public sealed partial class WoL : Page
     {
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        public List<string> ConfigSelector { get; } = new List<string>()
+        {
+            "0","1","2","3","4","5","6","7","8","9","10"
+        };
         public WoL()
         {
             this.InitializeComponent();
 
-            refresh();
+            refresh("0");
         }
-        public void refresh()
+        private void configNum_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            refresh(configNum.SelectedItem.ToString());
+            //Test.Text = configNum.SelectedItem.ToString();
+        }
+        public void refresh(string ConfigIDNum)
         {
             List<ConfigItem> items = new List<ConfigItem>();
-            for (int i = 0; i < 99; i++)
+            string configInner = localSettings.Values["ConfigID" + ConfigIDNum] as string;
+            if (configInner != null)
             {
-                string configInner = localSettings.Values["ConfigID" + i.ToString()] as string;
-                if (configInner != null)
-                {
-                    string[] configInnerSplit = configInner.Split(',');
-                    // configNum.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
-                    string ConfigID = configInnerSplit[0];
-                    string macAddress = configInnerSplit[1];
-                    string ipAddress = configInnerSplit[2];
-                    string ipPort = configInnerSplit[3];
+                string[] configInnerSplit = configInner.Split(',');
+                // configNum.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
+                string ConfigID = configInnerSplit[0];
+                string macAddress = configInnerSplit[1];
+                string ipAddress = configInnerSplit[2];
+                string ipPort = configInnerSplit[3];
 
-                    items.Add(new ConfigItem(
-                        "配置文件 ID：" + ConfigID,
-                        "主机 Mac：" + macAddress,
-                        "主机 IP：" + ipAddress,
-                        "使用端口：" + ipPort
-                        ));
-                }
+                items.Add(new ConfigItem(
+                    "配置文件 ID：" + ConfigID,
+                    "主机 Mac：" + macAddress,
+                    "主机 IP：" + ipAddress,
+                    "使用端口：" + ipPort
+                    ));
+
+                AddConfig.Content = "修改配置";
+            }
+            else
+            {
+                items.Add(new ConfigItem(
+                    "配置文件 ID：",
+                    "主机 Mac：",
+                    "主机 IP：",
+                    "使用端口："
+                    ));
+                AddConfig.Content = "添加配置";
             }
             MyGridView.ItemsSource = items;
         }
@@ -95,7 +114,7 @@ namespace WinWoL
 
             if (result == ContentDialogResult.Primary)
             {
-                refresh();
+                refresh(configNum.Text);
             }
         }
         public void sendMagicPacket(string macAddress, string domain, int port)
