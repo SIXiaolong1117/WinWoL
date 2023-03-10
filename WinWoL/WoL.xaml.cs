@@ -63,7 +63,7 @@ namespace WinWoL
             refresh(configNum.SelectedItem.ToString());
             //Test.Text = configNum.SelectedItem.ToString();
         }
-        public void refresh(string ConfigIDNum)
+        private void refresh(string ConfigIDNum)
         {
             List<ConfigItem> items = new List<ConfigItem>();
             string configInner = localSettings.Values["ConfigID" + ConfigIDNum] as string;
@@ -97,6 +97,10 @@ namespace WinWoL
             }
             MyGridView.ItemsSource = items;
         }
+        private void delConfig(string ConfigIDNum)
+        {
+            localSettings.Values["ConfigID" + ConfigIDNum] = null;
+        }
         private async void AddConfigButton_Click(object sender, RoutedEventArgs e)
         {
             AddConfigDialog configDialog = new AddConfigDialog();
@@ -114,8 +118,13 @@ namespace WinWoL
 
             if (result == ContentDialogResult.Primary)
             {
-                refresh(configNum.Text);
+                refresh(configNum.SelectedItem.ToString());
             }
+        }
+        private void DelConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            delConfig(configNum.SelectedItem.ToString());
+            refresh(configNum.SelectedItem.ToString());
         }
         public void sendMagicPacket(string macAddress, string domain, int port)
         {
