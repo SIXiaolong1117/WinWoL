@@ -56,12 +56,22 @@ namespace WinWoL
         {
             this.InitializeComponent();
 
-            refresh("0");
+            if (localSettings.Values["configNum"] == null)
+            {
+                configNum.SelectedItem = ConfigSelector[0];
+                localSettings.Values["configNum"] = ConfigSelector[0];
+                refresh("0");
+            }
+            else
+            {
+                configNum.SelectedItem = localSettings.Values["configNum"];
+                refresh(localSettings.Values["configNum"].ToString());
+            }
         }
         private void configNum_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             refresh(configNum.SelectedItem.ToString());
-            //Test.Text = configNum.SelectedItem.ToString();
+            localSettings.Values["configNum"] = configNum.SelectedItem;
         }
         private void refresh(string ConfigIDNum)
         {
