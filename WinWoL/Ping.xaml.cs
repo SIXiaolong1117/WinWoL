@@ -43,8 +43,6 @@ namespace WinWoL
         public Ping()
         {
             this.InitializeComponent();
-
-            
         }
         public void pingTest(string pingHostPort)
         {
@@ -132,12 +130,6 @@ namespace WinWoL
         public string RTT { get; set; }
         // 端口是否开放
         public string PortIsOpen { get; set; }
-        // 生存时间TTL
-        //public string TTL { get; set; }
-        // 缓冲区大小
-        //public string BufferLength { get; set; }
-        // 数据包是否分段
-        //public string DontFragment { get; set; }
 
 
         public Item(string hostName, string hostIP, string rTT, string portIsOpen)
@@ -146,9 +138,6 @@ namespace WinWoL
             HostIP = hostIP;
             RTT = rTT;
             PortIsOpen = portIsOpen;
-            //TTL = tTL;
-            //BufferLength = bufferLength;
-            //DontFragment = dontFragment;
         }
     }
 }
