@@ -25,17 +25,6 @@
 
     <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <TextBlock x:Name="Test" Foreground="DarkGray" FontSize="12"/>
-        <NumberBox x:Name="configNum"
-                   Header="配置编号："
-                   Value="0"
-                   SpinButtonPlacementMode="Inline"
-                   SmallChange="1"
-                   LargeChange="1" 
-                   Minimum="0" 
-                   Maximum="10" 
-                   Width="268" 
-                   Margin="0,8,0,0"/>
-        <TextBlock Text="设置一个独一无二的配置编号" Foreground="DarkGray" FontSize="12"/>
         <TextBox x:Name="macAddress" TextChanged="TextChanged" Header="Mac地址：" PlaceholderText="AA:BB:CC:DD:EE:FF" Width="268" Margin="0,8,0,0"/>
         <TextBlock Text="待唤醒设备的MAC地址" Foreground="DarkGray" FontSize="12"/>
         <TextBox x:Name="ipAddress" TextChanged="TextChanged" Header="IP地址：" PlaceholderText="255.255.255.255" Width="268" Margin="0,8,0,0"/>

@@ -40,29 +40,17 @@ namespace WinWoL
         public AddConfigDialog()
         {
             this.InitializeComponent();
-
-            checkInput();
         }
-        public void checkInput()
+        public void TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (configNum.Text == "")
-                configNum.Text = "0";
             if (macAddress.Text == "")
-                macAddress.Text = "11:22:33:44";
+                macAddress.Text = "AA:BB:CC:DD:EE:FF";
             if (ipAddress.Text == "")
                 ipAddress.Text = "255.255.255.255";
             if (ipPort.Text == "")
                 ipPort.Text = "9";
-        }
-        public void saveConfigID()
-        {
-            checkInput();
-            localSettings.Values["ConfigID" + configNum.Text] = configNum.Text + "," + macAddress.Text + "," + ipAddress.Text + "," + ipPort.Text;
-        }
-        public void TextChanged(object sender, TextChangedEventArgs e)
-        {
-            saveConfigID();
-            Test.Text = localSettings.Values["ConfigID" + configNum.Text] as string;
+            localSettings.Values["ConfigIDTemp"] = macAddress.Text + "," + ipAddress.Text + "," + ipPort.Text;
+            Test.Text = localSettings.Values["ConfigIDTemp"] as string;
         }
     }
 }

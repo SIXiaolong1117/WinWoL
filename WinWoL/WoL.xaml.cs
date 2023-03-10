@@ -128,7 +128,9 @@ namespace WinWoL
 
             if (result == ContentDialogResult.Primary)
             {
-                refresh(configNum.SelectedItem.ToString());
+                string ConfigIDNum = configNum.SelectedItem.ToString();
+                localSettings.Values["ConfigID" + ConfigIDNum] = ConfigIDNum + "," + localSettings.Values["ConfigIDTemp"];
+                refresh(ConfigIDNum);
             }
         }
         private void DelConfigButton_Click(object sender, RoutedEventArgs e)
