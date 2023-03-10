@@ -1,6 +1,6 @@
 <p align="center">
   <h1 align="center">WinUI WoL Client</h1>
-  <p align="center">个人的一个 C# + WinUI3 的练手项目，一个WoL (Wake on LAN) 客户端。</p>
+  <p align="center">一个基于 WinUI3 的 WoL (Wake on LAN) 客户端。</p>
   <p align="center">
     <a href="https://github.com/Direct5dom/WinWoL/blob/master/LICENSE">
       <img src="https://img.shields.io/github/license/Direct5dom/WinWoL"/>
@@ -18,14 +18,16 @@
 
 ## 项目预览
 <p align="center">
-    <img src="./README/屏幕截图 2023-03-01 103153.png" width="50%"/>
+    <img src="./README/屏幕截图 2023-03-10 114413.png" width="32%"/>
+    <img src="./README/屏幕截图 2023-03-10 114436.png" width="32%"/>
+    <img src="./README/屏幕截图 2023-03-10 114454.png" width="32%"/>
 </p>
 
 ## ⬇下载
 
 您可以直接到 [Releases · Direct5dom/WinWoL](https://github.com/Direct5dom/WinWoL/releases) 下载我已经打包好的安装包。
 
-安装需要注意的是，要右键“使用PowrShell”运行`Install.ps1`，而不是直接双击`WinWoL.msix`。
+> 需要注意的是，因为本项目使用自签名旁加载，需要您打开Windows的开发者模式，右键“使用PowrShell”运行`Install.ps1`，而不是直接双击`WinWoL.msix`。
 
 ## 使用教程
 
