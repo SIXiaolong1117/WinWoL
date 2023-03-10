@@ -73,6 +73,20 @@ namespace WinWoL
             refresh(configNum.SelectedItem.ToString());
             localSettings.Values["configNum"] = configNum.SelectedItem;
         }
+        private void WoLPC(string ConfigIDNum)
+        {
+            string configInner = localSettings.Values["ConfigID" + ConfigIDNum] as string;
+            if (configInner != null)
+            {
+                string[] configInnerSplit = configInner.Split(',');
+                // configNum.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
+                string ConfigID = configInnerSplit[0];
+                string macAddress = configInnerSplit[1];
+                string ipAddress = configInnerSplit[2];
+                string ipPort = configInnerSplit[3];
+                sendMagicPacket(macAddress, ipAddress, int.Parse(ipPort));
+            }
+        }
         private void refresh(string ConfigIDNum)
         {
             List<ConfigItem> items = new List<ConfigItem>();
@@ -138,6 +152,11 @@ namespace WinWoL
             delConfig(configNum.SelectedItem.ToString());
             refresh(configNum.SelectedItem.ToString());
         }
+        private void WoLConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            string ConfigIDNum = configNum.SelectedItem.ToString();
+            WoLPC(ConfigIDNum);
+        }
         public void sendMagicPacket(string macAddress, string domain, int port)
         {
             // 将string分割为十六进制字符串数组
@@ -188,8 +207,6 @@ namespace WinWoL
             {
                 // 是域名
                 ip = Dns.GetHostEntry(domain).AddressList[0];
-                // 将该域名对应的IP写到ipAddress.Text
-                //ipAddress.Text = ip.ToString();
             }
 
             // 发送数据

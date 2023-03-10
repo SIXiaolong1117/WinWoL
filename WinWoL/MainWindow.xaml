@@ -61,7 +61,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.FooterMenuItems>
-            <Frame x:Name="contentFrame" Width="600" Height="400"/>
+            <Frame x:Name="contentFrame"/>
         </NavigationView>
     </Grid>
 </Window>
