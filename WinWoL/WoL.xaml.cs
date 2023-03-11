@@ -82,8 +82,20 @@ namespace WinWoL
                 // configNum.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
                 string ConfigID = configInnerSplit[0];
                 string macAddress = configInnerSplit[1];
+                if (macAddress != null)
+                {
+                    macAddress = "AA:BB:CC:DD:EE:FF";
+                }
                 string ipAddress = configInnerSplit[2];
+                if (ipAddress != null)
+                {
+                    ipAddress = "255.255.255.255";
+                }
                 string ipPort = configInnerSplit[3];
+                if (ipPort != null)
+                {
+                    ipPort = "9";
+                }
                 sendMagicPacket(macAddress, ipAddress, int.Parse(ipPort));
             }
         }

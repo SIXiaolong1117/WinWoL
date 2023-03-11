@@ -46,7 +46,7 @@
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="local:ConfigItem">
                                 <StackPanel Orientation="Vertical" Margin="8" Width="252">
-                                    <TextBlock Text="{x:Bind ConfigID}"/>
+                                    <!-- <TextBlock Text="{x:Bind ConfigID}"/> -->
                                     <TextBlock Text="{x:Bind MacAddress}"/>
                                     <TextBlock Text="{x:Bind IpAddress}"/>
                                     <TextBlock Text="{x:Bind IpPort}"/>

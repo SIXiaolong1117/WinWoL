@@ -9,7 +9,7 @@
   <Identity
     Name="fe263fa7-295e-4f47-a1e3-87f6be98f05e"
     Publisher="CN=SI Xiaolong"
-    Version="1.0.0.0" />
+    Version="1.0.1.0" />
 
   <Properties>
     <DisplayName>WinWoL</DisplayName>
