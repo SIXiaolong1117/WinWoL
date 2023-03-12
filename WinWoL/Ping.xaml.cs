@@ -35,16 +35,38 @@ using System.Text;
 using System.Threading;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 
 namespace WinWoL
 {
     public sealed partial class Ping : Page
     {
+        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        public List<string> ConfigSelector { get; } = new List<string>()
+        {
+            "0","1","2","3","4","5","6","7","8","9","10"
+        };
         public Ping()
         {
             this.InitializeComponent();
+            if (localSettings.Values["pingNum"] == null)
+            {
+                configNum.SelectedItem = ConfigSelector[0];
+                localSettings.Values["pingNum"] = ConfigSelector[0];
+                refresh("0");
+            }
+            else
+            {
+                configNum.SelectedItem = localSettings.Values["pingNum"];
+                refresh(localSettings.Values["pingNum"].ToString());
+            }
         }
-        public void pingTest(string pingHostPort)
+        private void configNum_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            refresh(configNum.SelectedItem.ToString());
+            localSettings.Values["pingNum"] = configNum.SelectedItem;
+        }
+        public void pingTest(string pingHostPort, string pingHostName)
         {
             // 将传入的字符串分裂成 IP/域名 和 端口
             string[] pingHostPortSplit = pingHostPort.Split(':');
@@ -62,13 +84,23 @@ namespace WinWoL
             // 判断 replay，是否连通
             if (reply.Status == IPStatus.Success)
             {
-                // 绘制模板
                 List<Item> items = new List<Item>();
                 items.Add(new Item(
-                    "主机名：" + pingHost,
+                    "主机别名：" + pingHostName,
                     "主机IP：" + reply.Address.ToString(),
                     "往返时间RTT：" + reply.RoundtripTime.ToString() + " ms",
                     port + " 端口开放情况：" + checkPortEnable(pingHost, port).ToString()
+                    ));
+                MyGridView.ItemsSource = items;
+            }
+            else
+            {
+                List<Item> items = new List<Item>();
+                items.Add(new Item(
+                    "主机别名：" + pingHostName,
+                    "主机IP：" + reply.Address.ToString(),
+                    "往返时间RTT：超时",
+                    port + " 端口开放情况：超时"
                     ));
                 MyGridView.ItemsSource = items;
             }
@@ -111,10 +143,71 @@ namespace WinWoL
             }
             return _portEnable;
         }
-
-        private void pingTestButton_Click(object sender, RoutedEventArgs e)
+        private async void AddConfigButton_Click(object sender, RoutedEventArgs e)
         {
-            pingTest(ipAddress.Text + ":" + ipPort.Text);
+            string pingNum = configNum.SelectedItem.ToString();
+            localSettings.Values["pingConfigTemp"] = localSettings.Values["pingConfig" + pingNum];
+
+            AddPingDialog configDialog = new AddPingDialog();
+
+            configDialog.XamlRoot = this.XamlRoot;
+            configDialog.Style = Microsoft.UI.Xaml.Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            if (AddConfig.Content.ToString() == "修改配置")
+            {
+                configDialog.PrimaryButtonText = "修改";
+            }
+            else
+            {
+                configDialog.PrimaryButtonText = "添加";
+            }
+            configDialog.CloseButtonText = "关闭";
+            configDialog.DefaultButton = ContentDialogButton.Primary;
+
+            var result = await configDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                localSettings.Values["pingConfig" + pingNum] = localSettings.Values["pingConfigTemp"];
+                refresh(pingNum);
+            }
+        }
+        private void refresh(string pingNum)
+        {
+            string configInner = localSettings.Values["pingConfig" + pingNum] as string;
+            if (configInner != null)
+            {
+                string[] configInnerSplit = configInner.Split(',');
+                // configName.Text + "," + ipAddress.Text + "," + ipPort.Text;
+                string configName = configInnerSplit[0];
+                string ipAddress = configInnerSplit[1];
+                string ipPort = configInnerSplit[2];
+
+                pingTest(ipAddress + ":" + ipPort, configName);
+
+                AddConfig.Content = "修改配置";
+            }
+            else
+            {
+                List<Item> items = new List<Item>();
+                items.Add(new Item(
+                    "主机别名：",
+                    "主机IP：",
+                    "往返时间RTT：",
+                    "[端口] 端口开放情况："
+                    ));
+                MyGridView.ItemsSource = items;
+
+                AddConfig.Content = "添加配置";
+            }
+        }
+        private void delConfig(string PingNum)
+        {
+            localSettings.Values["pingConfig" + PingNum] = null;
+        }
+        private void DelConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            delConfig(configNum.SelectedItem.ToString());
+            refresh(configNum.SelectedItem.ToString());
         }
     }
 

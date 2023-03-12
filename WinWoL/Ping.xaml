@@ -32,6 +32,14 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
 
+                    <ComboBox x:Name="configNum" 
+                      ItemsSource="{x:Bind ConfigSelector}" 
+                      SelectionChanged="configNum_SelectionChanged" 
+                      Header="配置编号："
+                      Width="268" 
+                      Margin="0,8,0,0">
+                    </ComboBox>
+
                     <GridView x:Name="MyGridView">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="local:Item">
@@ -51,17 +59,17 @@
                         </GridView.ItemsPanel>
                     </GridView>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBox x:Name="ipAddress" Header="IP 地址：" PlaceholderText="192.168.0.2" Width="268" Margin="0,8,0,0"/>
-                            <TextBlock Text="测试 IP 地址" Foreground="DarkGray" FontSize="12"/>
-                            <TextBox x:Name="ipPort" Header="端口：" PlaceholderText="80" Width="268" Margin="0,8,0,0"/>
-                            <TextBlock Text="测试 IP 端口" Foreground="DarkGray" FontSize="12"/>
-                            <Button x:Name="pingTestBut" Click="pingTestButton_Click" 
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
+                        <Button x:Name="AddConfig" Click="AddConfigButton_Click" 
+                            Content="添加配置"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                            Width="80" 
-                            Margin="0,8,0,0">测试</Button>
-                        </StackPanel>
+                            Width="130" 
+                            Margin="0,0,8,0"/>
+                        <Button x:Name="DelConfig" Click="DelConfigButton_Click" 
+                            Content="删除配置"
+                            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                            Width="130" 
+                            Margin="0,0,8,0"/>
                     </StackPanel>
 
                 </StackPanel>

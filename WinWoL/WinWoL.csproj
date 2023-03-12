@@ -23,6 +23,7 @@
   <ItemGroup>
     <None Remove="About.xaml" />
     <None Remove="AddConfigDialog.xaml" />
+    <None Remove="AddPingDialog.xaml" />
     <None Remove="Ping.xaml" />
     <None Remove="RDP.xaml" />
     <None Remove="SettingsPage.xaml" />
@@ -52,6 +53,11 @@
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="AddPingDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="AddConfigDialog.xaml">
