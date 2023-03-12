@@ -29,7 +29,7 @@
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Width="268" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
 
                     <ComboBox x:Name="configNum" 
                       ItemsSource="{x:Bind ConfigSelector}" 
@@ -41,11 +41,11 @@
 
                     <TextBlock x:Name="Test" Foreground="DarkGray" FontSize="12"/>
 
-                    <GridView x:Name="MyGridView">
+                    <GridView x:Name="MyGridView" SelectionMode="None">
 
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="local:ConfigItem">
-                                <StackPanel Orientation="Vertical" Margin="8" Width="252">
+                                <StackPanel Width="268" Margin="8" Orientation="Vertical">
                                     <TextBlock Text="{x:Bind ConfigName}"/>
                                     <TextBlock Text="{x:Bind MacAddress}"/>
                                     <TextBlock Text="{x:Bind IpAddress}"/>

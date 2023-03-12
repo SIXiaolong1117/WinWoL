@@ -30,7 +30,7 @@
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Width="268" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
 
                     <ComboBox x:Name="configNum" 
                       ItemsSource="{x:Bind ConfigSelector}" 
@@ -40,10 +40,10 @@
                       Margin="0,8,0,0">
                     </ComboBox>
 
-                    <GridView x:Name="MyGridView">
+                    <GridView x:Name="MyGridView" SelectionMode="None">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="local:Item">
-                                <StackPanel Orientation="Vertical" Margin="8" Width="252">
+                                <StackPanel Orientation="Vertical" Margin="8" Width="268">
                                     <TextBlock Text="{x:Bind HostName}"/>
                                     <TextBlock Text="{x:Bind HostIP}"/>
                                     <TextBlock Text="{x:Bind RTT}"/>
@@ -68,8 +68,7 @@
                         <Button x:Name="DelConfig" Click="DelConfigButton_Click" 
                             Content="删除配置"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                            Width="130" 
-                            Margin="0,0,8,0"/>
+                            Width="130"/>
                     </StackPanel>
 
                 </StackPanel>
