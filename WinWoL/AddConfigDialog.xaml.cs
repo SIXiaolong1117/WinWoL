@@ -44,12 +44,12 @@ namespace WinWoL
         public void TextChanged(object sender, TextChangedEventArgs e)
         {
             //if (macAddress.Text == "")
-                //macAddress.Text = "AA:BB:CC:DD:EE:FF";
+            //macAddress.Text = "AA:BB:CC:DD:EE:FF";
             //if (ipAddress.Text == "")
-                //ipAddress.Text = "255.255.255.255";
+            //ipAddress.Text = "255.255.255.255";
             //if (ipPort.Text == "")
-                //ipPort.Text = "9";
-            localSettings.Values["ConfigIDTemp"] = macAddress.Text + "," + ipAddress.Text + "," + ipPort.Text;
+            //ipPort.Text = "9";
+            localSettings.Values["ConfigIDTemp"] = configName.Text + "," + macAddress.Text + "," + ipAddress.Text + "," + ipPort.Text;
             Test.Text = localSettings.Values["ConfigIDTemp"] as string;
         }
     }

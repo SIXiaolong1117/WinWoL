@@ -22,15 +22,17 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     >
-
-    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <TextBlock x:Name="Test" Foreground="DarkGray" FontSize="12"/>
-        <TextBox x:Name="macAddress" TextChanged="TextChanged" Header="Mac地址：" PlaceholderText="AA:BB:CC:DD:EE:FF" Width="268" Margin="0,8,0,0"/>
-        <TextBlock Text="待唤醒设备的MAC地址" Foreground="DarkGray" FontSize="12"/>
-        <TextBox x:Name="ipAddress" TextChanged="TextChanged" Header="IP地址：" PlaceholderText="255.255.255.255" Width="268" Margin="0,8,0,0"/>
-        <TextBlock Text="接收Magic Packet的IP地址" Foreground="DarkGray" FontSize="12"/>
-        <TextBox x:Name="ipPort" TextChanged="TextChanged" Header="端口：" PlaceholderText="7 or 9" Width="268" Margin="0,8,0,0"/>
-        <TextBlock Text="接收Magic Packet的端口" Foreground="DarkGray" FontSize="12"/>
-    </StackPanel>
-
+    <ScrollViewer Width="280">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock x:Name="Test" Foreground="DarkGray" FontSize="12"/>
+            <TextBox x:Name="configName" TextChanged="TextChanged" Header="配置别名：" PlaceholderText="小禹的电脑" Width="250" Margin="0,8,0,0"/>
+            <TextBlock Text="配置别名" Foreground="DarkGray" FontSize="12"/>
+            <TextBox x:Name="macAddress" TextChanged="TextChanged" Header="Mac地址：" PlaceholderText="AA:BB:CC:DD:EE:FF" Width="250" Margin="0,8,0,0"/>
+            <TextBlock Text="待唤醒设备的MAC地址" Foreground="DarkGray" FontSize="12"/>
+            <TextBox x:Name="ipAddress" TextChanged="TextChanged" Header="IP地址：" PlaceholderText="255.255.255.255" Width="250" Margin="0,8,0,0"/>
+            <TextBlock Text="接收Magic Packet的IP地址" Foreground="DarkGray" FontSize="12"/>
+            <TextBox x:Name="ipPort" TextChanged="TextChanged" Header="端口：" PlaceholderText="7 or 9" Width="250" Margin="0,8,0,0"/>
+            <TextBlock Text="接收Magic Packet的端口" Foreground="DarkGray" FontSize="12"/>
+        </StackPanel>
+    </ScrollViewer>
 </ContentDialog>

@@ -107,13 +107,13 @@ namespace WinWoL
             {
                 string[] configInnerSplit = configInner.Split(',');
                 // configNum.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
-                string ConfigID = configInnerSplit[0];
+                string configName = configInnerSplit[0];
                 string macAddress = configInnerSplit[1];
                 string ipAddress = configInnerSplit[2];
                 string ipPort = configInnerSplit[3];
 
                 items.Add(new ConfigItem(
-                    "配置文件 ID：" + ConfigID,
+                    "配置别名：" + configName,
                     "主机 Mac：" + macAddress,
                     "主机 IP：" + ipAddress,
                     "使用端口：" + ipPort
@@ -124,7 +124,7 @@ namespace WinWoL
             else
             {
                 items.Add(new ConfigItem(
-                    "配置文件 ID：",
+                    "配置别名：",
                     "主机 Mac：",
                     "主机 IP：",
                     "使用端口："
@@ -155,7 +155,7 @@ namespace WinWoL
             if (result == ContentDialogResult.Primary)
             {
                 string ConfigIDNum = configNum.SelectedItem.ToString();
-                localSettings.Values["ConfigID" + ConfigIDNum] = ConfigIDNum + "," + localSettings.Values["ConfigIDTemp"];
+                localSettings.Values["ConfigID" + ConfigIDNum] = localSettings.Values["ConfigIDTemp"];
                 refresh(ConfigIDNum);
             }
         }
@@ -232,16 +232,16 @@ namespace WinWoL
     public class ConfigItem
     {
         // 配置文件ID
-        public string ConfigID { get; set; }
+        public string ConfigName { get; set; }
         // 主机MAC
         public string MacAddress { get; set; }
         // 主机IP
         public string IpAddress { get; set; }
         // 主机端口
         public string IpPort { get; set; }
-        public ConfigItem(string configID, string macAddress, string ipAddress, string ipPort)
+        public ConfigItem(string configName, string macAddress, string ipAddress, string ipPort)
         {
-            ConfigID = configID;
+            ConfigName = configName;
             MacAddress = macAddress;
             IpAddress = ipAddress;
             IpPort = ipPort;
