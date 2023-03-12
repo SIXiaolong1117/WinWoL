@@ -40,15 +40,19 @@ namespace WinWoL
         public AddConfigDialog()
         {
             this.InitializeComponent();
+
+            string configInner = localSettings.Values["ConfigIDTemp"] as string;
+            if (configInner != null)
+            {
+                string[] configInnerSplit = configInner.Split(',');
+                configName.Text = configInnerSplit[0];
+                macAddress.Text = configInnerSplit[1];
+                ipAddress.Text = configInnerSplit[2];
+                ipPort.Text = configInnerSplit[3];
+            }
         }
         public void TextChanged(object sender, TextChangedEventArgs e)
         {
-            //if (macAddress.Text == "")
-            //macAddress.Text = "AA:BB:CC:DD:EE:FF";
-            //if (ipAddress.Text == "")
-            //ipAddress.Text = "255.255.255.255";
-            //if (ipPort.Text == "")
-            //ipPort.Text = "9";
             localSettings.Values["ConfigIDTemp"] = configName.Text + "," + macAddress.Text + "," + ipAddress.Text + "," + ipPort.Text;
             Test.Text = localSettings.Values["ConfigIDTemp"] as string;
         }

@@ -139,22 +139,28 @@ namespace WinWoL
         }
         private async void AddConfigButton_Click(object sender, RoutedEventArgs e)
         {
+            string ConfigIDNum = configNum.SelectedItem.ToString();
+            localSettings.Values["ConfigIDTemp"] = localSettings.Values["ConfigID" + ConfigIDNum];
+
             AddConfigDialog configDialog = new AddConfigDialog();
 
-            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
             configDialog.XamlRoot = this.XamlRoot;
             configDialog.Style = Microsoft.UI.Xaml.Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-            //configDialog.Title = "添加一个 IP 测试";
-            configDialog.PrimaryButtonText = "添加";
+            if (AddConfig.Content.ToString() == "修改配置")
+            {
+                configDialog.PrimaryButtonText = "修改";
+            }
+            else
+            {
+                configDialog.PrimaryButtonText = "添加";
+            }
             configDialog.CloseButtonText = "关闭";
             configDialog.DefaultButton = ContentDialogButton.Primary;
-            //dialog.Content = new AddPingDialog();
 
             var result = await configDialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
-                string ConfigIDNum = configNum.SelectedItem.ToString();
                 localSettings.Values["ConfigID" + ConfigIDNum] = localSettings.Values["ConfigIDTemp"];
                 refresh(ConfigIDNum);
             }
