@@ -97,6 +97,7 @@ namespace WinWoL
                     ipPort = "9";
                 }
                 sendMagicPacket(macAddress, ipAddress, int.Parse(ipPort));
+                ToggleThemeTeachingTip2.IsOpen = true;
             }
         }
         private void refresh(string ConfigIDNum)
@@ -120,6 +121,8 @@ namespace WinWoL
                     ));
 
                 AddConfig.Content = "修改配置";
+                DelConfig.IsEnabled = true;
+                WoLConfig.IsEnabled = true;
             }
             else
             {
@@ -130,6 +133,8 @@ namespace WinWoL
                     "使用端口："
                     ));
                 AddConfig.Content = "添加配置";
+                DelConfig.IsEnabled = false;
+                WoLConfig.IsEnabled = false;
             }
             MyGridView.ItemsSource = items;
         }
@@ -169,6 +174,10 @@ namespace WinWoL
         {
             delConfig(configNum.SelectedItem.ToString());
             refresh(configNum.SelectedItem.ToString());
+            if (this.DelConfig.Flyout is Flyout f)
+            {
+                f.Hide();
+            }
         }
         private void WoLConfigButton_Click(object sender, RoutedEventArgs e)
         {

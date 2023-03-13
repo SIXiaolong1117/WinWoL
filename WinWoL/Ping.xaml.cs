@@ -174,6 +174,7 @@ namespace WinWoL
                 pingTest(ipAddress + ":" + ipPort, configName);
 
                 AddConfig.Content = "–ﬁ∏ƒ≈‰÷√";
+                DelConfig.IsEnabled = true;
             }
             else
             {
@@ -187,6 +188,7 @@ namespace WinWoL
                 MyGridView.ItemsSource = items;
 
                 AddConfig.Content = "ÃÌº”≈‰÷√";
+                DelConfig.IsEnabled = false;
             }
         }
         private void delConfig(string PingNum)
@@ -197,6 +199,10 @@ namespace WinWoL
         {
             delConfig(configNum.SelectedItem.ToString());
             refresh(configNum.SelectedItem.ToString());
+            if (this.DelConfig.Flyout is Flyout f)
+            {
+                f.Hide();
+            }
         }
     }
     public class Item

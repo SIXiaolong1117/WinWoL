@@ -32,11 +32,11 @@
                 <StackPanel Width="268" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
 
                     <ComboBox x:Name="configNum" 
-                      ItemsSource="{x:Bind ConfigSelector}" 
-                      SelectionChanged="configNum_SelectionChanged" 
-                      Header="配置编号："
-                      Width="268" 
-                      Margin="0,8,0,0">
+                              ItemsSource="{x:Bind ConfigSelector}" 
+                              SelectionChanged="configNum_SelectionChanged" 
+                              Header="配置编号："
+                              Width="268" 
+                              Margin="0,8,0,0">
                     </ComboBox>
 
                     <TextBlock x:Name="Test" Foreground="DarkGray" FontSize="12"/>
@@ -65,19 +65,38 @@
                     </GridView>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
-                        <Button x:Name="AddConfig" Click="AddConfigButton_Click" 
+                        <Button 
+                            x:Name="AddConfig" Click="AddConfigButton_Click" 
                             Content="添加配置"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                             Width="84" 
                             Margin="0,0,8,0"/>
-                        <Button x:Name="DelConfig" Click="DelConfigButton_Click" 
+                        <Button 
+                            x:Name="DelConfig" 
                             Content="删除配置"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                             Width="84" 
-                            Margin="0,0,8,0"/>
-                        <Button x:Name="WoLConfig" Click="WoLConfigButton_Click" 
+                            Margin="0,0,8,0">
+                            <Button.Flyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <TextBlock 
+                                            Style="{ThemeResource BaseTextBlockStyle}" 
+                                            Text="您确定要删除此配置文件吗？" 
+                                            Margin="0,0,0,12" />
+                                        <Button 
+                                            Click="DelConfigButton_Click" 
+                                            Content="确定" />
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                        <Button 
+                            x:Name="WoLConfig" 
+                            Click="WoLConfigButton_Click" 
                             Content="网络唤醒"
-                            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Bottom" 
                             Width="84" 
                             />
                     </StackPanel>
@@ -85,5 +104,13 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
+        <TeachingTip x:Name="ToggleThemeTeachingTip2"
+	                 Title="Magic Packet 已经通过 UDP 发送"
+	                 Subtitle="WoL 在技术上无法确定唤醒是否成功，您可以通过 网络测试 (Ping) 和 远程桌面 (RDP) 确认唤醒结果。"
+	                 PreferredPlacement="Auto"
+	                 PlacementMargin="20"
+	                 IsLightDismissEnabled="True"
+	                 CloseButtonContent="明白！">
+        </TeachingTip>
     </Grid>
 </Page>

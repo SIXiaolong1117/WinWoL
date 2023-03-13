@@ -67,10 +67,24 @@
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                             Width="130" 
                             Margin="0,0,8,0"/>
-                        <Button x:Name="DelConfig" Click="DelConfigButton_Click" 
+                        <Button x:Name="DelConfig" 
                             Content="删除配置"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                            Width="130"/>
+                            Width="130">
+                            <Button.Flyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <TextBlock 
+                                            Style="{ThemeResource BaseTextBlockStyle}" 
+                                            Text="您确定要删除此配置文件吗？" 
+                                            Margin="0,0,0,12" />
+                                        <Button 
+                                            Click="DelConfigButton_Click" 
+                                            Content="确定" />
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
                     </StackPanel>
 
                 </StackPanel>
