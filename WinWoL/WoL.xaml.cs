@@ -79,7 +79,7 @@ namespace WinWoL
             if (configInner != null)
             {
                 string[] configInnerSplit = configInner.Split(',');
-                // configNum.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
+                // configName.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
                 string ConfigID = configInnerSplit[0];
                 string macAddress = configInnerSplit[1];
                 if (macAddress != null)
@@ -106,7 +106,7 @@ namespace WinWoL
             if (configInner != null)
             {
                 string[] configInnerSplit = configInner.Split(',');
-                // configNum.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
+                // configName.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
                 string configName = configInnerSplit[0];
                 string macAddress = configInnerSplit[1];
                 string ipAddress = configInnerSplit[2];
@@ -175,45 +175,36 @@ namespace WinWoL
             string ConfigIDNum = configNum.SelectedItem.ToString();
             WoLPC(ConfigIDNum);
         }
+        // 以UDP协议发送MagicPacket
         public void sendMagicPacket(string macAddress, string domain, int port)
         {
             // 将string分割为十六进制字符串数组
             string s = macAddress;
-
             // hexStrings = {"11", "22", "33", "44", "55", "66"}
             string[] hexStrings = s.Split(':');
-
             // 创建一个byte数组
             byte[] bytes = new byte[hexStrings.Length];
-
             // 遍历字符串数组，将每个字符串转换为byte值，并存储到byte数组中
             for (int i = 0; i < hexStrings.Length; i++)
             {
                 // 使用16作为基数表示十六进制格式
                 bytes[i] = Convert.ToByte(hexStrings[i], 16);
             }
-
             // 创建一个UDP Socket对象
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-
             // 设置需要广播数据
             socket.EnableBroadcast = true;
-
             // 将MAC地址转换为字节数组：byte[] mac = new byte[] { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66 };
             byte[] mac = bytes;
-
             // 创建一个魔术包
             byte[] packet = new byte[17 * 6];
-
             // 填充前6个字节为0xFF
             for (int i = 0; i < 6; i++)
                 packet[i] = 0xFF;
-
             // 填充后面16个重复的MAC地址字节
             for (int i = 1; i <= 16; i++)
                 for (int j = 0; j < 6; j++)
                     packet[i * 6 + j] = mac[j];
-
             // 获取IP地址
             IPAddress ip;
             if (IPAddress.TryParse(domain, out ip))
@@ -226,15 +217,13 @@ namespace WinWoL
                 // 是域名
                 ip = Dns.GetHostEntry(domain).AddressList[0];
             }
-
             // 发送数据
             socket.SendTo(packet, new IPEndPoint(ip, port));
-
             // 关闭Socket对象
             socket.Close();
         }
     }
-    // configNum.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
+    // ConfigItem类
     public class ConfigItem
     {
         // 配置文件ID

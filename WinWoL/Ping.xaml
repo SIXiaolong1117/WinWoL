@@ -40,6 +40,8 @@
                       Margin="0,8,0,0">
                     </ComboBox>
 
+                    <TextBlock x:Name="Test" Foreground="DarkGray" FontSize="12"/>
+
                     <GridView x:Name="MyGridView" SelectionMode="None">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="local:Item">

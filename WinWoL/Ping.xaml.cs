@@ -35,6 +35,7 @@ using System.Text;
 using System.Threading;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Services.Maps;
 using Windows.Storage;
 
 namespace WinWoL
@@ -89,7 +90,7 @@ namespace WinWoL
                     "主机别名：" + pingHostName,
                     "主机IP：" + reply.Address.ToString(),
                     "往返时间RTT：" + reply.RoundtripTime.ToString() + " ms",
-                    port + " 端口开放情况：" + checkPortEnable(pingHost, port).ToString()
+                    port + " 端口开放情况：" + Method3(pingHost, port).ToString()
                     ));
                 MyGridView.ItemsSource = items;
             }
@@ -105,12 +106,8 @@ namespace WinWoL
                 MyGridView.ItemsSource = items;
             }
         }
-        private bool checkPortEnable(string _ip, int _port)
+        static bool Method3(string ipAddress, int portNum)
         {
-            //将IP和端口替换成为你要检测的
-            string ipAddress = _ip;
-            int portNum = _port;
-
             // 获取IP地址
             IPAddress ip;
             if (IPAddress.TryParse(ipAddress, out ip))
@@ -124,24 +121,16 @@ namespace WinWoL
                 ip = Dns.GetHostEntry(ipAddress).AddressList[0];
             }
 
-            IPEndPoint point = new IPEndPoint(ip, portNum);
-
-            bool _portEnable = false;
-            try
+            var client = new TcpClient();
+            if (!client.ConnectAsync(ip, portNum).Wait(120))
             {
-                using (Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
-                {
-                    sock.Connect(point);
-                    sock.Close();
+                //连接失败
+                Console.WriteLine("连接失败");
+                return false;
+            }
+            Console.WriteLine("连接成功");
+            return true;
 
-                    _portEnable = true;
-                }
-            }
-            catch
-            {
-                _portEnable = false;
-            }
-            return _portEnable;
         }
         private async void AddConfigButton_Click(object sender, RoutedEventArgs e)
         {
@@ -210,9 +199,6 @@ namespace WinWoL
             refresh(configNum.SelectedItem.ToString());
         }
     }
-
-
-
     public class Item
     {
         // 主机名

@@ -35,7 +35,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <TextBlock Text="💽Repo:" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <HyperlinkButton Content="WinUI WoL" FontSize="14" NavigateUri="https://github.com/Direct5dom/WinWoL" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <HyperlinkButton Content="WinWoL" FontSize="14" NavigateUri="https://github.com/Direct5dom/WinWoL" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <TextBlock Text="⚖️License:" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>

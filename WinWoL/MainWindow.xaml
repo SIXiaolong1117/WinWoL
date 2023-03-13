@@ -34,7 +34,7 @@
 
         <Grid x:Name="AppTitleBar">
             <Image Source="Images/WindowIcon.png" HorizontalAlignment="Left" Width="16" Height="16" Margin="8,0"/>
-            <TextBlock x:Name="AppTitleTextBlock" Text="WinUI WoL" TextWrapping="NoWrap" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Center" Margin="28,0,0,0"/>
+            <TextBlock x:Name="AppTitleTextBlock" Text="Win WoL" TextWrapping="NoWrap" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Center" Margin="28,0,0,0"/>
         </Grid>
         <NavigationView x:Name="NavView" SelectionChanged="NavigationView_SelectionChanged" Grid.Row="1" IsBackButtonVisible="Collapsed" IsSettingsVisible="True">
             <NavigationView.MenuItems>
