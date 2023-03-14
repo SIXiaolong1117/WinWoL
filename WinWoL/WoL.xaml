@@ -104,13 +104,21 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <TeachingTip x:Name="ToggleThemeTeachingTip2"
+        <TeachingTip x:Name="MagicPacketIsSendTips"
 	                 Title="Magic Packet 已经通过 UDP 发送"
 	                 Subtitle="WoL 在技术上无法确定唤醒是否成功，您可以通过 网络测试 (Ping) 和 远程桌面 (RDP) 确认唤醒结果。"
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
 	                 IsLightDismissEnabled="True"
 	                 CloseButtonContent="明白！">
+        </TeachingTip>
+        <TeachingTip x:Name="MagicPacketNotSendTips"
+	                 Title="Magic Packet 发送失败"
+	                 Subtitle="请检查您填写的配置内容"
+	                 PreferredPlacement="Auto"
+	                 PlacementMargin="20"
+	                 IsLightDismissEnabled="True"
+	                 CloseButtonContent="确认">
         </TeachingTip>
     </Grid>
 </Page>
