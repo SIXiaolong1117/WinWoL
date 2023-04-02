@@ -35,6 +35,10 @@
                 <HyperlinkButton Content="司晓龙 (SI Xiaolong)" FontSize="14" NavigateUri="https://github.com/Direct5dom" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock Text="💽下载最新版:" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <HyperlinkButton Content="Download" FontSize="14" NavigateUri="https://github.com/Direct5dom/WinWoL/releases/latest" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <TextBlock Text="💽Repo:" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <HyperlinkButton Content="WinWoL" FontSize="14" NavigateUri="https://github.com/Direct5dom/WinWoL" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
