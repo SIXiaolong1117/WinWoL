@@ -48,11 +48,11 @@
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe724;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="远程桌面 (RDP)" Tag="RDP">
-                    <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe8af;"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                <!--<NavigationViewItem Content="远程桌面 (RDP)" Tag="RDP">-->
+                <!--<NavigationViewItem.Icon>-->
+                <!--<FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe8af;"/>-->
+                <!--</NavigationViewItem.Icon>-->
+                <!--</NavigationViewItem>-->
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
                 <NavigationViewItem Content="关于" Tag="About">

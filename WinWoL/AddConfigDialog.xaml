@@ -14,7 +14,7 @@
 <!-- GNU General Public License for more details. -->
 
 <!-- You should have received a copy of the GNU General Public License -->
-<!-- along with this program.  If not, see -->
+<!-- along with this program.  If not, see --> 
 <!-- <https://www.gnu.org/licenses/> . -->
 
 <ContentDialog
@@ -23,15 +23,53 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ScrollViewer Width="280">
         <StackPanel Width="250" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock x:Name="Test" Foreground="DarkGray" FontSize="12"/>
-            <TextBox x:Name="configName" TextChanged="TextChanged" Header="配置别名：" PlaceholderText="小禹的电脑" Width="250" Margin="0,8,0,0"/>
-            <TextBlock Text="配置别名" Foreground="DarkGray" FontSize="12"/>
-            <TextBox x:Name="macAddress" TextChanged="TextChanged" Header="Mac 地址：" PlaceholderText="AA:BB:CC:DD:EE:FF" Width="250" Margin="0,8,0,0"/>
-            <TextBlock Text="待唤醒设备的 MAC 地址" Foreground="DarkGray" FontSize="12"/>
-            <TextBox x:Name="ipAddress" TextChanged="TextChanged" Header="IP 地址：" PlaceholderText="255.255.255.255" Width="250" Margin="0,8,0,0"/>
-            <TextBlock Text="接收 Magic Packet 的 IP 地址" Foreground="DarkGray" FontSize="12"/>
-            <TextBox x:Name="ipPort" TextChanged="TextChanged" Header="端口：" PlaceholderText="7 or 9" Width="250" Margin="0,8,0,0"/>
-            <TextBlock Text="接收 Magic Packet 的端口" Foreground="DarkGray" FontSize="12"/>
+            <TextBox x:Name="Test" Header="[Developer] 输入参数："/>
+            <TextBox x:Name="configName" TextChanged="TextChanged" Header="配置别名：" PlaceholderText="小禹的电脑" Width="250" Margin="0,8,0,16"/>
+
+            <TextBlock Text="WoL 相关设置" FontSize="20" FontWeight="Bold" Margin="0,16,0,16"/>
+
+            <TextBox x:Name="macAddress" TextChanged="TextChanged" Header="目标设备 Mac 地址：" PlaceholderText="AA:BB:CC:DD:EE:FF" Width="250" Margin="0,0,0,24"/>
+
+            <StackPanel Width="250" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,16">
+                <TextBox x:Name="ipAddress" TextChanged="TextChanged" Header="接收 Magic Packet 的 IP 地址：" PlaceholderText="255.255.255.255" Width="250"/>
+                <CheckBox 
+                    x:Name="Broadcast"
+                    Content="向 LAN 网络广播"
+                    Checked="Broadcast_Checked"
+                    Unchecked="Broadcast_Unchecked"
+                    Margin="0,0,0,-6"/>
+            </StackPanel>
+
+            <TextBox x:Name="ipPort" TextChanged="TextChanged" Header="WoL 端口：" PlaceholderText="7 or 9" Width="250" Margin="0,0,0,24"/>
+
+            <StackPanel Orientation="Vertical" Margin="0,16,0,16">
+                <TextBlock Text="RDP 相关设置" FontSize="20" FontWeight="Bold"/>
+                <ToggleSwitch 
+                    x:Name="rdpIsOpen" Toggled="rdpIsOpen_Toggled" 
+                    OffContent="关闭" OnContent="开启" Margin="0,-4,0,-4"/>
+            </StackPanel>
+            <StackPanel x:Name="RDPSettings">
+                <StackPanel Width="250" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,16">
+                    <TextBox 
+                        x:Name="rdpIpAddress" 
+                        TextChanged="TextChanged" 
+                        Header="RDP 目标主机 IP 地址：" PlaceholderText="192.168.1.2" Width="250" />
+                    <CheckBox 
+                        x:Name="SameIPAddr"
+                        Content="同 接收 Magic Packet 的 IP 地址"
+                        Checked="SameIPAddr_Checked"
+                        Unchecked="SameIPAddr_Unchecked"
+                        Margin="0,0,0,-6"/>
+                </StackPanel>
+
+                <TextBox 
+                x:Name="rdpIpPort" 
+                TextChanged="TextChanged" 
+                Header="RDP 端口：" 
+                PlaceholderText="3389" 
+                Width="250" 
+                Margin="0,0,0,24"/>
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>

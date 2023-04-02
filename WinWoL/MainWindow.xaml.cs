@@ -51,19 +51,13 @@ namespace WinWoL
         {
             this.InitializeComponent();
 
-            // Hide default title bar.
+            // 隐藏默认TitleBar
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
 
             TrySetSystemBackdrop();
 
-            if (localSettings.Values["adb"] == null)
-            {
-                localSettings.Values["adb"] = "adb";
-            }
-
             NavView.SelectedItem = NavView.MenuItems[0];
-            //contentFrame.Navigate(typeof(DragandDrop));
         }
 
         bool TrySetSystemBackdrop()
@@ -169,10 +163,10 @@ namespace WinWoL
                 {
                     contentFrame.Navigate(typeof(WoL));
                 }
-                else if ((string)selectedItem.Tag == "RDP")
-                {
-                    contentFrame.Navigate(typeof(RDP));
-                }
+                //else if ((string)selectedItem.Tag == "RDP")
+                //{
+                //    contentFrame.Navigate(typeof(RDP));
+                //}
                 else if ((string)selectedItem.Tag == "Ping")
                 {
                     contentFrame.Navigate(typeof(Ping));

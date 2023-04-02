@@ -49,12 +49,76 @@ namespace WinWoL
                 macAddress.Text = configInnerSplit[1];
                 ipAddress.Text = configInnerSplit[2];
                 ipPort.Text = configInnerSplit[3];
+                rdpIsOpen.IsOn = configInnerSplit[4] == "True";
+                rdpIpAddress.Text = configInnerSplit[5];
+                rdpIpPort.Text = configInnerSplit[6];
+                Broadcast.IsChecked = configInnerSplit[7] == "True";
+                SameIPAddr.IsChecked = configInnerSplit[8] == "True";
+            }
+
+            redIsOpenCheck();
+        }
+        private void InnerChanged()
+        {
+            localSettings.Values["ConfigIDTemp"] = configName.Text + "," + macAddress.Text + ","
+            + ipAddress.Text + "," + ipPort.Text + ","
+            + rdpIsOpen.IsOn + "," + rdpIpAddress.Text + "," + rdpIpPort.Text + ","
+            + Broadcast.IsChecked + "," + SameIPAddr.IsChecked;
+
+            if (localSettings.Values["DeveloperImpartIsOpen"] as string == "True")
+            {
+                Test.Text = localSettings.Values["ConfigIDTemp"] as string;
+                Test.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                Test.Visibility = Visibility.Collapsed;
             }
         }
         public void TextChanged(object sender, TextChangedEventArgs e)
         {
-            localSettings.Values["ConfigIDTemp"] = configName.Text + "," + macAddress.Text + "," + ipAddress.Text + "," + ipPort.Text;
-            Test.Text = localSettings.Values["ConfigIDTemp"] as string;
+            InnerChanged();
+        }
+        private void Broadcast_Checked(object sender, RoutedEventArgs e)
+        {
+            ipAddress.Text = "255.255.255.255";
+            ipAddress.IsEnabled = false;
+            SameIPAddr.IsEnabled = false;
+            InnerChanged();
+        }
+        private void Broadcast_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ipAddress.IsEnabled = true;
+            SameIPAddr.IsEnabled = true;
+            InnerChanged();
+        }
+
+        private void SameIPAddr_Checked(object sender, RoutedEventArgs e)
+        {
+            rdpIpAddress.Text = ipAddress.Text;
+            rdpIpAddress.IsEnabled = false;
+            InnerChanged();
+        }
+        private void SameIPAddr_Unchecked(object sender, RoutedEventArgs e)
+        {
+            rdpIpAddress.IsEnabled = true;
+            InnerChanged();
+        }
+        private void rdpIsOpen_Toggled(object sender, RoutedEventArgs e)
+        {
+            redIsOpenCheck();
+            InnerChanged();
+        }
+        private void redIsOpenCheck()
+        {
+            if (rdpIsOpen.IsOn == true)
+            {
+                RDPSettings.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                RDPSettings.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

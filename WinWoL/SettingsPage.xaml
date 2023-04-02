@@ -29,12 +29,18 @@
 
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Vertical" Margin="0,0,0,16">
+                <TextBlock Text="开发者模式"/>
+                <ToggleSwitch 
+                    x:Name="DeveloperImpart" Toggled="DeveloperImpart_Toggled" 
+                    OffContent="关闭" OnContent="开启" Margin="0,-4,0,-4"/>
+            </StackPanel>
             <ComboBox x:Name="backgroundMaterial" 
                       ItemsSource="{x:Bind material}" 
                       SelectionChanged="backgroundMaterial_SelectionChanged" 
                       Header="背景材料：" 
                       Width="268" 
-                      Margin="0,8,0,0">
+                      Margin="0,0,0,16">
             </ComboBox>
         </StackPanel>
     </Grid>

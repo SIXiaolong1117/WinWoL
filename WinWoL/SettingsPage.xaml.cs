@@ -76,6 +76,8 @@ namespace WinWoL
                 // 非法输入，扔出警报
                 //throw new Exception($"Wrong material type: {localSettings.Values["materialStatus"]}");
             }
+
+            DeveloperImpart.IsOn = (localSettings.Values["DeveloperImpartIsOpen"] as string == "True");
         }
 
         // 背景材料设置ComboBox改动事件
@@ -136,6 +138,17 @@ namespace WinWoL
                         localSettings.Values["CMDDisplay"] = "否";
                     }
                     break;
+            }
+        }
+        private void DeveloperImpart_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (DeveloperImpart.IsOn == true)
+            {
+                localSettings.Values["DeveloperImpartIsOpen"] = "True";
+            }
+            else
+            {
+                localSettings.Values["DeveloperImpartIsOpen"] = "False";
             }
         }
     }

@@ -50,6 +50,8 @@
                                     <TextBlock Text="{x:Bind MacAddress}"/>
                                     <TextBlock Text="{x:Bind IpAddress}"/>
                                     <TextBlock Text="{x:Bind IpPort}"/>
+                                    <TextBlock Text="{x:Bind RDPIpAddress}"/>
+                                    <TextBlock Text="{x:Bind RDPIpPort}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </GridView.ItemTemplate>
@@ -69,14 +71,13 @@
                             x:Name="AddConfig" Click="AddConfigButton_Click" 
                             Content="添加配置"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                            Width="84" 
+                            Width="130" 
                             Margin="0,0,8,0"/>
                         <Button 
                             x:Name="DelConfig" 
                             Content="删除配置"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                            Width="84" 
-                            Margin="0,0,8,0">
+                            Width="130">
                             <Button.Flyout>
                                 <Flyout>
                                     <StackPanel>
@@ -91,13 +92,24 @@
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
                         <Button 
                             x:Name="WoLConfig" 
                             Click="WoLConfigButton_Click" 
-                            Content="网络唤醒"
+                            Content="网络唤醒（WoL）"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
-                            Width="84" 
+                            Width="130" 
+                            Margin="0,0,8,0"
+                            />
+                        <Button 
+                            x:Name="RDPConfig" 
+                            Click="RDPConfigButton_Click" 
+                            Content="远程桌面（RDP）"
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Bottom" 
+                            Width="130" 
                             />
                     </StackPanel>
 

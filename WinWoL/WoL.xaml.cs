@@ -42,6 +42,7 @@ using Windows.Networking;
 using System.Net.Mail;
 using Validation;
 using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics;
 
 namespace WinWoL
 {
@@ -102,22 +103,46 @@ namespace WinWoL
             if (configInner != null)
             {
                 string[] configInnerSplit = configInner.Split(',');
-                // configName.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
+                // configName.Text + "," + macAddress.Text + ","
+                // + ipAddress.Text + "," + ipPort.Text + ","
+                // + rdpIsOpen.IsOn + "," + rdpIpAddress.Text + "," + rdpIpPort;
                 string configName = configInnerSplit[0];
                 string macAddress = configInnerSplit[1];
                 string ipAddress = configInnerSplit[2];
                 string ipPort = configInnerSplit[3];
+                string rdpIsOpen = configInnerSplit[4];
+                string rdpIpAddress = configInnerSplit[5];
+                string rdpPort = configInnerSplit[6];
+                localSettings.Values["mstscCMD"] = "mstsc /v:" + rdpIpAddress + ":" + rdpPort + ";";
 
-                items.Add(new ConfigItem(
-                    "配置别名：" + configName,
-                    "主机 Mac：" + macAddress,
-                    "主机 IP：" + ipAddress,
-                    "使用端口：" + ipPort
-                    ));
+                // 如果开启RDP
+                if (rdpIsOpen == "True")
+                {
+                    items.Add(new ConfigItem(
+                        "配置别名：" + configName,
+                        "主机 Mac：" + macAddress,
+                        "主机 IP：" + ipAddress,
+                        "使用端口：" + ipPort,
+                        "RDP 主机 IP：" + rdpIpAddress,
+                        "RDP 主机端口：" + rdpPort
+                        ));
+                }
+                else
+                {
+                    items.Add(new ConfigItem(
+                        "配置别名：" + configName,
+                        "主机 Mac：" + macAddress,
+                        "主机 IP：" + ipAddress,
+                        "使用端口：" + ipPort,
+                        "RDP 主机 IP：未设置",
+                        "RDP 主机端口：未设置"
+                        ));
+                }
 
                 AddConfig.Content = "修改配置";
                 DelConfig.IsEnabled = true;
                 WoLConfig.IsEnabled = true;
+                RDPConfig.IsEnabled = true;
             }
             else
             {
@@ -125,13 +150,29 @@ namespace WinWoL
                     "配置别名：",
                     "主机 Mac：",
                     "主机 IP：",
-                    "使用端口："
+                    "使用端口：",
+                    "RDP 主机 IP：",
+                    "RDP 主机端口："
                     ));
                 AddConfig.Content = "添加配置";
                 DelConfig.IsEnabled = false;
                 WoLConfig.IsEnabled = false;
+                RDPConfig.IsEnabled = false;
             }
             MyGridView.ItemsSource = items;
+        }
+        public void RDPPCChildThread()
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = "PowerShell.exe";
+            process.StartInfo.Arguments = localSettings.Values["mstscCMD"] as string;
+            //是否使用操作系统shell启动
+            process.StartInfo.UseShellExecute = false;
+            //是否在新窗口中启动该进程的值 (不显示程序窗口)
+            process.StartInfo.CreateNoWindow = true;
+            process.Start();
+            process.WaitForExit();
+            process.Close();
         }
         private void delConfig(string ConfigIDNum)
         {
@@ -178,6 +219,10 @@ namespace WinWoL
         {
             string ConfigIDNum = configNum.SelectedItem.ToString();
             WoLPC(ConfigIDNum);
+        }
+        private void RDPConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            RDPPCChildThread();
         }
         // 以UDP协议发送MagicPacket
         public void sendMagicPacket(string macAddress, string domain, int port)
@@ -238,12 +283,18 @@ namespace WinWoL
         public string IpAddress { get; set; }
         // 主机端口
         public string IpPort { get; set; }
-        public ConfigItem(string configName, string macAddress, string ipAddress, string ipPort)
+        // RDP主机IP
+        public string RDPIpAddress { get; set; }
+        // RDP主机端口
+        public string RDPIpPort { get; set; }
+        public ConfigItem(string configName, string macAddress, string ipAddress, string ipPort, string rdpIpAddress, string rdpIpPort)
         {
             ConfigName = configName;
             MacAddress = macAddress;
             IpAddress = ipAddress;
             IpPort = ipPort;
+            RDPIpAddress = rdpIpAddress;
+            RDPIpPort = rdpIpPort;
         }
     }
 }
