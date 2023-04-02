@@ -56,6 +56,7 @@ namespace WinWoL
                 SameIPAddr.IsChecked = configInnerSplit[8] == "True";
             }
 
+            Test.Visibility = Visibility.Collapsed;
             redIsOpenCheck();
         }
         private void InnerChanged()
