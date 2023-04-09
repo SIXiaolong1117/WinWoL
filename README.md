@@ -18,8 +18,8 @@
 
 ## 项目预览
 <p align="center">
-    <img src="./README/屏幕截图 2023-04-06 122152.png" width="49%"/>
-    <img src="./README/屏幕截图 2023-04-06 122229.png" width="49%"/>
+    <img src="./README/0.png" width="49%"/>
+    <img src="./README/1.png" width="49%"/>
 </p>
 
 ## ⬇下载
