@@ -52,6 +52,7 @@
                                     <TextBlock Text="{x:Bind IpPort}"/>
                                     <TextBlock Text="{x:Bind RDPIpAddress}"/>
                                     <TextBlock Text="{x:Bind RDPIpPort}"/>
+                                    <TextBlock Text="{x:Bind RDPPing}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </GridView.ItemTemplate>
@@ -71,13 +72,19 @@
                             x:Name="AddConfig" Click="AddConfigButton_Click" 
                             Content="添加配置"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                            Width="130" 
+                            Width="84" 
+                            Margin="0,0,8,0"/>
+                        <Button 
+                            x:Name="RefConfig" Click="RefConfigButton_Click" 
+                            Content="刷新配置"
+                            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                            Width="84" 
                             Margin="0,0,8,0"/>
                         <Button 
                             x:Name="DelConfig" 
                             Content="删除配置"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                            Width="130">
+                            Width="84">
                             <Button.Flyout>
                                 <Flyout>
                                     <StackPanel>

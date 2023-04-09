@@ -167,10 +167,10 @@ namespace WinWoL
                 //{
                 //    contentFrame.Navigate(typeof(RDP));
                 //}
-                else if ((string)selectedItem.Tag == "Ping")
-                {
-                    contentFrame.Navigate(typeof(Ping));
-                }
+                //else if ((string)selectedItem.Tag == "Ping")
+                //{
+                //    contentFrame.Navigate(typeof(Ping));
+                //}
                 else if ((string)selectedItem.Tag == "About")
                 {
                     contentFrame.Navigate(typeof(About));

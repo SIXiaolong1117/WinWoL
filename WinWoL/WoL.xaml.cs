@@ -43,6 +43,7 @@ using System.Net.Mail;
 using Validation;
 using static System.Net.Mime.MediaTypeNames;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 
 namespace WinWoL
 {
@@ -96,6 +97,47 @@ namespace WinWoL
 
             }
         }
+        static string PingTest(string ipAddress, int port)
+        {
+            // Ping 实例对象
+            System.Net.NetworkInformation.Ping pingSender = new System.Net.NetworkInformation.Ping();
+            // Ping 选项
+            PingOptions options = new PingOptions();
+            options.DontFragment = true;
+            string data = "ping test data";
+            byte[] buf = Encoding.ASCII.GetBytes(data);
+            // 调用同步 Send 方法发送数据，结果存入 reply 对象;
+            PingReply reply = pingSender.Send(ipAddress, 500, buf, options);
+            // 判断 replay，是否连通
+            if (reply.Status == IPStatus.Success)
+            {
+                // 获取IP地址
+                IPAddress ip;
+                if (IPAddress.TryParse(ipAddress, out ip))
+                {
+                    // 是IP
+                    ip = IPAddress.Parse(ipAddress);
+                }
+                else
+                {
+                    // 是域名
+                    ip = Dns.GetHostEntry(ipAddress).AddressList[0];
+                }
+
+                var client = new TcpClient();
+                if (!client.ConnectAsync(ip, port).Wait(500))
+                {
+                    //连接失败
+                    return "端口连接失败";
+                }
+                return "在线";
+            }
+            else
+            {
+                return "不在线";
+            }
+
+        }
         private void refresh(string ConfigIDNum)
         {
             List<ConfigItem> items = new List<ConfigItem>();
@@ -124,7 +166,8 @@ namespace WinWoL
                         "主机 IP：" + ipAddress,
                         "使用端口：" + ipPort,
                         "RDP 主机 IP：" + rdpIpAddress,
-                        "RDP 主机端口：" + rdpPort
+                        "RDP 主机端口：" + rdpPort,
+                        "RDP 主机在线：" + PingTest(rdpIpAddress, int.Parse(rdpPort)).ToString()
                         ));
                 }
                 else
@@ -135,7 +178,8 @@ namespace WinWoL
                         "主机 IP：" + ipAddress,
                         "使用端口：" + ipPort,
                         "RDP 主机 IP：未设置",
-                        "RDP 主机端口：未设置"
+                        "RDP 主机端口：未设置",
+                        "RDP 主机在线：未设置"
                         ));
                 }
 
@@ -152,7 +196,8 @@ namespace WinWoL
                     "主机 IP：",
                     "使用端口：",
                     "RDP 主机 IP：",
-                    "RDP 主机端口："
+                    "RDP 主机端口：",
+                    "RDP 主机在线："
                     ));
                 AddConfig.Content = "添加配置";
                 DelConfig.IsEnabled = false;
@@ -205,6 +250,10 @@ namespace WinWoL
                 localSettings.Values["ConfigID" + ConfigIDNum] = localSettings.Values["ConfigIDTemp"];
                 refresh(ConfigIDNum);
             }
+        }
+        private void RefConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            refresh(configNum.SelectedItem.ToString());
         }
         private void DelConfigButton_Click(object sender, RoutedEventArgs e)
         {
@@ -287,7 +336,10 @@ namespace WinWoL
         public string RDPIpAddress { get; set; }
         // RDP主机端口
         public string RDPIpPort { get; set; }
-        public ConfigItem(string configName, string macAddress, string ipAddress, string ipPort, string rdpIpAddress, string rdpIpPort)
+        // RDP主机端口Ping
+        public string RDPPing { get; set; }
+
+        public ConfigItem(string configName, string macAddress, string ipAddress, string ipPort, string rdpIpAddress, string rdpIpPort, string rdpPing)
         {
             ConfigName = configName;
             MacAddress = macAddress;
@@ -295,6 +347,7 @@ namespace WinWoL
             IpPort = ipPort;
             RDPIpAddress = rdpIpAddress;
             RDPIpPort = rdpIpPort;
+            RDPPing = rdpPing;
         }
     }
 }
