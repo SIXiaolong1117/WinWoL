@@ -31,6 +31,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Storage;
+using System.Text.RegularExpressions;
 
 namespace WinWoL
 {
@@ -78,6 +79,19 @@ namespace WinWoL
         }
         public void TextChanged(object sender, TextChangedEventArgs e)
         {
+            // 获取TextBox的当前文本
+            var text = ((TextBox)sender).Text;
+            // 使用正则表达式排除英文逗号","
+            // 因为该符号在代码逻辑中用作分割
+            var regex = new Regex(",");
+            // 如果文本与正则表达式匹配，即存在英文逗号，则撤消更改、弹出提示窗
+            if (regex.IsMatch(text))
+            {
+                ((TextBox)sender).Undo();
+                InnerChangeErrorTips.IsOpen = true;
+            }
+
+            // 内容变更
             InnerChanged();
         }
         private void Broadcast_Checked(object sender, RoutedEventArgs e)

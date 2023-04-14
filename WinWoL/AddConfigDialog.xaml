@@ -14,7 +14,7 @@
 <!-- GNU General Public License for more details. -->
 
 <!-- You should have received a copy of the GNU General Public License -->
-<!-- along with this program.  If not, see --> 
+<!-- along with this program.  If not, see -->
 <!-- <https://www.gnu.org/licenses/> . -->
 
 <ContentDialog
@@ -69,6 +69,14 @@
                 PlaceholderText="3389" 
                 Width="250" 
                 Margin="0,0,0,24"/>
+                <TeachingTip x:Name="InnerChangeErrorTips"
+	                 Title="任何文本框中都不允许出现英文逗号"
+	                 Subtitle=""
+	                 PreferredPlacement="Auto"
+	                 PlacementMargin="20"
+	                 IsLightDismissEnabled="True"
+	                 CloseButtonContent="明白！">
+                </TeachingTip>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>
