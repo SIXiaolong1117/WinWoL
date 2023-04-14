@@ -44,16 +44,19 @@ using Validation;
 using static System.Net.Mime.MediaTypeNames;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
+using System.Threading;
 
 namespace WinWoL
 {
     public sealed partial class WoL : Page
     {
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+
         public List<string> ConfigSelector { get; } = new List<string>()
         {
             "0","1","2","3","4","5","6","7","8","9","10"
         };
+
         public WoL()
         {
             this.InitializeComponent();
@@ -70,74 +73,9 @@ namespace WinWoL
                 refresh(localSettings.Values["configNum"].ToString());
             }
         }
-        private void configNum_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            refresh(configNum.SelectedItem.ToString());
-            localSettings.Values["configNum"] = configNum.SelectedItem;
-        }
-        private void WoLPC(string ConfigIDNum)
-        {
-            string configInner = localSettings.Values["ConfigID" + ConfigIDNum] as string;
-            if (configInner != null)
-            {
-                string[] configInnerSplit = configInner.Split(',');
-                // configName.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
-                string macAddress = configInnerSplit[1];
-                string ipAddress = configInnerSplit[2];
-                string ipPort = configInnerSplit[3];
-                if ((macAddress != "") && (ipAddress != "") && (ipPort != ""))
-                {
-                    sendMagicPacket(macAddress, ipAddress, int.Parse(ipPort));
-                    MagicPacketIsSendTips.IsOpen = true;
-                }
-                else
-                {
-                    MagicPacketNotSendTips.IsOpen = true;
-                }
 
-            }
-        }
-        static string PingTest(string ipAddress, int port)
-        {
-            // Ping 实例对象
-            System.Net.NetworkInformation.Ping pingSender = new System.Net.NetworkInformation.Ping();
-            // Ping 选项
-            PingOptions options = new PingOptions();
-            options.DontFragment = true;
-            string data = "ping test data";
-            byte[] buf = Encoding.ASCII.GetBytes(data);
-            // 调用同步 Send 方法发送数据，结果存入 reply 对象;
-            PingReply reply = pingSender.Send(ipAddress, 500, buf, options);
-            // 判断 replay，是否连通
-            if (reply.Status == IPStatus.Success)
-            {
-                // 获取IP地址
-                IPAddress ip;
-                if (IPAddress.TryParse(ipAddress, out ip))
-                {
-                    // 是IP
-                    ip = IPAddress.Parse(ipAddress);
-                }
-                else
-                {
-                    // 是域名
-                    ip = Dns.GetHostEntry(ipAddress).AddressList[0];
-                }
-
-                var client = new TcpClient();
-                if (!client.ConnectAsync(ip, port).Wait(500))
-                {
-                    //连接失败
-                    return "端口连接失败";
-                }
-                return "在线";
-            }
-            else
-            {
-                return "不在线";
-            }
-
-        }
+        // 功能实现
+        // 主刷新函数
         private void refresh(string ConfigIDNum)
         {
             List<ConfigItem> items = new List<ConfigItem>();
@@ -167,7 +105,7 @@ namespace WinWoL
                         "使用端口：" + ipPort,
                         "RDP 主机 IP：" + rdpIpAddress,
                         "RDP 主机端口：" + rdpPort,
-                        "RDP 主机在线：" + PingTest(rdpIpAddress, int.Parse(rdpPort)).ToString()
+                        "RDP 端口延迟：" + PingTest(rdpIpAddress, int.Parse(rdpPort)).ToString()
                         ));
                 }
                 else
@@ -179,7 +117,7 @@ namespace WinWoL
                         "使用端口：" + ipPort,
                         "RDP 主机 IP：未设置",
                         "RDP 主机端口：未设置",
-                        "RDP 主机在线：未设置"
+                        "RDP 端口延迟：未设置"
                         ));
                 }
 
@@ -197,7 +135,7 @@ namespace WinWoL
                     "使用端口：",
                     "RDP 主机 IP：",
                     "RDP 主机端口：",
-                    "RDP 主机在线："
+                    "RDP 端口延迟："
                     ));
                 AddConfig.Content = "添加配置";
                 DelConfig.IsEnabled = false;
@@ -205,73 +143,6 @@ namespace WinWoL
                 RDPConfig.IsEnabled = false;
             }
             MyGridView.ItemsSource = items;
-        }
-        public void RDPPCChildThread()
-        {
-            Process process = new Process();
-            process.StartInfo.FileName = "PowerShell.exe";
-            process.StartInfo.Arguments = localSettings.Values["mstscCMD"] as string;
-            //是否使用操作系统shell启动
-            process.StartInfo.UseShellExecute = false;
-            //是否在新窗口中启动该进程的值 (不显示程序窗口)
-            process.StartInfo.CreateNoWindow = true;
-            process.Start();
-            process.WaitForExit();
-            process.Close();
-        }
-        private void delConfig(string ConfigIDNum)
-        {
-            localSettings.Values["ConfigID" + ConfigIDNum] = null;
-        }
-        private async void AddConfigButton_Click(object sender, RoutedEventArgs e)
-        {
-            string ConfigIDNum = configNum.SelectedItem.ToString();
-            localSettings.Values["ConfigIDTemp"] = localSettings.Values["ConfigID" + ConfigIDNum];
-
-            AddConfigDialog configDialog = new AddConfigDialog();
-
-            configDialog.XamlRoot = this.XamlRoot;
-            configDialog.Style = Microsoft.UI.Xaml.Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-            if (AddConfig.Content.ToString() == "修改配置")
-            {
-                configDialog.PrimaryButtonText = "修改";
-            }
-            else
-            {
-                configDialog.PrimaryButtonText = "添加";
-            }
-            configDialog.CloseButtonText = "关闭";
-            configDialog.DefaultButton = ContentDialogButton.Primary;
-
-            var result = await configDialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
-            {
-                localSettings.Values["ConfigID" + ConfigIDNum] = localSettings.Values["ConfigIDTemp"];
-                refresh(ConfigIDNum);
-            }
-        }
-        private void RefConfigButton_Click(object sender, RoutedEventArgs e)
-        {
-            refresh(configNum.SelectedItem.ToString());
-        }
-        private void DelConfigButton_Click(object sender, RoutedEventArgs e)
-        {
-            delConfig(configNum.SelectedItem.ToString());
-            refresh(configNum.SelectedItem.ToString());
-            if (this.DelConfig.Flyout is Flyout f)
-            {
-                f.Hide();
-            }
-        }
-        private void WoLConfigButton_Click(object sender, RoutedEventArgs e)
-        {
-            string ConfigIDNum = configNum.SelectedItem.ToString();
-            WoLPC(ConfigIDNum);
-        }
-        private void RDPConfigButton_Click(object sender, RoutedEventArgs e)
-        {
-            RDPPCChildThread();
         }
         // 以UDP协议发送MagicPacket
         public void sendMagicPacket(string macAddress, string domain, int port)
@@ -319,6 +190,155 @@ namespace WinWoL
             socket.SendTo(packet, new IPEndPoint(ip, port));
             // 关闭Socket对象
             socket.Close();
+        }
+        // Ping测试函数
+        static string PingTest(string ipAddress, int port)
+        {
+            // Ping实例对象
+            System.Net.NetworkInformation.Ping pingSender = new System.Net.NetworkInformation.Ping();
+            // Ping选项
+            PingOptions options = new PingOptions();
+            options.DontFragment = true;
+            string data = "ping";
+            byte[] buf = Encoding.ASCII.GetBytes(data);
+            // 调用同步Send方法发送数据，结果存入reply对象;
+            PingReply reply = pingSender.Send(ipAddress, 500, buf, options);
+            // 判断replay，是否连通
+            if (reply.Status == IPStatus.Success)
+            {
+                // 获取IP地址
+                IPAddress ip;
+                if (IPAddress.TryParse(ipAddress, out ip))
+                {
+                    // 是IP
+                    ip = IPAddress.Parse(ipAddress);
+                }
+                else
+                {
+                    // 是域名
+                    ip = Dns.GetHostEntry(ipAddress).AddressList[0];
+                }
+
+                var client = new TcpClient();
+                if (!client.ConnectAsync(ip, port).Wait(500))
+                {
+                    //连接失败
+                    return "端口连接失败";
+                }
+                return reply.RoundtripTime.ToString() + " ms";
+            }
+            else
+            {
+                return "未联通";
+            }
+
+        }
+        // 根据配置文件，调用发送MagicPacket
+        private void WoLPC(string ConfigIDNum)
+        {
+            string configInner = localSettings.Values["ConfigID" + ConfigIDNum] as string;
+            if (configInner != null)
+            {
+                string[] configInnerSplit = configInner.Split(',');
+                // configName.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
+                string macAddress = configInnerSplit[1];
+                string ipAddress = configInnerSplit[2];
+                string ipPort = configInnerSplit[3];
+                if ((macAddress != "") && (ipAddress != "") && (ipPort != ""))
+                {
+                    sendMagicPacket(macAddress, ipAddress, int.Parse(ipPort));
+                    MagicPacketIsSendTips.IsOpen = true;
+                }
+                else
+                {
+                    MagicPacketNotSendTips.IsOpen = true;
+                }
+
+            }
+        }
+        // 唤起mstsc函数
+        private void RDPPCChildThread()
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = "PowerShell.exe";
+            process.StartInfo.Arguments = localSettings.Values["mstscCMD"] as string;
+            //是否使用操作系统shell启动
+            process.StartInfo.UseShellExecute = false;
+            //是否在新窗口中启动该进程的值 (不显示程序窗口)
+            process.StartInfo.CreateNoWindow = true;
+            process.Start();
+            process.WaitForExit();
+            process.Close();
+        }
+        // 删除配置
+        private void delConfig(string ConfigIDNum)
+        {
+            localSettings.Values["ConfigID" + ConfigIDNum] = null;
+        }
+
+        // 事件
+        // Selection改变
+        private void configNum_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            refresh(configNum.SelectedItem.ToString());
+            localSettings.Values["configNum"] = configNum.SelectedItem;
+        }
+        // 添加/修改配置按钮点击
+        private async void AddConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            string ConfigIDNum = configNum.SelectedItem.ToString();
+            localSettings.Values["ConfigIDTemp"] = localSettings.Values["ConfigID" + ConfigIDNum];
+
+            AddConfigDialog configDialog = new AddConfigDialog();
+
+            configDialog.XamlRoot = this.XamlRoot;
+            configDialog.Style = Microsoft.UI.Xaml.Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            if (AddConfig.Content.ToString() == "修改配置")
+            {
+                configDialog.PrimaryButtonText = "修改";
+            }
+            else
+            {
+                configDialog.PrimaryButtonText = "添加";
+            }
+            configDialog.CloseButtonText = "关闭";
+            configDialog.DefaultButton = ContentDialogButton.Primary;
+
+            var result = await configDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                localSettings.Values["ConfigID" + ConfigIDNum] = localSettings.Values["ConfigIDTemp"];
+                refresh(ConfigIDNum);
+            }
+        }
+        // 刷新配置按钮点击
+        private void RefConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            refresh(configNum.SelectedItem.ToString());
+        }
+        // 删除配置按钮点击
+        private void DelConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            delConfig(configNum.SelectedItem.ToString());
+            refresh(configNum.SelectedItem.ToString());
+            if (this.DelConfig.Flyout is Flyout f)
+            {
+                f.Hide();
+            }
+        }
+        // 网络唤醒按钮点击
+        private void WoLConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            string ConfigIDNum = configNum.SelectedItem.ToString();
+            WoLPC(ConfigIDNum);
+        }
+        // 远程桌面按钮点击
+        private void RDPConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            ThreadStart childref = new ThreadStart(RDPPCChildThread);
+            Thread childThread = new Thread(childref);
+            childThread.Start();
         }
     }
     // ConfigItem类
