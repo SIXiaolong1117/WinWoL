@@ -88,7 +88,7 @@ namespace WinWoL
             if (regex.IsMatch(text))
             {
                 ((TextBox)sender).Undo();
-                InnerChangeErrorTips.IsOpen = true;
+                RegularErrorTips.IsOpen = true;
             }
 
             // ÄÚÈÝ±ä¸ü
@@ -99,6 +99,8 @@ namespace WinWoL
             ipAddress.Text = "255.255.255.255";
             ipAddress.IsEnabled = false;
             SameIPAddr.IsEnabled = false;
+            rdpIpAddress.IsEnabled = true;
+            SameIPAddr.IsChecked = false;
             InnerChanged();
         }
         private void Broadcast_Unchecked(object sender, RoutedEventArgs e)

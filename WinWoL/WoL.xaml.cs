@@ -194,6 +194,18 @@ namespace WinWoL
         // Ping测试函数
         static string PingTest(string ipAddress, int port)
         {
+            // 获取IP地址
+            IPAddress ipAddress2;
+            if (IPAddress.TryParse(ipAddress, out ipAddress2))
+            {
+                // 是IP
+                ipAddress2 = IPAddress.Parse(ipAddress);
+            }
+            else
+            {
+                // 是域名
+                ipAddress2 = Dns.GetHostEntry(ipAddress).AddressList[0];
+            }
             // Ping实例对象
             System.Net.NetworkInformation.Ping pingSender = new System.Net.NetworkInformation.Ping();
             // Ping选项
@@ -201,8 +213,9 @@ namespace WinWoL
             options.DontFragment = true;
             string data = "ping";
             byte[] buf = Encoding.ASCII.GetBytes(data);
+
             // 调用同步Send方法发送数据，结果存入reply对象;
-            PingReply reply = pingSender.Send(ipAddress, 500, buf, options);
+            PingReply reply = pingSender.Send(ipAddress2, 500, buf, options);
             // 判断replay，是否连通
             if (reply.Status == IPStatus.Success)
             {

@@ -69,8 +69,8 @@
                 PlaceholderText="3389" 
                 Width="250" 
                 Margin="0,0,0,24"/>
-                <TeachingTip x:Name="InnerChangeErrorTips"
-	                 Title="任何文本框中都不允许出现英文逗号"
+                <TeachingTip x:Name="RegularErrorTips"
+	                 Title="任何文本框中都不允许出现英文逗号！"
 	                 Subtitle=""
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
