@@ -125,13 +125,5 @@
 	                 IsLightDismissEnabled="True"
 	                 CloseButtonContent="确认">
         </TeachingTip>
-        <TeachingTip x:Name="RDPNotWorkTips"
-	                 Title="远程桌面无法连接"
-	                 Subtitle="请检查您填写的配置内容，以及 PC 的网络状况。您可以使用 Ping 测试来查看是否可以连接到 RDP 主机端口。"
-	                 PreferredPlacement="Auto"
-	                 PlacementMargin="20"
-	                 IsLightDismissEnabled="True"
-	                 CloseButtonContent="确认">
-        </TeachingTip>
     </Grid>
 </Page>
