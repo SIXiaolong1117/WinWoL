@@ -54,7 +54,7 @@ namespace WinWoL
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
         // Selection需要的List
-        public List<string> ConfigSelector { get; } = new List<string>()
+        public List<string> ConfigSelector { get; set; } = new List<string>()
         {
             "0","1","2","3","4","5","6","7","8","9","10"
         };
@@ -134,6 +134,7 @@ namespace WinWoL
                     RDPPing.Text = "RDP 端口延迟：未测试";
 
                     RefConfig.IsEnabled = true;
+                    RDPConfig.IsEnabled = true;
                 }
                 else
                 {
@@ -146,12 +147,12 @@ namespace WinWoL
                     RDPPing.Text = "RDP 端口延迟：未设置";
 
                     RefConfig.IsEnabled = false;
+                    RDPConfig.IsEnabled = false;
                 }
 
                 AddConfig.Content = "修改配置";
                 DelConfig.IsEnabled = true;
                 WoLConfig.IsEnabled = true;
-                RDPConfig.IsEnabled = true;
             }
         }
         // 以UDP协议发送MagicPacket
@@ -193,6 +194,8 @@ namespace WinWoL
         }
         static IPAddress domain2ip(string domain)
         {
+            // 此函数本身可以处理部分非法IP（例如：266.266.266.266）
+            // 这些非法IP会被算作域名来处理
             IPAddress ipAddress;
             if (IPAddress.TryParse(domain, out ipAddress))
             {
@@ -201,7 +204,7 @@ namespace WinWoL
             }
             else
             {
-                // 是域名
+                // 是域名或其他输入
                 return Dns.GetHostEntry(domain).AddressList[0];
             }
         }
@@ -209,7 +212,7 @@ namespace WinWoL
         static string PingTest(string domain, int port)
         {
             // 获取IP地址
-            // 在这里执行这个操作，可以处理一些非法IP的输入问题（例如：255.255.255.255）
+            // 在这里执行这个操作，可以处理一些非法IP的输入问题（例如：广播地址 255.255.255.255）
             // 非法IP会被返回“主机地址无法联通”，而不会让pingSender报错导致应用崩溃
             IPAddress ipAddress = domain2ip(domain);
 
@@ -236,7 +239,7 @@ namespace WinWoL
             }
             else
             {
-                return "主机地址无法联通";
+                return "无法联通";
             }
 
         }
@@ -251,12 +254,12 @@ namespace WinWoL
                 string macAddress = configInnerSplit[1];
                 string ipAddress = configInnerSplit[2];
                 string ipPort = configInnerSplit[3];
-                if ((macAddress != "") && (ipAddress != "") && (ipPort != ""))
+                try
                 {
                     sendMagicPacket(macAddress, ipAddress, int.Parse(ipPort));
                     MagicPacketIsSendTips.IsOpen = true;
                 }
-                else
+                catch
                 {
                     MagicPacketNotSendTips.IsOpen = true;
                 }
@@ -293,8 +296,14 @@ namespace WinWoL
             // + rdpIsOpen.IsOn + "," + rdpIpAddress.Text + "," + rdpIpPort;
             string rdpIpAddress = configInnerSplit[5];
             string rdpPort = configInnerSplit[6];
-            RDPPing.Text = "RDP 端口延迟：" + PingTest(rdpIpAddress, int.Parse(rdpPort)).ToString();
-
+            try
+            {
+                RDPPing.Text = "RDP 端口延迟：" + PingTest(rdpIpAddress, int.Parse(rdpPort)).ToString();
+            }
+            catch
+            {
+                RDPPing.Text = "RDP 端口延迟：无法联通";
+            }
         }
 
         // 事件
@@ -358,9 +367,18 @@ namespace WinWoL
         // 远程桌面按钮点击
         private void RDPConfigButton_Click(object sender, RoutedEventArgs e)
         {
-            ThreadStart childref = new ThreadStart(RDPPCChildThread);
-            Thread childThread = new Thread(childref);
-            childThread.Start();
+            string ConfigIDNum = configNum.SelectedItem.ToString();
+            PingRDPRef(ConfigIDNum);
+            if (RDPPing.Text != "RDP 端口延迟：无法联通")
+            {
+                ThreadStart childref = new ThreadStart(RDPPCChildThread);
+                Thread childThread = new Thread(childref);
+                childThread.Start();
+            }
+            else
+            {
+                RDPNotWorkTips.IsOpen = true;
+            }
         }
     }
 }
