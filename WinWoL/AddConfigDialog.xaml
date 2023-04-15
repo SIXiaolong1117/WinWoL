@@ -31,7 +31,7 @@
             <TextBox x:Name="macAddress" TextChanged="TextChanged" Header="目标设备 Mac 地址：" PlaceholderText="AA:BB:CC:DD:EE:FF" Width="250" Margin="0,0,0,24"/>
 
             <StackPanel Width="250" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,16">
-                <TextBox x:Name="ipAddress" TextChanged="TextChanged" Header="接收 Magic Packet 的 IP 地址：" PlaceholderText="255.255.255.255" Width="250"/>
+                <TextBox x:Name="ipAddress" TextChanged="TextChanged" Header="接收 Magic Packet 的地址：" PlaceholderText="255.255.255.255" Width="250"/>
                 <CheckBox 
                     x:Name="Broadcast"
                     Content="向 LAN 网络广播"
@@ -53,7 +53,7 @@
                     <TextBox 
                         x:Name="rdpIpAddress" 
                         TextChanged="TextChanged" 
-                        Header="RDP 目标主机 IP 地址：" PlaceholderText="192.168.1.2" Width="250" />
+                        Header="RDP 目标主机地址：" PlaceholderText="192.168.1.2" Width="250" />
                     <CheckBox 
                         x:Name="SameIPAddr"
                         Content="同 接收 Magic Packet 的 IP 地址"

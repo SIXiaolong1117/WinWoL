@@ -50,13 +50,16 @@ namespace WinWoL
 {
     public sealed partial class WoL : Page
     {
+        // 引入localSettings
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
+        // Selection需要的List
         public List<string> ConfigSelector { get; } = new List<string>()
         {
             "0","1","2","3","4","5","6","7","8","9","10"
         };
 
+        // 页面初始化
         public WoL()
         {
             this.InitializeComponent();
@@ -78,11 +81,25 @@ namespace WinWoL
         // 主刷新函数
         private void refresh(string ConfigIDNum)
         {
-            List<ConfigItem> items = new List<ConfigItem>();
             string configInner = localSettings.Values["ConfigID" + ConfigIDNum] as string;
+
+            ConfigName.Text = "配置别名：";
+            MacAddress.Text = "主机 Mac：";
+            IpAddress.Text = "WoL 主机地址：";
+            IpPort.Text = "WoL 端口：";
+            RDPIpAddress.Text = "RDP 主机地址：";
+            RDPIpPort.Text = "RDP 端口：";
+            RDPPing.Text = "RDP 端口延迟：";
+            AddConfig.Content = "添加配置";
+            DelConfig.IsEnabled = false;
+            RefConfig.IsEnabled = false;
+            WoLConfig.IsEnabled = false;
+            RDPConfig.IsEnabled = false;
+
             if (configInner != null)
             {
                 string[] configInnerSplit = configInner.Split(',');
+                // 传入的字符串结构：
                 // configName.Text + "," + macAddress.Text + ","
                 // + ipAddress.Text + "," + ipPort.Text + ","
                 // + rdpIsOpen.IsOn + "," + rdpIpAddress.Text + "," + rdpIpPort;
@@ -93,32 +110,42 @@ namespace WinWoL
                 string rdpIsOpen = configInnerSplit[4];
                 string rdpIpAddress = configInnerSplit[5];
                 string rdpPort = configInnerSplit[6];
+
+                // 如果不是广播地址，则显示IP或域名。
+                // 如果是广播地址，则显示“向 LAN 网络广播”
+                string ipAddressDisplay = ipAddress;
+                if (ipAddressDisplay == "255.255.255.255")
+                {
+                    ipAddressDisplay = "向 LAN 网络广播";
+                }
+
+                // 更新RDP的命令行
                 localSettings.Values["mstscCMD"] = "mstsc /v:" + rdpIpAddress + ":" + rdpPort + ";";
 
                 // 如果开启RDP
                 if (rdpIsOpen == "True")
                 {
-                    items.Add(new ConfigItem(
-                        "配置别名：" + configName,
-                        "主机 Mac：" + macAddress,
-                        "主机 IP：" + ipAddress,
-                        "使用端口：" + ipPort,
-                        "RDP 主机 IP：" + rdpIpAddress,
-                        "RDP 主机端口：" + rdpPort,
-                        "RDP 端口延迟：" + PingTest(rdpIpAddress, int.Parse(rdpPort)).ToString()
-                        ));
+                    ConfigName.Text = "配置别名：" + configName;
+                    MacAddress.Text = "主机 Mac：" + macAddress;
+                    IpAddress.Text = "WoL 主机地址：" + ipAddressDisplay;
+                    IpPort.Text = "WoL 端口：" + ipPort;
+                    RDPIpAddress.Text = "RDP 主机地址：" + rdpIpAddress;
+                    RDPIpPort.Text = "RDP 端口：" + rdpPort;
+                    RDPPing.Text = "RDP 端口延迟：未测试";
+
+                    RefConfig.IsEnabled = true;
                 }
                 else
                 {
-                    items.Add(new ConfigItem(
-                        "配置别名：" + configName,
-                        "主机 Mac：" + macAddress,
-                        "主机 IP：" + ipAddress,
-                        "使用端口：" + ipPort,
-                        "RDP 主机 IP：未设置",
-                        "RDP 主机端口：未设置",
-                        "RDP 端口延迟：未设置"
-                        ));
+                    ConfigName.Text = "配置别名：" + configName;
+                    MacAddress.Text = "主机 Mac：" + macAddress;
+                    IpAddress.Text = "WoL 主机地址：" + ipAddressDisplay;
+                    IpPort.Text = "WoL 端口：" + ipPort;
+                    RDPIpAddress.Text = "RDP 主机地址：未设置";
+                    RDPIpPort.Text = "RDP 端口：未设置";
+                    RDPPing.Text = "RDP 端口延迟：未设置";
+
+                    RefConfig.IsEnabled = false;
                 }
 
                 AddConfig.Content = "修改配置";
@@ -126,23 +153,6 @@ namespace WinWoL
                 WoLConfig.IsEnabled = true;
                 RDPConfig.IsEnabled = true;
             }
-            else
-            {
-                items.Add(new ConfigItem(
-                    "配置别名：",
-                    "主机 Mac：",
-                    "主机 IP：",
-                    "使用端口：",
-                    "RDP 主机 IP：",
-                    "RDP 主机端口：",
-                    "RDP 端口延迟："
-                    ));
-                AddConfig.Content = "添加配置";
-                DelConfig.IsEnabled = false;
-                WoLConfig.IsEnabled = false;
-                RDPConfig.IsEnabled = false;
-            }
-            MyGridView.ItemsSource = items;
         }
         // 以UDP协议发送MagicPacket
         public void sendMagicPacket(string macAddress, string domain, int port)
@@ -175,37 +185,34 @@ namespace WinWoL
                 for (int j = 0; j < 6; j++)
                     packet[i * 6 + j] = mac[j];
             // 获取IP地址
-            IPAddress ip;
-            if (IPAddress.TryParse(domain, out ip))
-            {
-                // 是IP
-                ip = IPAddress.Parse(domain);
-            }
-            else
-            {
-                // 是域名
-                ip = Dns.GetHostEntry(domain).AddressList[0];
-            }
+            IPAddress ip = domain2ip(domain);
             // 发送数据
             socket.SendTo(packet, new IPEndPoint(ip, port));
             // 关闭Socket对象
             socket.Close();
         }
-        // Ping测试函数
-        static string PingTest(string ipAddress, int port)
+        static IPAddress domain2ip(string domain)
         {
-            // 获取IP地址
-            IPAddress ipAddress2;
-            if (IPAddress.TryParse(ipAddress, out ipAddress2))
+            IPAddress ipAddress;
+            if (IPAddress.TryParse(domain, out ipAddress))
             {
                 // 是IP
-                ipAddress2 = IPAddress.Parse(ipAddress);
+                return IPAddress.Parse(domain);
             }
             else
             {
                 // 是域名
-                ipAddress2 = Dns.GetHostEntry(ipAddress).AddressList[0];
+                return Dns.GetHostEntry(domain).AddressList[0];
             }
+        }
+        // Ping测试函数
+        static string PingTest(string domain, int port)
+        {
+            // 获取IP地址
+            // 在这里执行这个操作，可以处理一些非法IP的输入问题（例如：255.255.255.255）
+            // 非法IP会被返回“主机地址无法联通”，而不会让pingSender报错导致应用崩溃
+            IPAddress ipAddress = domain2ip(domain);
+
             // Ping实例对象
             System.Net.NetworkInformation.Ping pingSender = new System.Net.NetworkInformation.Ping();
             // Ping选项
@@ -215,25 +222,12 @@ namespace WinWoL
             byte[] buf = Encoding.ASCII.GetBytes(data);
 
             // 调用同步Send方法发送数据，结果存入reply对象;
-            PingReply reply = pingSender.Send(ipAddress2, 500, buf, options);
+            PingReply reply = pingSender.Send(ipAddress, 500, buf, options);
             // 判断replay，是否连通
             if (reply.Status == IPStatus.Success)
             {
-                // 获取IP地址
-                IPAddress ip;
-                if (IPAddress.TryParse(ipAddress, out ip))
-                {
-                    // 是IP
-                    ip = IPAddress.Parse(ipAddress);
-                }
-                else
-                {
-                    // 是域名
-                    ip = Dns.GetHostEntry(ipAddress).AddressList[0];
-                }
-
                 var client = new TcpClient();
-                if (!client.ConnectAsync(ip, port).Wait(500))
+                if (!client.ConnectAsync(ipAddress, port).Wait(500))
                 {
                     //连接失败
                     return "端口连接失败";
@@ -242,7 +236,7 @@ namespace WinWoL
             }
             else
             {
-                return "未联通";
+                return "主机地址无法联通";
             }
 
         }
@@ -288,6 +282,20 @@ namespace WinWoL
         {
             localSettings.Values["ConfigID" + ConfigIDNum] = null;
         }
+        // Ping RDP主机端口
+        private void PingRDPRef(string ConfigIDNum)
+        {
+            string configInner = localSettings.Values["ConfigID" + ConfigIDNum] as string;
+            string[] configInnerSplit = configInner.Split(',');
+            // 传入的字符串结构：
+            // configName.Text + "," + macAddress.Text + ","
+            // + ipAddress.Text + "," + ipPort.Text + ","
+            // + rdpIsOpen.IsOn + "," + rdpIpAddress.Text + "," + rdpIpPort;
+            string rdpIpAddress = configInnerSplit[5];
+            string rdpPort = configInnerSplit[6];
+            RDPPing.Text = "RDP 端口延迟：" + PingTest(rdpIpAddress, int.Parse(rdpPort)).ToString();
+
+        }
 
         // 事件
         // Selection改变
@@ -325,10 +333,11 @@ namespace WinWoL
                 refresh(ConfigIDNum);
             }
         }
-        // 刷新配置按钮点击
+        // Ping测试按钮点击
         private void RefConfigButton_Click(object sender, RoutedEventArgs e)
         {
-            refresh(configNum.SelectedItem.ToString());
+            string ConfigIDNum = configNum.SelectedItem.ToString();
+            PingRDPRef(ConfigIDNum);
         }
         // 删除配置按钮点击
         private void DelConfigButton_Click(object sender, RoutedEventArgs e)
@@ -352,35 +361,6 @@ namespace WinWoL
             ThreadStart childref = new ThreadStart(RDPPCChildThread);
             Thread childThread = new Thread(childref);
             childThread.Start();
-        }
-    }
-    // ConfigItem类
-    public class ConfigItem
-    {
-        // 配置文件ID
-        public string ConfigName { get; set; }
-        // 主机MAC
-        public string MacAddress { get; set; }
-        // 主机IP
-        public string IpAddress { get; set; }
-        // 主机端口
-        public string IpPort { get; set; }
-        // RDP主机IP
-        public string RDPIpAddress { get; set; }
-        // RDP主机端口
-        public string RDPIpPort { get; set; }
-        // RDP主机端口Ping
-        public string RDPPing { get; set; }
-
-        public ConfigItem(string configName, string macAddress, string ipAddress, string ipPort, string rdpIpAddress, string rdpIpPort, string rdpPing)
-        {
-            ConfigName = configName;
-            MacAddress = macAddress;
-            IpAddress = ipAddress;
-            IpPort = ipPort;
-            RDPIpAddress = rdpIpAddress;
-            RDPIpPort = rdpIpPort;
-            RDPPing = rdpPing;
         }
     }
 }

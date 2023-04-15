@@ -31,6 +31,8 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Width="268" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
 
+                    <TextBlock x:Name="Test" Foreground="DarkGray" FontSize="12"/>
+
                     <ComboBox x:Name="configNum" 
                               ItemsSource="{x:Bind ConfigSelector}" 
                               SelectionChanged="configNum_SelectionChanged" 
@@ -39,33 +41,17 @@
                               Margin="0,8,0,0">
                     </ComboBox>
 
-                    <TextBlock x:Name="Test" Foreground="DarkGray" FontSize="12"/>
-
-                    <GridView x:Name="MyGridView" SelectionMode="None">
-
-                        <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="local:ConfigItem">
-                                <StackPanel Width="268" Margin="8" Orientation="Vertical">
-                                    <TextBlock Text="{x:Bind ConfigName}"/>
-                                    <TextBlock Text="{x:Bind MacAddress}"/>
-                                    <TextBlock Text="{x:Bind IpAddress}"/>
-                                    <TextBlock Text="{x:Bind IpPort}"/>
-                                    <TextBlock Text="{x:Bind RDPIpAddress}"/>
-                                    <TextBlock Text="{x:Bind RDPIpPort}"/>
-                                    <TextBlock Text="{x:Bind RDPPing}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-
-                        <GridView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsWrapGrid x:Name="MaxItemsWrapGrid"
-                                               MaximumRowsOrColumns="2"
-                                               Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </GridView.ItemsPanel>
-
-                    </GridView>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
+                        <StackPanel Width="268" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock x:Name="ConfigName"/>
+                            <TextBlock x:Name="MacAddress"/>
+                            <TextBlock x:Name="IpAddress"/>
+                            <TextBlock x:Name="IpPort"/>
+                            <TextBlock x:Name="RDPIpAddress"/>
+                            <TextBlock x:Name="RDPIpPort"/>
+                            <TextBlock x:Name="RDPPing"/>
+                        </StackPanel>
+                    </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
                         <Button 
@@ -75,16 +61,11 @@
                             Width="84" 
                             Margin="0,0,8,0"/>
                         <Button 
-                            x:Name="RefConfig" Click="RefConfigButton_Click" 
-                            Content="刷新配置"
-                            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                            Width="84" 
-                            Margin="0,0,8,0"/>
-                        <Button 
                             x:Name="DelConfig" 
                             Content="删除配置"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                            Width="84">
+                            Width="84"
+                            Margin="0,0,8,0">
                             <Button.Flyout>
                                 <Flyout>
                                     <StackPanel>
@@ -99,6 +80,11 @@
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
+                        <Button 
+                            x:Name="RefConfig" Click="RefConfigButton_Click" 
+                            Content="Ping 测试"
+                            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                            Width="84" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
                         <Button 
@@ -125,7 +111,7 @@
         </StackPanel>
         <TeachingTip x:Name="MagicPacketIsSendTips"
 	                 Title="Magic Packet 已经通过 UDP 发送"
-	                 Subtitle="WoL 在技术上无法确定唤醒是否成功，您可以通过 网络测试 (Ping) 和 远程桌面 (RDP) 确认唤醒结果。"
+	                 Subtitle=""
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
 	                 IsLightDismissEnabled="True"
