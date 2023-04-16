@@ -198,11 +198,16 @@ namespace WinWoL
             // 获取IP地址
             IPAddress ip = domain2ip(domain);
 
-            // 发送数据
-            socket.SendTo(packet, new IPEndPoint(ip, port));
+            // 多次发送，避免丢包
+            for (int i = 0; i < 10; i++)
+            {
+                // 发送数据
+                socket.SendTo(packet, new IPEndPoint(ip, port));
+            }
 
             // 关闭Socket对象
             socket.Close();
+
         }
         static IPAddress domain2ip(string domain)
         {
