@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -30,11 +31,14 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.ApplicationSettings;
+using Windows.UI.ViewManagement;
 using WinRT;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WinWoL
 {
@@ -51,9 +55,12 @@ namespace WinWoL
         {
             this.InitializeComponent();
 
-            // 隐藏默认TitleBar
+            // 启动个性化TitleBar
             ExtendsContentIntoTitleBar = true;
+            // 将UI设置为TitleBar
             SetTitleBar(AppTitleBar);
+            // 设置任务栏显示名称
+            Title = $"网络唤醒 (Wake on LAN)";
 
             TrySetSystemBackdrop();
 

@@ -207,7 +207,6 @@ namespace WinWoL
 
             // πÿ±’Socket∂‘œÛ
             socket.Close();
-
         }
         static IPAddress domain2ip(string domain)
         {

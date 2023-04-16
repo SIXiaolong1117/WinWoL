@@ -33,8 +33,8 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="AppTitleBar">
-            <Image Source="Images/WindowIcon.png" HorizontalAlignment="Left" Width="16" Height="16" Margin="8,0"/>
-            <TextBlock x:Name="AppTitleTextBlock" Text="Win WoL" TextWrapping="NoWrap" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Center" Margin="28,0,0,0"/>
+            <Image Source=".\Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" HorizontalAlignment="Left" Width="16" Height="16" Margin="8,0"/>
+            <TextBlock x:Name="AppTitleTextBlock" Text="网络唤醒 (Wake on LAN)" TextWrapping="NoWrap" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Center" Margin="32,0"/>
         </Grid>
         <NavigationView x:Name="NavView" SelectionChanged="NavigationView_SelectionChanged" Grid.Row="1" IsBackButtonVisible="Collapsed" IsSettingsVisible="True">
             <NavigationView.MenuItems>
@@ -43,16 +43,6 @@
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xeda3;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <!--<NavigationViewItem Content="网络测试 (Ping)" Tag="Ping">-->
-                    <!--<NavigationViewItem.Icon>-->
-                        <!--<FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe724;"/>-->
-                    <!--</NavigationViewItem.Icon>-->
-                <!--</NavigationViewItem>-->
-                <!--<NavigationViewItem Content="远程桌面 (RDP)" Tag="RDP">-->
-                <!--<NavigationViewItem.Icon>-->
-                <!--<FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe8af;"/>-->
-                <!--</NavigationViewItem.Icon>-->
-                <!--</NavigationViewItem>-->
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
                 <NavigationViewItem Content="关于" Tag="About">
