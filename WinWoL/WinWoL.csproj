@@ -24,10 +24,6 @@
   <ItemGroup>
     <None Remove="About.xaml" />
     <None Remove="AddConfigDialog.xaml" />
-    <None Remove="AddPingDialog.xaml" />
-    <None Remove="AddRDPDialog.xaml" />
-    <None Remove="Ping.xaml" />
-    <None Remove="RDP.xaml" />
     <None Remove="SettingsPage.xaml" />
     <None Remove="WoL.xaml" />
   </ItemGroup>
@@ -57,27 +53,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="AddRDPDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="AddPingDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="AddConfigDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Ping.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="RDP.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

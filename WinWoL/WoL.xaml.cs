@@ -45,6 +45,9 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Threading;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage.Pickers;
+using Windows.Storage.Provider;
 
 namespace WinWoL
 {
@@ -438,6 +441,87 @@ namespace WinWoL
             ThreadStart childref = new ThreadStart(RDPPCChildThread);
             Thread childThread = new Thread(childref);
             childThread.Start();
+        }
+
+        private void ImportConfig_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void ExportConfig_Click(object sender, RoutedEventArgs e)
+        {
+            string ConfigIDNum = configNum.SelectedItem.ToString();
+            string configContent = localSettings.Values["ConfigID" + ConfigIDNum].ToString();
+
+            //// 将配置内容保存在剪贴板
+
+            //var package = new DataPackage();
+            //package.SetText(configContent);
+            //Clipboard.SetContent(package);
+
+            // 创建一个FilePicker
+            FileSavePicker savePicker = new Windows.Storage.Pickers.FileSavePicker();
+
+            // 检索当前WinUI3窗口的窗口句柄 (HWND)
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(App.m_window);
+
+            // 使用窗口句柄 (HWND) 初始化文件选取器
+            WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hWnd);
+
+            // 为FilePicker设置选项
+            savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+            // 用户可以将文件另存为的文件类型下拉列表
+            savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".txt" });
+            // 默认文件名，如果用户没有键入或选择要替换的文件
+            var enteredFileName = ((sender as Button).Parent as StackPanel)
+            .FindName("FileNameTextBox") as TextBox;
+            savePicker.SuggestedFileName = "WinUI_Wake_on_LAN_BackUp_" + DateTime.Now.ToString();
+
+            // 打开Picker供用户选择文件
+            StorageFile file = await savePicker.PickSaveFileAsync();
+            if (file != null)
+            {
+                // 阻止更新文件的远程版本，直到我们完成更改并调用 CompleteUpdatesAsync。
+                CachedFileManager.DeferUpdates(file);
+
+                // 写入文件
+                var textBox = ((sender as Button).Parent as StackPanel)
+                .FindName("FileContentTextBox") as TextBox;
+                using (var stream = await file.OpenStreamForWriteAsync())
+                {
+                    using (var tw = new StreamWriter(stream))
+                    {
+                        tw.WriteLine(configContent);
+                    }
+                }
+
+                // 让Windows知道我们已完成文件更改，以便其他应用程序可以更新文件的远程版本。
+                // 完成更新可能需要 Windows 请求用户输入。
+                FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+                if (status == FileUpdateStatus.Complete)
+                {
+                    // 文件保存成功
+                    SaveConfigTips.Title = "保存成功！";
+                    SaveConfigTips.IsOpen = true;
+                }
+                else if (status == FileUpdateStatus.CompleteAndRenamed)
+                {
+                    // 文件重命名并保存成功
+                    SaveConfigTips.Title = "重命名并保存成功！";
+                    SaveConfigTips.IsOpen = true;
+                }
+                else
+                {
+                    // 文件无法保存！
+                    SaveConfigTips.Title = "无法保存！";
+                    SaveConfigTips.IsOpen = true;
+                }
+            }
+            else
+            {
+                // 操作取消
+            }
+
         }
     }
 }

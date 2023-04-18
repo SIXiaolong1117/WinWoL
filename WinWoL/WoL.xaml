@@ -55,6 +55,26 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
                         <Button 
+                            x:Name="ImportConfig" 
+                            Click="ImportConfig_Click" 
+                            Content="导入当前配置"
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Bottom" 
+                            Width="130" 
+                            Margin="0,0,8,0"
+                            />
+                        <Button 
+                            x:Name="ExportConfig" 
+                            Click="ExportConfig_Click" 
+                            Content="导出当前配置"
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Bottom" 
+                            Width="130" 
+                            />
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
+                        <Button 
                             x:Name="AddConfig" Click="AddConfigButton_Click" 
                             Content="添加配置"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
@@ -120,6 +140,14 @@
         <TeachingTip x:Name="MagicPacketNotSendTips"
 	                 Title="Magic Packet 发送失败"
 	                 Subtitle="请检查您填写的配置内容"
+	                 PreferredPlacement="Auto"
+	                 PlacementMargin="20"
+	                 IsLightDismissEnabled="True"
+	                 CloseButtonContent="确认">
+        </TeachingTip>
+        <TeachingTip x:Name="SaveConfigTips"
+	                 Title=""
+	                 Subtitle=""
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
 	                 IsLightDismissEnabled="True"
