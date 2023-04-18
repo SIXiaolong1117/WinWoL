@@ -95,19 +95,30 @@ namespace WinWoL
             RDPIpAddress.Text = "RDP 主机地址：";
             RDPIpPort.Text = "RDP 端口：";
             RDPPing.Text = "RDP 端口延迟：";
-            AddConfig.Content = "添加配置";
+
+            // 隐藏覆盖 显示导入
+            ImportConfig.Visibility = Visibility.Visible;
+            ImportAndReplaceConfig.Visibility = Visibility.Collapsed;
+
+            AddConfig.Content = "添加";
             DelConfig.IsEnabled = false;
             RefConfig.IsEnabled = false;
             WoLConfig.IsEnabled = false;
             RDPConfig.IsEnabled = false;
+            ExportConfig.IsEnabled = false;
 
             // 如果字符串不为空
             if (configInner != null)
             {
                 // 修改界面UI可用性和文字显示
-                AddConfig.Content = "修改配置";
+                AddConfig.Content = "修改";
                 DelConfig.IsEnabled = true;
                 WoLConfig.IsEnabled = true;
+                ExportConfig.IsEnabled = true;
+
+                // 隐藏导入 显示覆盖
+                ImportConfig.Visibility = Visibility.Collapsed;
+                ImportAndReplaceConfig.Visibility = Visibility.Visible;
 
                 // 分割字符串
                 string[] configInnerSplit = configInner.Split(',');
@@ -362,6 +373,7 @@ namespace WinWoL
             //关闭所有弹出窗口
             MagicPacketIsSendTips.IsOpen = false;
             MagicPacketNotSendTips.IsOpen = false;
+            SaveConfigTips.IsOpen = false;
         }
         // 添加/修改配置按钮点击
         private async void AddConfigButton_Click(object sender, RoutedEventArgs e)
@@ -443,8 +455,38 @@ namespace WinWoL
             childThread.Start();
         }
 
-        private void ImportConfig_Click(object sender, RoutedEventArgs e)
+        private async void ImportConfig_Click(object sender, RoutedEventArgs e)
         {
+            string ConfigIDNum = configNum.SelectedItem.ToString();
+
+            // Create a file picker
+            var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
+
+            // 检索当前WinUI3窗口的窗口句柄 (HWND)
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(App.m_window);
+
+            // Initialize the file picker with the window handle (HWND).
+            WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
+
+            // Set options for your file picker
+            openPicker.ViewMode = PickerViewMode.Thumbnail;
+            openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            openPicker.FileTypeFilter.Add(".wolconfig");
+
+            // Open the picker for the user to pick a file
+            var file = await openPicker.PickSingleFileAsync();
+            if (file != null)
+            {
+                //PickAPhotoOutputTextBlock.Text = "Picked photo: " + file.Name;
+                var path = file.Path;
+                localSettings.Values["ConfigID" + ConfigIDNum] = File.ReadAllText(path, Encoding.UTF8);
+                // 刷新UI
+                refresh(ConfigIDNum);
+            }
+            else
+            {
+                // 操作取消
+            }
 
         }
 
@@ -454,7 +496,6 @@ namespace WinWoL
             string configContent = localSettings.Values["ConfigID" + ConfigIDNum].ToString();
 
             //// 将配置内容保存在剪贴板
-
             //var package = new DataPackage();
             //package.SetText(configContent);
             //Clipboard.SetContent(package);
@@ -471,7 +512,7 @@ namespace WinWoL
             // 为FilePicker设置选项
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             // 用户可以将文件另存为的文件类型下拉列表
-            savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".txt" });
+            savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".wolconfig" });
             // 默认文件名，如果用户没有键入或选择要替换的文件
             var enteredFileName = ((sender as Button).Parent as StackPanel)
             .FindName("FileNameTextBox") as TextBox;

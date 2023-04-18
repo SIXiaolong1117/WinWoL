@@ -33,13 +33,56 @@
 
                     <TextBlock x:Name="Test" Foreground="DarkGray" FontSize="12"/>
 
-                    <ComboBox x:Name="configNum" 
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
+                                VerticalAlignment="Center" Margin="0,8,0,0">
+                        <ComboBox x:Name="configNum" 
                               ItemsSource="{x:Bind ConfigSelector}" 
                               SelectionChanged="configNum_SelectionChanged" 
                               Header="配置编号："
-                              Width="268" 
-                              Margin="0,8,0,0">
-                    </ComboBox>
+                              Width="132" 
+                              Margin="0,0,8,0">
+                        </ComboBox>
+
+                        <Button 
+                            x:Name="ImportConfig"
+                            Click="ImportConfig_Click" 
+                            Content="导入"
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Bottom" 
+                            Width="60" 
+                            Margin="0,0,8,0"
+                            />
+                        <Button 
+                            x:Name="ImportAndReplaceConfig"
+                            Content="覆盖"
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Bottom" 
+                            Width="60" 
+                            Margin="0,0,8,0"
+                            >
+                            <Button.Flyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <TextBlock 
+                                            Style="{ThemeResource BaseTextBlockStyle}" 
+                                            Text="您确定要删除此配置文件吗？" 
+                                            Margin="0,0,0,12" />
+                                        <Button 
+                                            Click="ImportConfig_Click" 
+                                            Content="确定" />
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                        <Button 
+                            x:Name="ExportConfig" 
+                            Click="ExportConfig_Click" 
+                            Content="导出"
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Bottom" 
+                            Width="60" 
+                            />
+                    </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
                         <StackPanel Width="268" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -55,34 +98,14 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
                         <Button 
-                            x:Name="ImportConfig" 
-                            Click="ImportConfig_Click" 
-                            Content="导入当前配置"
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Bottom" 
-                            Width="130" 
-                            Margin="0,0,8,0"
-                            />
-                        <Button 
-                            x:Name="ExportConfig" 
-                            Click="ExportConfig_Click" 
-                            Content="导出当前配置"
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Bottom" 
-                            Width="130" 
-                            />
-                    </StackPanel>
-                    
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
-                        <Button 
                             x:Name="AddConfig" Click="AddConfigButton_Click" 
-                            Content="添加配置"
+                            Content="添加"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                             Width="84" 
                             Margin="0,0,8,0"/>
                         <Button 
                             x:Name="DelConfig" 
-                            Content="删除配置"
+                            Content="删除"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                             Width="84"
                             Margin="0,0,8,0">
@@ -102,7 +125,7 @@
                         </Button>
                         <Button 
                             x:Name="RefConfig" Click="RefConfigButton_Click" 
-                            Content="Ping 测试"
+                            Content="Ping"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                             Width="84" />
                     </StackPanel>
