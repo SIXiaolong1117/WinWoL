@@ -39,25 +39,36 @@
                               ItemsSource="{x:Bind ConfigSelector}" 
                               SelectionChanged="configNum_SelectionChanged" 
                               Header="配置编号："
-                              Width="132" 
-                              Margin="0,0,8,0">
+                              Width="268">
                         </ComboBox>
+                    </StackPanel>
 
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
+                                VerticalAlignment="Center" Margin="0,8,0,0">
+                            <Button 
+                            x:Name="HideConfig"
+                            Click="HideConfig_Click" 
+                            Content="隐藏地址"
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Bottom" 
+                            Width="84" 
+                            Margin="0,0,8,0"
+                            />
                         <Button 
                             x:Name="ImportConfig"
                             Click="ImportConfig_Click" 
-                            Content="导入"
+                            Content="导入配置"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
-                            Width="60" 
+                            Width="84"
                             Margin="0,0,8,0"
                             />
                         <Button 
                             x:Name="ImportAndReplaceConfig"
-                            Content="覆盖"
+                            Content="覆盖配置"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
-                            Width="60" 
+                            Width="84"
                             Margin="0,0,8,0"
                             >
                             <Button.Flyout>
@@ -65,7 +76,7 @@
                                     <StackPanel>
                                         <TextBlock 
                                             Style="{ThemeResource BaseTextBlockStyle}" 
-                                            Text="您确定要删除此配置文件吗？" 
+                                            Text="您确定要覆盖此配置文件吗？" 
                                             Margin="0,0,0,12" />
                                         <Button 
                                             Click="ImportConfig_Click" 
@@ -77,10 +88,10 @@
                         <Button 
                             x:Name="ExportConfig" 
                             Click="ExportConfig_Click" 
-                            Content="导出"
+                            Content="导出配置"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
-                            Width="60" 
+                            Width="84"
                             />
                     </StackPanel>
 
@@ -99,13 +110,13 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
                         <Button 
                             x:Name="AddConfig" Click="AddConfigButton_Click" 
-                            Content="添加"
+                            Content="添加配置"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                             Width="84" 
                             Margin="0,0,8,0"/>
                         <Button 
                             x:Name="DelConfig" 
-                            Content="删除"
+                            Content="删除配置"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                             Width="84"
                             Margin="0,0,8,0">

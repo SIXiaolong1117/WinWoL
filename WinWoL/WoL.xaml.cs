@@ -100,21 +100,23 @@ namespace WinWoL
             ImportConfig.Visibility = Visibility.Visible;
             ImportAndReplaceConfig.Visibility = Visibility.Collapsed;
 
-            AddConfig.Content = "添加";
+            AddConfig.Content = "添加配置";
             DelConfig.IsEnabled = false;
             RefConfig.IsEnabled = false;
             WoLConfig.IsEnabled = false;
             RDPConfig.IsEnabled = false;
             ExportConfig.IsEnabled = false;
+            HideConfig.IsEnabled = false;
 
             // 如果字符串不为空
             if (configInner != null)
             {
                 // 修改界面UI可用性和文字显示
-                AddConfig.Content = "修改";
+                AddConfig.Content = "修改配置";
                 DelConfig.IsEnabled = true;
                 WoLConfig.IsEnabled = true;
                 ExportConfig.IsEnabled = true;
+                HideConfig.IsEnabled = true;
 
                 // 隐藏导入 显示覆盖
                 ImportConfig.Visibility = Visibility.Collapsed;
@@ -145,15 +147,34 @@ namespace WinWoL
                     ipAddressDisplay = "向 LAN 网络广播";
                 }
 
+                // 如果开启隐藏地址
+                string macAddressDisplay = macAddress;
+                string ipPortDisplay = ipPort;
+                string rdpIpAddressDisplay = rdpIpAddress;
+                string rdpPortDisplay = rdpPort;
+                if (localSettings.Values["HideConfig"] == null)
+                {
+                    localSettings.Values["HideConfig"] = "True";
+                }
+                if (localSettings.Values["HideConfig"].ToString() != "False")
+                {
+                    HideConfig.Content = "显示地址";
+                    macAddressDisplay = "**:**:**:**:**:**";
+                    ipAddressDisplay = "***.***.***.***";
+                    ipPortDisplay = "***";
+                    rdpIpAddressDisplay = "***.***.***.***";
+                    rdpPortDisplay = "***";
+                }
+
                 // 如果开启RDP
                 if (rdpIsOpen == "True")
                 {
                     ConfigName.Text = "配置别名：" + configName;
-                    MacAddress.Text = "主机 Mac：" + macAddress;
+                    MacAddress.Text = "主机 Mac：" + macAddressDisplay;
                     IpAddress.Text = "WoL 主机地址：" + ipAddressDisplay;
-                    IpPort.Text = "WoL 端口：" + ipPort;
-                    RDPIpAddress.Text = "RDP 主机地址：" + rdpIpAddress;
-                    RDPIpPort.Text = "RDP 端口：" + rdpPort;
+                    IpPort.Text = "WoL 端口：" + ipPortDisplay;
+                    RDPIpAddress.Text = "RDP 主机地址：" + rdpIpAddressDisplay;
+                    RDPIpPort.Text = "RDP 端口：" + rdpPortDisplay;
                     RDPPing.Text = "RDP 端口延迟：未测试";
 
                     RefConfig.IsEnabled = true;
@@ -163,9 +184,9 @@ namespace WinWoL
                 else
                 {
                     ConfigName.Text = "配置别名：" + configName;
-                    MacAddress.Text = "主机 Mac：" + macAddress;
+                    MacAddress.Text = "主机 Mac：" + macAddressDisplay;
                     IpAddress.Text = "WoL 主机地址：" + ipAddressDisplay;
-                    IpPort.Text = "WoL 端口：" + ipPort;
+                    IpPort.Text = "WoL 端口：" + ipPortDisplay;
                     RDPIpAddress.Text = "RDP 主机地址：未设置";
                     RDPIpPort.Text = "RDP 端口：未设置";
                     RDPPing.Text = "RDP 端口延迟：未设置";
@@ -454,68 +475,53 @@ namespace WinWoL
             Thread childThread = new Thread(childref);
             childThread.Start();
         }
-
+        // 导入配置按钮点击
         private async void ImportConfig_Click(object sender, RoutedEventArgs e)
         {
             string ConfigIDNum = configNum.SelectedItem.ToString();
 
-            // Create a file picker
+            // 创建一个FileOpenPicker
             var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
-
-            // 检索当前WinUI3窗口的窗口句柄 (HWND)
+            // 获取当前窗口句柄 (HWND) 
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(App.m_window);
-
-            // Initialize the file picker with the window handle (HWND).
+            // 使用窗口句柄 (HWND) 初始化FileOpenPicker
             WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
 
-            // Set options for your file picker
+            // 为FilePicker设置选项
             openPicker.ViewMode = PickerViewMode.Thumbnail;
-            openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            // 建议打开位置 桌面
+            openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
+            // 文件类型过滤器
             openPicker.FileTypeFilter.Add(".wolconfig");
 
-            // Open the picker for the user to pick a file
+            // 打开选择器供用户选择文件
             var file = await openPicker.PickSingleFileAsync();
             if (file != null)
             {
-                //PickAPhotoOutputTextBlock.Text = "Picked photo: " + file.Name;
                 var path = file.Path;
                 localSettings.Values["ConfigID" + ConfigIDNum] = File.ReadAllText(path, Encoding.UTF8);
                 // 刷新UI
                 refresh(ConfigIDNum);
             }
-            else
-            {
-                // 操作取消
-            }
-
         }
-
+        // 导出配置按钮点击
         private async void ExportConfig_Click(object sender, RoutedEventArgs e)
         {
             string ConfigIDNum = configNum.SelectedItem.ToString();
             string configContent = localSettings.Values["ConfigID" + ConfigIDNum].ToString();
 
-            //// 将配置内容保存在剪贴板
-            //var package = new DataPackage();
-            //package.SetText(configContent);
-            //Clipboard.SetContent(package);
-
-            // 创建一个FilePicker
+            // 创建一个FileSavePicker
             FileSavePicker savePicker = new Windows.Storage.Pickers.FileSavePicker();
-
-            // 检索当前WinUI3窗口的窗口句柄 (HWND)
+            // 获取当前窗口句柄 (HWND) 
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(App.m_window);
-
-            // 使用窗口句柄 (HWND) 初始化文件选取器
+            // 使用窗口句柄 (HWND) 初始化FileSavePicker
             WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hWnd);
 
             // 为FilePicker设置选项
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             // 用户可以将文件另存为的文件类型下拉列表
             savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".wolconfig" });
-            // 默认文件名，如果用户没有键入或选择要替换的文件
-            var enteredFileName = ((sender as Button).Parent as StackPanel)
-            .FindName("FileNameTextBox") as TextBox;
+            // 默认文件名
             savePicker.SuggestedFileName = "WinUI_Wake_on_LAN_BackUp_" + DateTime.Now.ToString();
 
             // 打开Picker供用户选择文件
@@ -526,8 +532,6 @@ namespace WinWoL
                 CachedFileManager.DeferUpdates(file);
 
                 // 写入文件
-                var textBox = ((sender as Button).Parent as StackPanel)
-                .FindName("FileContentTextBox") as TextBox;
                 using (var stream = await file.OpenStreamForWriteAsync())
                 {
                     using (var tw = new StreamWriter(stream))
@@ -537,7 +541,7 @@ namespace WinWoL
                 }
 
                 // 让Windows知道我们已完成文件更改，以便其他应用程序可以更新文件的远程版本。
-                // 完成更新可能需要 Windows 请求用户输入。
+                // 完成更新可能需要Windows请求用户输入。
                 FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
                 if (status == FileUpdateStatus.Complete)
                 {
@@ -558,11 +562,22 @@ namespace WinWoL
                     SaveConfigTips.IsOpen = true;
                 }
             }
+        }
+        private void HideConfig_Click(object sender, RoutedEventArgs e)
+        {
+            string ConfigIDNum = configNum.SelectedItem.ToString();
+            if (localSettings.Values["HideConfig"].ToString() == "True")
+            {
+                localSettings.Values["HideConfig"] = "False";
+                HideConfig.Content = "隐藏地址";
+            }
             else
             {
-                // 操作取消
+                localSettings.Values["HideConfig"] = "True";
+                HideConfig.Content = "显示地址";
             }
-
+            // 刷新UI
+            refresh(ConfigIDNum);
         }
     }
 }
