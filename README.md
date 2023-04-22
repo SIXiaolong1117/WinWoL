@@ -18,7 +18,6 @@
 
 ## 项目预览
 <p align="center">
-    <img src="./README/0.png" width="49%"/>
     <img src="./README/1.png" width="49%"/>
 </p>
 
