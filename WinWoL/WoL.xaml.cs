@@ -310,7 +310,7 @@ namespace WinWoL
             {
                 // ·Ö¸î×Ö·û´®
                 string[] configInnerSplit = configInner.Split(',');
-                // configName.Text + "," + macAddress.Text + "," + ipAddress.Text + ":" + ipPort.Text;
+                // configName.Text + "," + macAddress.Text + "," + ipAddress.Text + "," + ipPort.Text;
                 string macAddress = configInnerSplit[1];
                 string ipAddress = configInnerSplit[2];
                 string ipPort = configInnerSplit[3];
