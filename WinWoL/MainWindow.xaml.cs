@@ -99,9 +99,14 @@ namespace WinWoL
                 {
                     a_backdropController.AddSystemBackdropTarget(this.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>());
                     a_backdropController.SetSystemBackdropConfiguration(m_configurationSource);
-                } 
+                }
                 else
-                    throw new Exception($"Invalid argument: {localSettings.Values["materialStatus"] as string}");
+                //throw new Exception($"Invalid argument: {localSettings.Values["materialStatus"] as string}");
+                {
+                    localSettings.Values["materialStatus"] = "Mica Alt";
+                    ma_backdropController.AddSystemBackdropTarget(this.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>());
+                    ma_backdropController.SetSystemBackdropConfiguration(m_configurationSource);
+                }
                 return true; // succeeded
             }
 
