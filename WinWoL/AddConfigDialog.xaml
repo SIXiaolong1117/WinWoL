@@ -5,7 +5,7 @@
     <ScrollViewer Width="280">
         <StackPanel Width="250" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBox x:Name="Test" Header="[Developer] 输入参数："/>
-            <TextBox x:Name="configName" TextChanged="TextChanged" Header="配置别名：" PlaceholderText="小禹的电脑" Width="250" Margin="0,8,0,16"/>
+            <TextBox x:Name="configName" TextChanged="TextChanged" Header="配置别名：" PlaceholderText="晓龙的电脑" Width="250" Margin="0,8,0,16"/>
 
             <TextBlock Text="WoL 相关设置" FontSize="20" FontWeight="Bold" Margin="0,16,0,16"/>
 
