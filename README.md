@@ -1,6 +1,6 @@
 <p align="center">
-  <h1 align="center">WinUI WoL Client</h1>
-  <p align="center">一个基于 WinUI3 的 WoL (Wake on LAN) 客户端。</p>
+  <h1 align="center">网络唤醒（Wake on LAN）</h1>
+  <p align="center">一个基于 WinUI3 的网络唤醒 (Wake on LAN) 客户端。</p>
   <p align="center">
     <a href="https://github.com/Direct5dom/WinWoL/blob/master/LICENSE">
       <img src="https://img.shields.io/github/license/Direct5dom/WinWoL"/>
@@ -15,23 +15,30 @@
     </a>
   </p>
 </p>
-
-## 项目预览
 <p align="center">
     <img src="./README/1.png" width="49%"/>
+    <img src="./README/2.png" width="49%"/>
 </p>
 
-## ⬇下载
+## ⬇下载/Download
+
+### 从 Microsoft Store 获取（推荐）
+
+[<img src="https://get.microsoft.com/images/zh-cn%20light.svg"  width="30%" height="30%">](https://apps.microsoft.com/store/detail/%E7%BD%91%E7%BB%9C%E5%94%A4%E9%86%92%EF%BC%88wake-on-lan%EF%BC%89/9N0JJ4VHZ6X5)
+
+### 从 Releases 获取自签名版（不推荐）
 
 您可以直接到 [Releases · Direct5dom/WinWoL](https://github.com/Direct5dom/WinWoL/releases) 下载我已经打包好的安装包。
 
 > 需要注意的是，因为本项目使用自签名旁加载，需要您打开Windows的开发者模式，右键“使用PowrShell”运行`Install.ps1`，而不是直接双击`WinWoL.msix`。
 
-## 使用教程
+> 自签名版需要打开开发者模式并安装一个证书，这并不是安全的应用安装方式。
 
-参考本项目[Wiki](https://github.com/Direct5dom/WinWoL/wiki)。
+<!-- ## 使用教程/Wiki
 
-## 🛠️获取源码
+参考本项目[Wiki](https://github.com/Direct5dom/WinWoL/wiki)。 -->
+
+## 🛠️获取源码/Source Code
 
 要构建此项目，您需要将项目源码克隆到本地。
 
