@@ -27,6 +27,10 @@
                 <TextBlock Text="✈️Telegram:" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <HyperlinkButton Content="Wake on LAN" FontSize="14" NavigateUri="https://t.me/winuiwol" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock Text="❓帮助:" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <HyperlinkButton Content="Github Wiki" FontSize="14" NavigateUri="https://github.com/Direct5dom/WinWoL/wiki" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>
