@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentDialog
+    x:Class="WinWoL.AddSSHConfigDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid>
+        <ScrollViewer Width="280">
+            <StackPanel Width="250" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBox x:Name="SSHConfigName" TextChanged="TextChanged" Header="配置别名：" PlaceholderText="" Width="250" Margin="0,0,0,8"/>
+                <TextBox x:Name="SSHCommand" TextChanged="TextChanged" Header="SSH 命令：" PlaceholderText="" Width="250" Margin="0,0,0,8"/>
+                <TextBox x:Name="SSHHost" TextChanged="TextChanged" Header="SSH 主机：" PlaceholderText="" Width="250" Margin="0,0,0,8"/>
+                <TextBox x:Name="SSHPort" TextChanged="TextChanged" Header="SSH 端口：" PlaceholderText="" Width="250" Margin="0,0,0,8"/>
+                <TextBox x:Name="SSHUser" TextChanged="TextChanged" Header="SSH 用户：" PlaceholderText="" Width="250" Margin="0,0,0,8"/>
+                <TextBox x:Name="SSHPasswd" TextChanged="TextChanged" Header="SSH 密码：" PlaceholderText="" Width="250" Margin="0,0,0,8"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</ContentDialog>

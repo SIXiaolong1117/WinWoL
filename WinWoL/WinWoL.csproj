@@ -12,7 +12,7 @@
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateThumbprint>2EB887E48DF62FE5EAF29CCAD9F2D91F192440DC</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>17486FA15095A9286A151894772AE5804895D991</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
@@ -27,7 +27,9 @@
   <ItemGroup>
     <None Remove="About.xaml" />
     <None Remove="AddConfigDialog.xaml" />
+    <None Remove="AddSSHConfigDialog.xaml" />
     <None Remove="SettingsPage.xaml" />
+    <None Remove="SSHWoL.xaml" />
     <None Remove="WoL.xaml" />
   </ItemGroup>
 
@@ -44,6 +46,7 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230313.1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
     <PackageReference Include="PInvoke.User32" Version="0.7.124" />
+    <PackageReference Include="SSH.NET" Version="2020.0.2" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -54,6 +57,16 @@
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="AddSSHConfigDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="SSHWoL.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="AddConfigDialog.xaml">

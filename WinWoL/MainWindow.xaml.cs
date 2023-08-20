@@ -172,6 +172,10 @@ namespace WinWoL
                 {
                     contentFrame.Navigate(typeof(WoL));
                 }
+                if ((string)selectedItem.Tag == "SSHWoL")
+                {
+                    contentFrame.Navigate(typeof(SSHWoL));
+                }
                 else if ((string)selectedItem.Tag == "About")
                 {
                     contentFrame.Navigate(typeof(About));

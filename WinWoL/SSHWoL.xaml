@@ -1,5 +1,6 @@
-﻿<Page
-    x:Class="WinWoL.WoL"
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="WinWoL.SSHWoL"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WinWoL"
@@ -7,29 +8,30 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Width="268" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                    <TextBlock x:Name="Header" FontSize="24" Text="网络唤醒" HorizontalAlignment="Center" />
+                    <TextBlock x:Name="Header" FontSize="24" Text="SSH 脚本" HorizontalAlignment="Center" />
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
                                 VerticalAlignment="Center" Margin="0,8,0,0">
                         <ComboBox x:Name="configNum" 
-                              ItemsSource="{x:Bind ConfigSelector}" 
-                              SelectionChanged="configNum_SelectionChanged" 
-                              Header="配置编号："
-                              Width="268">
+                            ItemsSource="{x:Bind ConfigSelector}" 
+                            SelectionChanged="configNum_SelectionChanged" 
+                            Header="配置编号："
+                            Width="268">
                         </ComboBox>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
                                 VerticalAlignment="Center" Margin="0,8,0,0">
-                            <Button 
-                            x:Name="HideConfig"
-                            Click="HideConfig_Click" 
-                            Content="隐藏地址"
+                        <Button 
+                            x:Name="HidePasswd"
+                            Click="HidePasswd_Click" 
+                            Content="隐藏密码"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
                             Width="84" 
@@ -78,91 +80,85 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
                         <StackPanel Width="268" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock x:Name="ConfigName"/>
-                            <TextBlock x:Name="MacAddress"/>
-                            <TextBlock x:Name="IpAddress"/>
-                            <TextBlock x:Name="IpPort"/>
-                            <TextBlock x:Name="RDPIpAddress"/>
-                            <TextBlock x:Name="RDPIpPort"/>
-                            <TextBlock x:Name="RDPPing"/>
+                            <TextBlock x:Name="SSHConfigName"/>
+                            <TextBlock x:Name="SSHCommand"/>
+                            <TextBlock x:Name="SSHHost"/>
+                            <TextBlock x:Name="SSHPort"/>
+                            <TextBlock x:Name="SSHUser"/>
+                            <TextBlock x:Name="SSHPasswd"/>
+                            <TextBlock x:Name="SSHPing"/>
                         </StackPanel>
                     </StackPanel>
-
+                    
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
                         <Button 
-                            x:Name="AddConfig" Click="AddConfigButton_Click" 
-                            Content="添加配置"
-                            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                            Width="84" 
-                            Margin="0,0,8,0"/>
+                        x:Name="AddConfig" Click="AddConfigButton_Click" 
+                        Content="添加配置"
+                        HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                        Width="84" 
+                        Margin="0,0,8,0"/>
                         <Button 
-                            x:Name="DelConfig" 
-                            Content="删除配置"
-                            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                            Width="84"
-                            Margin="0,0,8,0">
+                        x:Name="DelConfig" 
+                        Content="删除配置"
+                        HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                        Width="84"
+                        Margin="0,0,8,0">
                             <Button.Flyout>
                                 <Flyout>
                                     <StackPanel>
                                         <TextBlock 
-                                            Style="{ThemeResource BaseTextBlockStyle}" 
-                                            Text="您确定要删除此配置文件吗？" 
-                                            Margin="0,0,0,12" />
+                                        Style="{ThemeResource BaseTextBlockStyle}" 
+                                        Text="您确定要删除此配置文件吗？" 
+                                        Margin="0,0,0,12" />
                                         <Button 
-                                            Click="DelConfigButton_Click" 
-                                            Content="确定" />
+                                        Click="DelConfigButton_Click" 
+                                        Content="确定" />
                                     </StackPanel>
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
                         <Button 
-                            x:Name="RefConfig" Click="RefConfigButton_Click" 
-                            Content="Ping"
-                            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                            Width="84" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
-                        <Button 
-                            x:Name="WoLConfig" 
-                            Click="WoLConfigButton_Click" 
-                            Content="网络唤醒（WoL）"
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Bottom" 
-                            Width="130" 
-                            Margin="0,0,8,0"
-                            />
-                        <Button 
-                            x:Name="RDPConfig" 
-                            Click="RDPConfigButton_Click" 
-                            Content="远程桌面（RDP）"
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Bottom" 
-                            Width="130" 
-                            />
+                        x:Name="RefConfig" Click="RefConfigButton_Click" 
+                        Content="Ping"
+                        HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                        Width="84" />
                     </StackPanel>
 
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
+                        <Button 
+                            x:Name="RunSSH" 
+                            Click="RunSSHButton_Click" 
+                            Content="执行脚本"
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Bottom" 
+                            Width="268" 
+                            Margin="0,0,0,0"
+                            />
+                    </StackPanel>
+                    
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <TeachingTip x:Name="MagicPacketIsSendTips"
-	                 Title="Magic Packet 已经通过 UDP 发送"
+
+        <TeachingTip x:Name="SSHResponse"
+	                 Title="SSH 输出"
 	                 Subtitle=""
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
 	                 IsLightDismissEnabled="True"
 	                 CloseButtonContent="明白！">
         </TeachingTip>
-        <TeachingTip x:Name="MagicPacketNotSendTips"
-	                 Title="Magic Packet 发送失败"
-	                 Subtitle="请检查您填写的配置内容"
+        <TeachingTip x:Name="SaveConfigTips"
+	                 Title=""
+	                 Subtitle=""
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
 	                 IsLightDismissEnabled="True"
 	                 CloseButtonContent="确认">
         </TeachingTip>
-        <TeachingTip x:Name="SaveConfigTips"
-	                 Title=""
-	                 Subtitle=""
+        <TeachingTip x:Name="SSHCommandNotSendTips"
+	                 Title="SSH 链接失败"
+	                 Subtitle="请检查您填写的配置以及网络状况"
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
 	                 IsLightDismissEnabled="True"

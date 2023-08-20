@@ -331,12 +331,6 @@ namespace WinWoL
             // 进程关闭
             process.Close();
         }
-        // 删除配置
-        private void delConfig(string ConfigIDNum)
-        {
-            // 清空指定ConfigIDNum的localSettings
-            localSettings.Values["ConfigID" + ConfigIDNum] = null;
-        }
         // Ping RDP主机端口
         private void PingRDPRef(string ConfigIDNum)
         {
@@ -429,7 +423,8 @@ namespace WinWoL
         {
             string ConfigIDNum = configNum.SelectedItem.ToString();
             // 删除配置
-            delConfig(ConfigIDNum);
+            // 清空指定ConfigIDNum的localSettings
+            localSettings.Values["ConfigID" + ConfigIDNum] = null;
             // 刷新UI
             refresh(ConfigIDNum);
             // 隐藏提示Flyout

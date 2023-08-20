@@ -24,6 +24,11 @@
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xeda3;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Content="SSH 脚本" Tag="SSHWoL">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph=""/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
                 <NavigationViewItem Content="关于" Tag="About">
