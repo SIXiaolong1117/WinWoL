@@ -12,7 +12,14 @@
                 <TextBox x:Name="SSHHost" TextChanged="TextChanged" Header="SSH 主机：" PlaceholderText="" Width="250" Margin="0,0,0,8"/>
                 <TextBox x:Name="SSHPort" TextChanged="TextChanged" Header="SSH 端口：" PlaceholderText="" Width="250" Margin="0,0,0,8"/>
                 <TextBox x:Name="SSHUser" TextChanged="TextChanged" Header="SSH 用户：" PlaceholderText="" Width="250" Margin="0,0,0,8"/>
-                <TextBox x:Name="SSHPasswd" TextChanged="TextChanged" Header="SSH 密码：" PlaceholderText="" Width="250" Margin="0,0,0,8"/>
+                <StackPanel Orientation="Vertical" Margin="0,0,0,8">
+                    <TextBlock Text="使用私钥"/>
+                    <ToggleSwitch 
+                    x:Name="PrivateKeyIsOpen" Toggled="PrivateKeyIsOpen_Toggled" 
+                    OffContent="关闭" OnContent="开启" Margin="0,-4,0,-14"/>
+                </StackPanel>
+                <PasswordBox x:Name="SSHPasswd" PasswordChanged="PasswordChanged" Header="SSH 密码：" PlaceholderText="" Width="250" Margin="0,0,0,8"/>
+                <TextBox x:Name="SSHKey" TextChanged="TextChanged" Header="SSH 密钥地址（仅支持 OpenSSH 和 ssh.com 格式的 RSA 和 DSA 私钥）：" PlaceholderText="" Width="250" Margin="0,0,0,8"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

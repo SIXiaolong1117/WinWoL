@@ -93,15 +93,15 @@ namespace WinWoL
                 // 分割字符串
                 string[] configInnerSplit = configInner.Split(',');
                 // 传入的字符串结构：
-                // SSHConfigName.Text + "," + SSHCommand.Text + ","
-                // + SSHHost.Text + "," + SSHPort.Text + ","
-                // + SSHUser.Text + "," + SSHPasswd.Text;
+                //  SSHConfigName.Text + "," + SSHCommand.Text + ","
+                //+ SSHHost.Text + "," + SSHPort.Text + ","
+                //+ SSHUser.Text + "," + SSHPasswd.Text + ","
+                //+ PrivateKeyIsOpen.IsOn + "," + SSHKey.Text;
                 string sshConfigName = configInnerSplit[0];
                 string sshCommand = configInnerSplit[1];
                 string sshHost = configInnerSplit[2];
                 string sshPort = configInnerSplit[3];
                 string sshUser = configInnerSplit[4];
-                string sshPasswd = configInnerSplit[5];
 
                 SSHConfigName.Text = "配置别名：" + sshConfigName;
                 SSHCommand.Text = "SSH 命令：" + sshCommand;
@@ -114,28 +114,65 @@ namespace WinWoL
             }
         }
         // SSH执行命令
-        private void SendSSHCommand(string sshCommand,string sshHost,string sshPort,string sshUser,string sshPasswd)
+        private void SendSSHCommand(string sshCommand, string sshHost, string sshPort, string sshUser, string sshPasswdAndKey, string privateKeyIsOpen)
         {
-            var sshClient = new SshClient(sshHost, int.Parse(sshPort), sshUser, sshPasswd);
-            // 链接
-            sshClient.Connect();
-            // 执行命令
-            var cmd = sshClient.RunCommand(sshCommand);
-            if (cmd.ExitStatus == 0)
+
+
+            //var sshClient = new SshClient(sshHost, int.Parse(sshPort), sshUser, sshPasswd);
+            //// 链接
+            //sshClient.Connect();
+            //// 执行命令
+            //var cmd = sshClient.RunCommand(sshCommand);
+            //if (cmd.ExitStatus == 0)
+            //{
+            //    //Console.WriteLine(cmd.Result);//执行结果
+            //    SSHResponse.Subtitle = cmd.Result;
+            //    SSHResponse.IsOpen = true;
+            //    //Test.Text = cmd.Result;
+            //}
+            //else
+            //{
+            //    //Console.WriteLine(cmd.Error);//错误信息
+            //    SSHResponse.Subtitle = cmd.Error;
+            //    SSHResponse.IsOpen = true;
+            //    //Test.Text = cmd.Error;
+            //}
+            ////断开连接
+            //sshClient.Disconnect();
+
+            SshClient sshClient;
+
+            if (privateKeyIsOpen == "True")
             {
-                //Console.WriteLine(cmd.Result);//执行结果
-                SSHResponse.Subtitle = cmd.Result;
-                SSHResponse.IsOpen = true;
-                //Test.Text = cmd.Result;
+                PrivateKeyFile privateKeyFile = new PrivateKeyFile(sshPasswdAndKey);
+                ConnectionInfo connectionInfo = new ConnectionInfo(sshHost, sshUser, new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile[] { privateKeyFile }));
+                sshClient = new SshClient(connectionInfo);
             }
             else
             {
-                //Console.WriteLine(cmd.Error);//错误信息
-                SSHResponse.Subtitle = cmd.Error;
-                SSHResponse.IsOpen = true;
-                //Test.Text = cmd.Error;
+                sshClient = new SshClient(sshHost, int.Parse(sshPort), sshUser, sshPasswdAndKey);
             }
-            //断开连接
+
+            sshClient.Connect();
+
+            if (sshClient.IsConnected)
+            {
+                SshCommand SSHCommand = sshClient.RunCommand(sshCommand);
+
+                if (!string.IsNullOrEmpty(SSHCommand.Error))
+                {
+                    //Console.WriteLine("Error: " + SSHCommand.Error);
+                    SSHResponse.Subtitle = "Error: " + SSHCommand.Error;
+                    SSHResponse.IsOpen = true;
+                }
+                else
+                {
+                    //Console.WriteLine("Command output:");
+                    //Console.WriteLine(SSHCommand.Result);
+                    SSHResponse.Subtitle = SSHCommand.Result;
+                    SSHResponse.IsOpen = true;
+                }
+            }
             sshClient.Disconnect();
         }
         private void runSSH(string SSHConfigIDNum)
@@ -148,27 +185,38 @@ namespace WinWoL
                 // 分割字符串
                 string[] configInnerSplit = configInner.Split(',');
                 // 传入的字符串结构：
-                // SSHConfigName.Text + "," + SSHCommand.Text + ","
-                // + SSHHost.Text + "," + SSHPort.Text + ","
-                // + SSHUser.Text + "," + SSHPasswd.Text;
+                //  SSHConfigName.Text + "," + SSHCommand.Text + ","
+                //+ SSHHost.Text + "," + SSHPort.Text + ","
+                //+ SSHUser.Text + "," + SSHPasswd.Text + ","
+                //+ PrivateKeyIsOpen.IsOn + "," + SSHKey.Text;
                 string sshCommand = configInnerSplit[1];
                 string sshHost = configInnerSplit[2];
                 string sshPort = configInnerSplit[3];
                 string sshUser = configInnerSplit[4];
-                string sshPasswd = configInnerSplit[5];
+                string sshPasswdAndKey;
+                string privateKeyIsOpen = configInnerSplit[6];
+
+                if (privateKeyIsOpen == "True")
+                {
+                    sshPasswdAndKey = configInnerSplit[7];
+                }
+                else
+                {
+                    sshPasswdAndKey = configInnerSplit[5];
+                }
 
                 // 获取IP地址
                 sshHost = domain2ip(sshHost).ToString();
 
                 try
                 {
-                    SendSSHCommand(sshCommand,sshHost,sshPort,sshUser, sshPasswd);
+                    SendSSHCommand(sshCommand, sshHost, sshPort, sshUser, sshPasswdAndKey, privateKeyIsOpen);
                 }
                 catch
                 {
+                    SSHCommandNotSendTips.Subtitle = "请检查您填写的配置以及网络状况。\n注意私钥路径和格式（仅支持 OpenSSH 和 ssh.com 格式的 RSA 和 DSA 私钥）";
                     SSHCommandNotSendTips.IsOpen = true;
                 }
-                
             }
         }
         static IPAddress domain2ip(string domain)
