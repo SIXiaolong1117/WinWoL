@@ -23,6 +23,7 @@ using Windows.Storage.Provider;
 using Renci.SshNet;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Net.Mail;
 
 namespace WinWoL
 {
@@ -65,7 +66,6 @@ namespace WinWoL
             SSHHost.Text = "SSH 主机：";
             SSHPort.Text = "SSH 端口：";
             SSHUser.Text = "SSH 用户：";
-            SSHPasswd.Text = "SSH 密码：";
             SSHPing.Text = "SSH 端口延迟：未测试";
 
             // 隐藏覆盖 显示导入
@@ -75,10 +75,7 @@ namespace WinWoL
             AddConfig.Content = "添加配置";
             DelConfig.IsEnabled = false;
             RefConfig.IsEnabled = false;
-            //WoLConfig.IsEnabled = false;
-            //RDPConfig.IsEnabled = false;
             ExportConfig.IsEnabled = false;
-            HidePasswd.IsEnabled = false;
 
             // 如果字符串不为空
             if (configInner != null)
@@ -88,7 +85,6 @@ namespace WinWoL
                 DelConfig.IsEnabled = true;
                 //WoLConfig.IsEnabled = true;
                 ExportConfig.IsEnabled = true;
-                HidePasswd.IsEnabled = true;
 
                 // 隐藏导入 显示覆盖
                 ImportConfig.Visibility = Visibility.Collapsed;
@@ -112,11 +108,9 @@ namespace WinWoL
                 SSHHost.Text = "SSH 主机：" + sshHost;
                 SSHPort.Text = "SSH 端口：" + sshPort;
                 SSHUser.Text = "SSH 用户：" + sshUser;
-                SSHPasswd.Text = "SSH 密码：" + sshPasswd;
                 SSHPing.Text = "SSH 端口延迟：未测试";
 
                 RefConfig.IsEnabled = true;
-                //RDPConfig.IsEnabled = true;
             }
         }
         // SSH执行命令
@@ -432,22 +426,6 @@ namespace WinWoL
                     }
                 }
             }
-        }
-        private void HidePasswd_Click(object sender, RoutedEventArgs e)
-        {
-            string SSHConfigIDNum = configNum.SelectedItem.ToString();
-            if (localSettings.Values["SSHHidePasswd"].ToString() == "True")
-            {
-                localSettings.Values["SSHHidePasswd"] = "False";
-                HidePasswd.Content = "隐藏地址";
-            }
-            else
-            {
-                localSettings.Values["SSHHidePasswd"] = "True";
-                HidePasswd.Content = "显示地址";
-            }
-            // 刷新UI
-            refresh(SSHConfigIDNum);
         }
         // 执行脚本按钮点击
         private void RunSSHButton_Click(object sender, RoutedEventArgs e)

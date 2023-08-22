@@ -29,21 +29,12 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
                                 VerticalAlignment="Center" Margin="0,8,0,0">
                         <Button 
-                            x:Name="HidePasswd"
-                            Click="HidePasswd_Click" 
-                            Content="隐藏密码"
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Bottom" 
-                            Width="84" 
-                            Margin="0,0,8,0"
-                            />
-                        <Button 
                             x:Name="ImportConfig"
                             Click="ImportConfig_Click" 
                             Content="导入配置"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
-                            Width="84"
+                            Width="130"
                             Margin="0,0,8,0"
                             />
                         <Button 
@@ -51,7 +42,7 @@
                             Content="覆盖配置"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
-                            Width="84"
+                            Width="130"
                             Margin="0,0,8,0"
                             >
                             <Button.Flyout>
@@ -74,7 +65,7 @@
                             Content="导出配置"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
-                            Width="84"
+                            Width="130"
                             />
                     </StackPanel>
 
@@ -85,7 +76,6 @@
                             <TextBlock x:Name="SSHHost"/>
                             <TextBlock x:Name="SSHPort"/>
                             <TextBlock x:Name="SSHUser"/>
-                            <TextBlock x:Name="SSHPasswd"/>
                             <TextBlock x:Name="SSHPing"/>
                         </StackPanel>
                     </StackPanel>
@@ -158,7 +148,7 @@
         </TeachingTip>
         <TeachingTip x:Name="SSHCommandNotSendTips"
 	                 Title="SSH 链接失败"
-	                 Subtitle="请检查您填写的配置以及网络状况"
+	                 Subtitle=""
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
 	                 IsLightDismissEnabled="True"
