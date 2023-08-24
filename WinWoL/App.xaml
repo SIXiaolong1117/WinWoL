@@ -10,17 +10,16 @@
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Default">
-                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Opacity="0"  Color="White"/>
-                            <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground"
-                                          TintColor="Gray"
-                                          TintOpacity="0"
-                                          FallbackColor="Black"/>
+                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush"        
+                                             Opacity="0"/>
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
+            <SolidColorBrush x:Key="WindowCaptionBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="WindowCaptionBackgroundDisabled">Transparent</SolidColorBrush>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
