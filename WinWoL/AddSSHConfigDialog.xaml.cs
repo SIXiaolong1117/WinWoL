@@ -11,12 +11,14 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Text.RegularExpressions;
 using Validation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Services.Maps;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace WinWoL
@@ -40,7 +42,7 @@ namespace WinWoL
                 SSHUser.Text = configInnerSplit[4];
                 SSHPasswd.Password = configInnerSplit[5];
                 PrivateKeyIsOpen.IsOn = configInnerSplit[6] == "True";
-                SSHKey.Text = configInnerSplit[7];
+                SSHKeyPath.Text = configInnerSplit[7];
             }
 
             PrivateKeyIsOpenCheck();
@@ -51,7 +53,7 @@ namespace WinWoL
               SSHConfigName.Text + "," + SSHCommand.Text + ","
             + SSHHost.Text + "," + SSHPort.Text + ","
             + SSHUser.Text + "," + SSHPasswd.Password + ","
-            + PrivateKeyIsOpen.IsOn + "," + SSHKey.Text;
+            + PrivateKeyIsOpen.IsOn + "," + SSHKeyPath.Text;
         }
         public void TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -74,13 +76,37 @@ namespace WinWoL
             else
             {
                 SSHKey.Visibility = Visibility.Collapsed;
-                SSHKey.Text = "";
+                SSHKeyPath.Text = "";
                 SSHPasswd.Visibility = Visibility.Visible;
             }
         }
         private void PrivateKeyIsOpen_Toggled(object sender, RoutedEventArgs e)
         {
             PrivateKeyIsOpenCheck();
+        }
+
+        private async void SelectSSHKeyPath_Click(object sender, RoutedEventArgs e)
+        {
+            // 创建一个FileOpenPicker
+            var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
+            // 获取当前窗口句柄 (HWND) 
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(App.m_window);
+            // 使用窗口句柄 (HWND) 初始化FileOpenPicker
+            WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
+
+            // 为FilePicker设置选项
+            openPicker.ViewMode = PickerViewMode.Thumbnail;
+            // 建议打开位置 桌面
+            openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
+            // 文件类型过滤器
+            openPicker.FileTypeFilter.Add("*");
+
+            // 打开选择器供用户选择文件
+            var file = await openPicker.PickSingleFileAsync();
+            if (file != null)
+            {
+                SSHKeyPath.Text = file.Path;
+            }
         }
     }
 }

@@ -19,7 +19,29 @@
                     OffContent="关闭" OnContent="开启" Margin="0,-4,0,-14"/>
                 </StackPanel>
                 <PasswordBox x:Name="SSHPasswd" PasswordChanged="PasswordChanged" Header="SSH 密码：" PlaceholderText="" Width="250" Margin="0,0,0,8"/>
-                <TextBox x:Name="SSHKey" TextChanged="TextChanged" Header="SSH 密钥地址（仅支持 OpenSSH 和 ssh.com 格式的 RSA 和 DSA 私钥）：" PlaceholderText="" Width="250" Margin="0,0,0,8"/>
+                <StackPanel x:Name="SSHKey" Orientation="Vertical" Margin="0,0,0,8">
+                    <TextBlock FontSize="12">
+                        <Run Foreground="Gray">
+                            仅支持 OpenSSH 和 ssh.com 格式的 
+                        </Run>
+                        <LineBreak/>
+                        <Run Foreground="Gray">
+                            RSA 和 DSA 私钥。
+                        </Run>
+                    </TextBlock>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <TextBox x:Name="SSHKeyPath" TextChanged="TextChanged" Header="SSH 密钥地址：" PlaceholderText="" Width="186" Margin="0,0,4,0"/>
+                        <Button 
+                            x:Name="SelectSSHKeyPath" 
+                            Click="SelectSSHKeyPath_Click" 
+                            Content="选择"
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Bottom" 
+                            Width="60" 
+                            Margin="0,0,0,0"
+                            />
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>
