@@ -10,7 +10,7 @@
   <Identity
     Name="53093SIXiaolong.WakeonLAN"
     Publisher="CN=SI Xiaolong"
-    Version="1.1.0.0" />
+    Version="1.1.1.0" />
 
   <Properties>
     <DisplayName>网络唤醒（Wake on LAN）</DisplayName>
