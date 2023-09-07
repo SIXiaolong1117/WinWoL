@@ -25,6 +25,15 @@
     <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\BadgeLogo.scale-100.png" />
+    <Content Remove="Assets\BadgeLogo.scale-125.png" />
+    <Content Remove="Assets\BadgeLogo.scale-150.png" />
+    <Content Remove="Assets\BadgeLogo.scale-200.png" />
+    <Content Remove="Assets\BadgeLogo.scale-400.png" />
+    <Content Remove="Assets\StoreLogo.scale-125.png" />
+    <Content Remove="Assets\StoreLogo.scale-150.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="About.xaml" />
     <None Remove="AddConfigDialog.xaml" />
     <None Remove="AddSSHConfigDialog.xaml" />
