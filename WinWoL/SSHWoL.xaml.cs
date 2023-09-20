@@ -24,6 +24,7 @@ using Renci.SshNet;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Net.Mail;
+using Microsoft.UI.Dispatching;
 
 namespace WinWoL
 {
@@ -31,6 +32,8 @@ namespace WinWoL
     {
         // 引入localSettings
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+
+        private DispatcherQueue _dispatcherQueue;
 
         // Selection需要的List
         public List<string> ConfigSelector { get; set; } = new List<string>()
@@ -40,6 +43,9 @@ namespace WinWoL
         public SSHWoL()
         {
             this.InitializeComponent();
+
+            // 获取UI线程的DispatcherQueue
+            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
             if (localSettings.Values["SSHConfigNum"] == null)
             {
@@ -116,30 +122,6 @@ namespace WinWoL
         // SSH执行命令
         private void SendSSHCommand(string sshCommand, string sshHost, string sshPort, string sshUser, string sshPasswdAndKey, string privateKeyIsOpen)
         {
-
-
-            //var sshClient = new SshClient(sshHost, int.Parse(sshPort), sshUser, sshPasswd);
-            //// 链接
-            //sshClient.Connect();
-            //// 执行命令
-            //var cmd = sshClient.RunCommand(sshCommand);
-            //if (cmd.ExitStatus == 0)
-            //{
-            //    //Console.WriteLine(cmd.Result);//执行结果
-            //    SSHResponse.Subtitle = cmd.Result;
-            //    SSHResponse.IsOpen = true;
-            //    //Test.Text = cmd.Result;
-            //}
-            //else
-            //{
-            //    //Console.WriteLine(cmd.Error);//错误信息
-            //    SSHResponse.Subtitle = cmd.Error;
-            //    SSHResponse.IsOpen = true;
-            //    //Test.Text = cmd.Error;
-            //}
-            ////断开连接
-            //sshClient.Disconnect();
-
             SshClient sshClient;
 
             if (privateKeyIsOpen == "True")
@@ -161,14 +143,11 @@ namespace WinWoL
 
                 if (!string.IsNullOrEmpty(SSHCommand.Error))
                 {
-                    //Console.WriteLine("Error: " + SSHCommand.Error);
                     SSHResponse.Subtitle = "Error: " + SSHCommand.Error;
                     SSHResponse.IsOpen = true;
                 }
                 else
                 {
-                    //Console.WriteLine("Command output:");
-                    //Console.WriteLine(SSHCommand.Result);
                     SSHResponse.Subtitle = SSHCommand.Result;
                     SSHResponse.IsOpen = true;
                 }
@@ -279,30 +258,42 @@ namespace WinWoL
         // Ping SSH主机端口
         private void PingSSHRef(string SSHConfigIDNum)
         {
-            // 从localSettings中读取字符串
-            string configInner = localSettings.Values["SSHConfigID" + SSHConfigIDNum] as string;
-            // 如果字符串非空
-            if (configInner != null)
+            // 在子线程中执行任务
+            Thread subThread = new Thread(new ThreadStart(() =>
             {
-                // 分割字符串
-                string[] configInnerSplit = configInner.Split(',');
-                // 传入的字符串结构：
-                // SSHConfigName.Text + "," + SSHCommand.Text + ","
-                // + SSHHost.Text + "," + SSHPort.Text + ","
-                // + SSHUser.Text + "," + SSHPasswd.Text;
-                string sshHost = configInnerSplit[2];
-                string sshPort = configInnerSplit[3];
+                string pingRes = "";
+                // 从localSettings中读取字符串
+                string configInner = localSettings.Values["SSHConfigID" + SSHConfigIDNum] as string;
+                // 如果字符串非空
+                if (configInner != null)
+                {
+                    // 分割字符串
+                    string[] configInnerSplit = configInner.Split(',');
+                    // 传入的字符串结构：
+                    // SSHConfigName.Text + "," + SSHCommand.Text + ","
+                    // + SSHHost.Text + "," + SSHPort.Text + ","
+                    // + SSHUser.Text + "," + SSHPasswd.Text;
+                    string sshHost = configInnerSplit[2];
+                    string sshPort = configInnerSplit[3];
 
-                // 检查RDP主机端口是否可以Ping通
-                try
-                {
-                    SSHPing.Text = "SSH 端口延迟：" + PingTest(sshHost, int.Parse(sshPort)).ToString();
+                    // 检查RDP主机端口是否可以Ping通
+                    try
+                    {
+                        pingRes = "SSH 端口延迟：" + PingTest(sshHost, int.Parse(sshPort)).ToString();
+                    }
+                    catch
+                    {
+                        pingRes = "SSH 端口延迟：无法联通";
+                    }
                 }
-                catch
+                // 要在UI线程上更新UI，使用DispatcherQueue
+                _dispatcherQueue.TryEnqueue(() =>
                 {
-                    SSHPing.Text = "SSH 端口延迟：无法联通";
-                }
-            }
+                    SSHPing.Text = pingRes;
+                });
+            }));
+
+            subThread.Start();
         }
 
         // 事件

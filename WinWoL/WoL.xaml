@@ -160,6 +160,14 @@
 	                 IsLightDismissEnabled="True"
 	                 CloseButtonContent="确认">
         </TeachingTip>
+        <TeachingTip x:Name="RDPTips"
+	                 Title="远程桌面已在后台唤起"
+	                 Subtitle=""
+	                 PreferredPlacement="Auto"
+	                 PlacementMargin="20"
+	                 IsLightDismissEnabled="True"
+	                 CloseButtonContent="确认">
+        </TeachingTip>
         <TeachingTip x:Name="SaveConfigTips"
 	                 Title=""
 	                 Subtitle=""
