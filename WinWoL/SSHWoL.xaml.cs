@@ -258,38 +258,63 @@ namespace WinWoL
         // Ping SSH主机端口
         private void PingSSHRef(string SSHConfigIDNum)
         {
+            // 暂时停用相关按钮
+            RefConfig.IsEnabled = false;
+            configNum.IsEnabled = false;
             // 在子线程中执行任务
             Thread subThread = new Thread(new ThreadStart(() =>
             {
                 string pingRes = "";
-                // 从localSettings中读取字符串
-                string configInner = localSettings.Values["SSHConfigID" + SSHConfigIDNum] as string;
-                // 如果字符串非空
-                if (configInner != null)
+                for (int i = 5; i > 0; i--)
                 {
-                    // 分割字符串
-                    string[] configInnerSplit = configInner.Split(',');
-                    // 传入的字符串结构：
-                    // SSHConfigName.Text + "," + SSHCommand.Text + ","
-                    // + SSHHost.Text + "," + SSHPort.Text + ","
-                    // + SSHUser.Text + "," + SSHPasswd.Text;
-                    string sshHost = configInnerSplit[2];
-                    string sshPort = configInnerSplit[3];
+                    // 从localSettings中读取字符串
+                    string configInner = localSettings.Values["SSHConfigID" + SSHConfigIDNum] as string;
+                    // 如果字符串非空
+                    if (configInner != null)
+                    {
+                        // 分割字符串
+                        string[] configInnerSplit = configInner.Split(',');
+                        // 传入的字符串结构：
+                        // SSHConfigName.Text + "," + SSHCommand.Text + ","
+                        // + SSHHost.Text + "," + SSHPort.Text + ","
+                        // + SSHUser.Text + "," + SSHPasswd.Text;
+                        string sshHost = configInnerSplit[2];
+                        string sshPort = configInnerSplit[3];
 
-                    // 检查RDP主机端口是否可以Ping通
-                    try
-                    {
-                        pingRes = "SSH 端口延迟：" + PingTest(sshHost, int.Parse(sshPort)).ToString();
+                        // 检查RDP主机端口是否可以Ping通
+                        try
+                        {
+                            pingRes = "SSH 端口延迟：" + PingTest(sshHost, int.Parse(sshPort)).ToString();
+                        }
+                        catch
+                        {
+                            pingRes = "SSH 端口延迟：无法联通";
+                        }
                     }
-                    catch
+                    // 要在UI线程上更新UI，使用DispatcherQueue
+                    _dispatcherQueue.TryEnqueue(() =>
                     {
-                        pingRes = "SSH 端口延迟：无法联通";
-                    }
+                        int flag = 0;
+                        if (pingRes != "SSH 端口延迟：无法联通")
+                        {
+                            SSHPing.Text = pingRes;
+                            flag++;
+                        }
+                        if (flag == 3)
+                        {
+                            SSHPing.Text = "SSH 端口延迟：无法联通";
+                            flag = 0;
+                        }
+                        RefConfig.Content = "Ping (" + i + ")";
+                    });
+                    Thread.Sleep(1000);
                 }
                 // 要在UI线程上更新UI，使用DispatcherQueue
                 _dispatcherQueue.TryEnqueue(() =>
                 {
-                    SSHPing.Text = pingRes;
+                    RefConfig.Content = "Ping";
+                    RefConfig.IsEnabled = true;
+                    configNum.IsEnabled = true;
                 });
             }));
 
