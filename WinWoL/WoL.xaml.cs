@@ -32,6 +32,7 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
 using Microsoft.UI.Dispatching;
 using Windows.Storage.Streams;
+using Renci.SshNet;
 
 namespace WinWoL
 {
@@ -79,9 +80,8 @@ namespace WinWoL
             // 初始化界面元素
             ConfigName.Text = "配置别名：";
             MacAddress.Text = "主机 Mac：";
-            IpAddress.Text = "WoL 主机地址：";
+            IpAddress.Text = "主机地址：";
             IpPort.Text = "WoL 端口：";
-            RDPIpAddress.Text = "RDP 主机地址：";
             RDPIpPort.Text = "RDP 端口：";
             RDPPing.Text = "RDP 端口延迟：";
 
@@ -89,6 +89,7 @@ namespace WinWoL
             ImportConfig.Visibility = Visibility.Visible;
             ImportAndReplaceConfig.Visibility = Visibility.Collapsed;
 
+            // 初始化所有按钮状态
             AddConfig.Content = "添加配置";
             DelConfig.IsEnabled = false;
             RefConfig.IsEnabled = false;
@@ -96,6 +97,7 @@ namespace WinWoL
             RDPConfig.IsEnabled = false;
             ExportConfig.IsEnabled = false;
             HideConfig.IsEnabled = false;
+            ShutdownConfig.IsEnabled = false;
 
             // 如果字符串不为空
             if (configInner != null)
@@ -112,18 +114,52 @@ namespace WinWoL
                 ImportAndReplaceConfig.Visibility = Visibility.Visible;
 
                 // 分割字符串
-                string[] configInnerSplit = configInner.Split(',');
+                string[] configInnerSplit = new string[17];
+                string[] configInnerSplitOld = configInner.Split(',');
+                for (int i = 0; i < 17; i++)
+                {
+                    try
+                    {
+                        configInnerSplit[i] = configInnerSplitOld[i];
+                    }
+                    catch
+                    {
+                        if (i == 4 || i == 7 || i == 8 || i == 12 || i == 15)
+                        {
+                            configInnerSplit[i] = "False";
+                        }
+                        else
+                        {
+                            configInnerSplit[i] = "";
+                        }
+                    }
+                }
                 // 传入的字符串结构：
-                // configName.Text + "," + macAddress.Text + ","
-                // + ipAddress.Text + "," + ipPort.Text + ","
-                // + rdpIsOpen.IsOn + "," + rdpIpAddress.Text + "," + rdpIpPort;
+                //configName.Text = configInnerSplit[0];
+                //macAddress.Text = configInnerSplit[1];
+                //ipAddress.Text = configInnerSplit[2];
+                //ipPort.Text = configInnerSplit[3];
+                //rdpIsOpen.IsOn = configInnerSplit[4] == "True";
+                //rdpIpAddress.Text = configInnerSplit[5];
+                //rdpIpPort.Text = configInnerSplit[6];
+                //Broadcast.IsChecked = configInnerSplit[7] == "True";
+                //SSHCommand.Text = configInnerSplit[9];
+                //SSHPort.Text = configInnerSplit[10];
+                //SSHUser.Text = configInnerSplit[11];
+                //PrivateKeyIsOpen.IsOn = configInnerSplit[12] == "True";
+                //SSHPasswd.Password = configInnerSplit[13];
+                //SSHKeyPath.Text = configInnerSplit[14];
+                //shutdownIsOpen.IsOn = configInnerSplit[15] == "True";
+                //SSHHost.Text = configInnerSplit[16];
                 string configName = configInnerSplit[0];
                 string macAddress = configInnerSplit[1];
-                string ipAddress = configInnerSplit[2];
+                string ipAddress = configInnerSplit[5];
                 string ipPort = configInnerSplit[3];
                 string rdpIsOpen = configInnerSplit[4];
                 string rdpIpAddress = configInnerSplit[5];
                 string rdpPort = configInnerSplit[6];
+                string shutdownIsOpen = configInnerSplit[15];
+                string sshPort = configInnerSplit[10];
 
                 // 更新RDP的命令行
                 localSettings.Values["mstscCMD"] = "mstsc /v:" + rdpIpAddress + ":" + rdpPort + ";";
@@ -139,8 +175,8 @@ namespace WinWoL
                 // 如果开启隐藏地址
                 string macAddressDisplay = macAddress;
                 string ipPortDisplay = ipPort;
-                string rdpIpAddressDisplay = rdpIpAddress;
                 string rdpPortDisplay = rdpPort;
+                string sshPortDisplay = sshPort;
                 if (localSettings.Values["HideConfig"] == null)
                 {
                     localSettings.Values["HideConfig"] = "True";
@@ -151,18 +187,18 @@ namespace WinWoL
                     macAddressDisplay = "**:**:**:**:**:**";
                     ipAddressDisplay = "***.***.***.***";
                     ipPortDisplay = "***";
-                    rdpIpAddressDisplay = "***.***.***.***";
                     rdpPortDisplay = "***";
+                    sshPortDisplay = "***";
                 }
+
+                ConfigName.Text = "配置别名：" + configName;
+                MacAddress.Text = "主机 Mac：" + macAddressDisplay;
+                IpAddress.Text = "主机地址：" + ipAddressDisplay;
+                IpPort.Text = "WoL 端口：" + ipPortDisplay;
 
                 // 如果开启RDP
                 if (rdpIsOpen == "True")
                 {
-                    ConfigName.Text = "配置别名：" + configName;
-                    MacAddress.Text = "主机 Mac：" + macAddressDisplay;
-                    IpAddress.Text = "WoL 主机地址：" + ipAddressDisplay;
-                    IpPort.Text = "WoL 端口：" + ipPortDisplay;
-                    RDPIpAddress.Text = "RDP 主机地址：" + rdpIpAddressDisplay;
                     RDPIpPort.Text = "RDP 端口：" + rdpPortDisplay;
                     RDPPing.Text = "RDP 端口延迟：未测试";
 
@@ -172,16 +208,24 @@ namespace WinWoL
                 // 没有开启RDP
                 else
                 {
-                    ConfigName.Text = "配置别名：" + configName;
-                    MacAddress.Text = "主机 Mac：" + macAddressDisplay;
-                    IpAddress.Text = "WoL 主机地址：" + ipAddressDisplay;
-                    IpPort.Text = "WoL 端口：" + ipPortDisplay;
-                    RDPIpAddress.Text = "RDP 主机地址：未设置";
                     RDPIpPort.Text = "RDP 端口：未设置";
                     RDPPing.Text = "RDP 端口延迟：未设置";
 
                     RefConfig.IsEnabled = false;
                     RDPConfig.IsEnabled = false;
+                }
+
+                // 如果开启“关闭电脑”
+                if (shutdownIsOpen == "True")
+                {
+                    SSHIpPort.Text = "SSH 端口：" + sshPortDisplay;
+                    ShutdownConfig.IsEnabled = true;
+                }
+                // 没有开启“关闭电脑”
+                else
+                {
+                    SSHIpPort.Text = "SSH 端口：未设置";
+                    ShutdownConfig.IsEnabled = false;
                 }
             }
         }
@@ -230,7 +274,7 @@ namespace WinWoL
                 }
             }
         }
-        
+
         // Ping RDP主机端口
         private void PingRDPRef(string ConfigIDNum)
         {
@@ -422,10 +466,12 @@ namespace WinWoL
             // 从localSettings中读取字符串
             string ConfigIDNum = configNum.SelectedItem.ToString();
             string configInner = localSettings.Values["ConfigID" + ConfigIDNum] as string;
+            string[] configInnerSplit = configInner.Split(',');
+            string configName = configInnerSplit[0];
             // 如果字符串非空
             if (configInner != null)
             {
-                string result = await CommonFunctions.ExportConfig("WinWoL.WoL", "ConfigID", ConfigIDNum);
+                string result = await CommonFunctions.ExportConfig("WinWoL.WoL", "ConfigID", ConfigIDNum, configName);
                 SaveConfigTips.Title = result;
                 SaveConfigTips.IsOpen = true;
             }
@@ -445,6 +491,68 @@ namespace WinWoL
             }
             // 刷新UI
             refresh(ConfigIDNum);
+        }
+        private void runSSH(string ConfigIDNum)
+        {
+            // 读取localSettings中的字符串
+            string configInner = localSettings.Values["ConfigID" + ConfigIDNum] as string;
+
+            if (configInner != null)
+            {
+                // 分割字符串
+                string[] configInnerSplit = configInner.Split(',');
+                // 传入的字符串结构：
+                //configName.Text = configInnerSplit[0];
+                //macAddress.Text = configInnerSplit[1];
+                //ipAddress.Text = configInnerSplit[2];
+                //ipPort.Text = configInnerSplit[3];
+                //rdpIsOpen.IsOn = configInnerSplit[4] == "True";
+                //rdpIpAddress.Text = configInnerSplit[5];
+                //rdpIpPort.Text = configInnerSplit[6];
+                //Broadcast.IsChecked = configInnerSplit[7] == "True";
+                //SSHCommand.Text = configInnerSplit[9];
+                //SSHPort.Text = configInnerSplit[10];
+                //SSHUser.Text = configInnerSplit[11];
+                //PrivateKeyIsOpen.IsOn = configInnerSplit[12] == "True";
+                //SSHPasswd.Password = configInnerSplit[13];
+                //SSHKeyPath.Text = configInnerSplit[14];
+                //shutdownIsOpen.IsOn = configInnerSplit[15] == "True";
+                //SSHHost.Text = configInnerSplit[16];
+                string sshCommand = configInnerSplit[9];
+                string sshHost = configInnerSplit[16];
+                string sshPort = configInnerSplit[10];
+                string sshUser = configInnerSplit[11];
+                string sshPasswdAndKey;
+                string privateKeyIsOpen = configInnerSplit[12];
+
+                if (privateKeyIsOpen == "True")
+                {
+                    sshPasswdAndKey = configInnerSplit[14];
+                }
+                else
+                {
+                    sshPasswdAndKey = configInnerSplit[13];
+                }
+
+                // 获取IP地址
+                sshHost = CommonFunctions.domain2ip(sshHost).ToString();
+
+                try
+                {
+                    SSHResponse.Subtitle = CommonFunctions.SendSSHCommand(sshCommand, sshHost, sshPort, sshUser, sshPasswdAndKey, privateKeyIsOpen);
+                    SSHResponse.IsOpen = true;
+                }
+                catch
+                {
+                    SSHCommandNotSendTips.Subtitle = "请检查您填写的配置以及网络状况。\n注意私钥路径和格式（仅支持 OpenSSH 和 ssh.com 格式的 RSA 和 DSA 私钥）";
+                    SSHCommandNotSendTips.IsOpen = true;
+                }
+            }
+        }
+        private void ShutdownConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            string ConfigIDNum = configNum.SelectedItem.ToString();
+            runSSH(ConfigIDNum);
         }
     }
 }

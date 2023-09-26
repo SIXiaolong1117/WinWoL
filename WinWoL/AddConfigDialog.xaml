@@ -7,58 +7,105 @@
             <TextBox x:Name="Test" Header="[Developer] 输入参数："/>
             <TextBox x:Name="configName" TextChanged="TextChanged" Header="配置别名：" PlaceholderText="eg: 晓龙的电脑" Width="250" Margin="0,8,0,16"/>
 
-            <TextBlock Text="WoL 相关设置" FontSize="20" FontWeight="Bold" Margin="0,16,0,16"/>
+            <StackPanel Margin="0,0,0,24">
+                <TextBlock Text="WoL 相关设置" FontSize="20" FontWeight="Bold" Margin="0,16,0,16"/>
 
-            <TextBox x:Name="macAddress" TextChanged="TextChanged" Header="目标设备 Mac 地址：" PlaceholderText="eg: AA:BB:CC:DD:EE:FF" Width="250" Margin="0,0,0,24"/>
+                <TextBox x:Name="macAddress" TextChanged="TextChanged" Header="目标设备 Mac 地址：" PlaceholderText="eg: AA:BB:CC:DD:EE:FF" Width="250" Margin="0,0,0,8"/>
 
-            <StackPanel Width="250" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,16">
-                <TextBox x:Name="ipAddress" TextChanged="TextChanged" Header="接收 Magic Packet 的 IP 地址/域名：" PlaceholderText="eg: 255.255.255.255" Width="250"/>
-                <CheckBox 
+                <StackPanel Width="250" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,16">
+                    <TextBox x:Name="ipAddress" TextChanged="TextChanged" Header="接收 Magic Packet 的 IP 地址/域名：" PlaceholderText="eg: 255.255.255.255" Width="250" Visibility="Collapsed"/>
+                    <TextBox 
+                    x:Name="rdpIpAddress" 
+                    TextChanged="TextChanged" 
+                    Header="主机 IP 地址：" 
+                    Margin="0,0,0,8"
+                    PlaceholderText="eg: 192.168.1.2" 
+                    Width="250" />
+                    <CheckBox 
                     x:Name="Broadcast"
-                    Content="向 LAN 网络广播"
+                    Content="WoL 向 LAN 网络广播"
                     Checked="Broadcast_Checked"
                     Unchecked="Broadcast_Unchecked"
-                    Margin="0,0,0,-6"/>
-            </StackPanel>
-
-            <TextBox x:Name="ipPort" TextChanged="TextChanged" Header="WoL 端口：" PlaceholderText="eg: 7, 9 或其他自定义端口" Width="250" Margin="0,0,0,24"/>
-
-            <StackPanel Orientation="Vertical" Margin="0,16,0,16">
-                <TextBlock Text="RDP 相关设置" FontSize="20" FontWeight="Bold"/>
-                <ToggleSwitch 
-                    x:Name="rdpIsOpen" Toggled="rdpIsOpen_Toggled" 
-                    OffContent="关闭" OnContent="开启" Margin="0,-4,0,-4"/>
-            </StackPanel>
-            <StackPanel x:Name="RDPSettings">
-                <StackPanel Width="250" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,16">
-                    <TextBox 
-                        x:Name="rdpIpAddress" 
-                        TextChanged="TextChanged" 
-                        Header="RDP 目标主机地址：" PlaceholderText="eg: 192.168.1.2" Width="250" />
-                    <CheckBox 
-                        x:Name="SameIPAddr"
-                        Content="同 接收 Magic Packet 的 IP 地址"
-                        Checked="SameIPAddr_Checked"
-                        Unchecked="SameIPAddr_Unchecked"
-                        Margin="0,0,0,-6"/>
+                    Margin="0,0,0,-16"/>
                 </StackPanel>
 
-                <TextBox 
-                x:Name="rdpIpPort" 
-                TextChanged="TextChanged" 
-                Header="RDP 端口：" 
-                PlaceholderText="eg: 3389" 
-                Width="250" 
-                Margin="0,0,0,24"/>
-                <TeachingTip x:Name="RegularErrorTips"
+                <TextBox x:Name="ipPort" TextChanged="TextChanged" Header="WoL 端口：" PlaceholderText="eg: 7, 9 或其他自定义端口" Width="250" />
+            </StackPanel>
+
+
+            <StackPanel Margin="0,0,0,24">
+                <StackPanel Orientation="Vertical" Margin="0,16,0,16">
+                    <TextBlock Text="远程桌面" FontSize="20" FontWeight="Bold"/>
+                    <ToggleSwitch 
+                    x:Name="rdpIsOpen" Toggled="rdpIsOpen_Toggled" 
+                    OffContent="关闭" OnContent="开启" Margin="0,-4,0,-4"/>
+                </StackPanel>
+
+                <StackPanel x:Name="RDPSettings">
+                    <TextBox 
+                    x:Name="rdpIpPort" 
+                    TextChanged="TextChanged" 
+                    Header="RDP 端口：" 
+                    PlaceholderText="eg: 3389" 
+                    Width="250" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="0,0,0,0">
+                <StackPanel Orientation="Vertical" Margin="0,16,0,16">
+                    <TextBlock Text="SSH 关机" FontSize="20" FontWeight="Bold"/>
+                    <ToggleSwitch 
+                x:Name="shutdownIsOpen" Toggled="shutdownIsOpen_Toggled" 
+                OffContent="关闭" OnContent="开启" Margin="0,-4,0,-4"/>
+                </StackPanel>
+
+                <StackPanel x:Name="shutdownSettings">
+                    <TextBox x:Name="SSHCommand" TextChanged="TextChanged" Header="SSH 命令：" PlaceholderText="关机命令 详见 GitHub Wiki" Width="250" Margin="0,0,0,8"/>
+                    <TextBox x:Name="SSHHost" TextChanged="TextChanged" Header="SSH 主机：" PlaceholderText="eg: 192.168.1.2" Width="250" Margin="0,0,0,8" Visibility="Collapsed"/>
+                    <TextBox x:Name="SSHPort" TextChanged="TextChanged" Header="SSH 端口：" PlaceholderText="eg: 22" Width="250" Margin="0,0,0,8"/>
+                    <TextBox x:Name="SSHUser" TextChanged="TextChanged" Header="SSH 用户：" PlaceholderText="eg: User" Width="250" Margin="0,0,0,8"/>
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,8">
+                        <TextBlock Text="使用私钥"/>
+                        <ToggleSwitch 
+                    x:Name="PrivateKeyIsOpen" Toggled="PrivateKeyIsOpen_Toggled" 
+                    OffContent="关闭" OnContent="开启" Margin="0,-4,0,-14"/>
+                    </StackPanel>
+                    <PasswordBox x:Name="SSHPasswd" PasswordChanged="PasswordChanged" Header="SSH 密码：" PlaceholderText="Password" Width="250" Margin="0,0,0,8"/>
+                    <StackPanel x:Name="SSHKey" Orientation="Vertical" Margin="0,0,0,8">
+                        <TextBlock FontSize="12">
+                        <Run Foreground="Gray">
+                            仅支持 OpenSSH 和 ssh.com 格式的 
+                        </Run>
+                        <LineBreak/>
+                        <Run Foreground="Gray">
+                            RSA 和 DSA 私钥。
+                        </Run>
+                        </TextBlock>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <TextBox x:Name="SSHKeyPath" TextChanged="TextChanged" Header="SSH 密钥地址：" PlaceholderText="SSH Key" Width="186" Margin="0,0,4,0"/>
+                            <Button 
+                        x:Name="SelectSSHKeyPath" 
+                        Click="SelectSSHKeyPath_Click" 
+                        Content="选择"
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Bottom" 
+                        Width="60" 
+                        Margin="0,0,0,0"
+                        />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <TeachingTip x:Name="RegularErrorTips"
 	                 Title="任何文本框中都不允许出现英文逗号！"
 	                 Subtitle=""
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
 	                 IsLightDismissEnabled="True"
 	                 CloseButtonContent="明白！">
-                </TeachingTip>
-            </StackPanel>
+            </TeachingTip>
+
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>

@@ -119,7 +119,7 @@ namespace WinWoL
                 RefConfig.IsEnabled = true;
             }
         }
-        
+
         private void runSSH(string SSHConfigIDNum)
         {
             // 读取localSettings中的字符串
@@ -304,7 +304,7 @@ namespace WinWoL
         {
             string SSHConfigIDNum = configNum.SelectedItem.ToString();
 
-            await CommonFunctions.ImportConfig("SSH","SSHConfigID", SSHConfigIDNum);
+            await CommonFunctions.ImportConfig("SSH", "SSHConfigID", SSHConfigIDNum);
 
             // 刷新UI
             refresh(SSHConfigIDNum);
@@ -315,10 +315,12 @@ namespace WinWoL
             // 从localSettings中读取字符串
             string SSHConfigIDNum = configNum.SelectedItem.ToString();
             string configInner = localSettings.Values["SSHConfigID" + SSHConfigIDNum] as string;
+            string[] configInnerSplit = configInner.Split(',');
+            string configName = configInnerSplit[0];
             // 如果字符串非空
             if (configInner != null)
             {
-                string result = await CommonFunctions.ExportConfig("WinWoL.SSH", "SSHConfigID", SSHConfigIDNum);
+                string result = await CommonFunctions.ExportConfig("WinWoL.SSH", "SSHConfigID", SSHConfigIDNum, configName);
                 SaveConfigTips.Title = result;
                 SaveConfigTips.IsOpen = true;
             }

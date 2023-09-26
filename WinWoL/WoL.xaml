@@ -26,7 +26,7 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
                                 VerticalAlignment="Center" Margin="0,8,0,0">
-                            <Button 
+                        <Button 
                             x:Name="HideConfig"
                             Click="HideConfig_Click" 
                             Content="隐藏地址"
@@ -82,9 +82,9 @@
                             <TextBlock x:Name="MacAddress"/>
                             <TextBlock x:Name="IpAddress"/>
                             <TextBlock x:Name="IpPort"/>
-                            <TextBlock x:Name="RDPIpAddress"/>
                             <TextBlock x:Name="RDPIpPort"/>
                             <TextBlock x:Name="RDPPing"/>
+                            <TextBlock x:Name="SSHIpPort"/>
                         </StackPanel>
                     </StackPanel>
 
@@ -125,19 +125,39 @@
                         <Button 
                             x:Name="WoLConfig" 
                             Click="WoLConfigButton_Click" 
-                            Content="网络唤醒（WoL）"
+                            Content="网络唤醒"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
-                            Width="130" 
+                            Width="84" 
                             Margin="0,0,8,0"
                             />
                         <Button 
+                            x:Name="ShutdownConfig" 
+                            Content="关闭电脑"
+                            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                            Width="84"
+                            Margin="0,0,8,0">
+                            <Button.Flyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <TextBlock 
+                                        Style="{ThemeResource BaseTextBlockStyle}" 
+                                        Text="您确定要关闭此电脑吗？" 
+                                        Margin="0,0,0,12" />
+                                        <Button 
+                                        Click="ShutdownConfigButton_Click" 
+                                        Content="确定" />
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                        <Button 
                             x:Name="RDPConfig" 
                             Click="RDPConfigButton_Click" 
-                            Content="远程桌面（RDP）"
+                            Content="远程桌面"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
-                            Width="130" 
+                            Width="84" 
                             />
                     </StackPanel>
 
@@ -170,6 +190,22 @@
         </TeachingTip>
         <TeachingTip x:Name="SaveConfigTips"
 	                 Title=""
+	                 Subtitle=""
+	                 PreferredPlacement="Auto"
+	                 PlacementMargin="20"
+	                 IsLightDismissEnabled="True"
+	                 CloseButtonContent="确认">
+        </TeachingTip>
+        <TeachingTip x:Name="SSHResponse"
+	                 Title="SSH 输出"
+	                 Subtitle=""
+	                 PreferredPlacement="Auto"
+	                 PlacementMargin="20"
+	                 IsLightDismissEnabled="True"
+	                 CloseButtonContent="明白！">
+        </TeachingTip>
+        <TeachingTip x:Name="SSHCommandNotSendTips"
+	                 Title="SSH 链接失败"
 	                 Subtitle=""
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"

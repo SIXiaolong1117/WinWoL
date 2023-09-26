@@ -51,11 +51,11 @@ namespace WinWoL
             // 建议打开位置 桌面
             openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
             // 文件类型过滤器
-            if (who == "WoL")
+            if (who == "WinWoL.WoL")
             {
                 openPicker.FileTypeFilter.Add(".wolconfig");
             }
-            else if (who == "SSH")
+            else if (who == "WinWoL.SSH")
             {
                 openPicker.FileTypeFilter.Add(".sshcmdconfig");
             }
@@ -69,7 +69,7 @@ namespace WinWoL
             }
         }
         // 导出配置
-        public static async Task<string> ExportConfig(string className, string configType, string configID)
+        public static async Task<string> ExportConfig(string className, string configType, string configID,string configName)
         {
             // 引入localSettings
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -98,7 +98,7 @@ namespace WinWoL
                 savePicker.DefaultFileExtension = ".sshcmdconfig";
             }
             // 默认文件名
-            savePicker.SuggestedFileName = configType + configID + "_BackUp_" + DateTime.Now.ToString();
+            savePicker.SuggestedFileName = configName + "_BackUp_" + DateTime.Now.ToString();
 
             // 打开Picker供用户选择文件
             StorageFile file = await savePicker.PickSaveFileAsync();
