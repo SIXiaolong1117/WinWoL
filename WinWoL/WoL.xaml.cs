@@ -31,6 +31,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
 using Microsoft.UI.Dispatching;
+using Windows.Storage.Streams;
 
 namespace WinWoL
 {
@@ -576,6 +577,8 @@ namespace WinWoL
                 savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
                 // 用户可以将文件另存为的文件类型下拉列表
                 savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".wolconfig" });
+                // 如果用户没有选择文件类型，则默认为".wolconfig"
+                savePicker.DefaultFileExtension = ".wolconfig";
                 // 默认文件名
                 savePicker.SuggestedFileName = configName + "_BackUp_" + DateTime.Now.ToString();
 
@@ -583,17 +586,19 @@ namespace WinWoL
                 StorageFile file = await savePicker.PickSaveFileAsync();
                 if (file != null)
                 {
+                    SaveConfigTips.Subtitle = "";
+
+                    try { 
                     // 阻止更新文件的远程版本，直到我们完成更改并调用 CompleteUpdatesAsync。
                     CachedFileManager.DeferUpdates(file);
+                    }
+                    catch (Exception ex)
+                    {
+                        SaveConfigTips.Subtitle = "当您保存至OneDrive等同步盘目录时，在Windows11上可能引起DeferUpdates错误，备份文件不一定写入正确。";
+                    }
 
                     // 写入文件
-                    using (var stream = await file.OpenStreamForWriteAsync())
-                    {
-                        using (var tw = new StreamWriter(stream))
-                        {
-                            tw.WriteLine(configContent);
-                        }
-                    }
+                    await FileIO.WriteTextAsync(file, configContent);
 
                     // 让Windows知道我们已完成文件更改，以便其他应用程序可以更新文件的远程版本。
                     // 完成更新可能需要Windows请求用户输入。
