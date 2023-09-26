@@ -10,7 +10,7 @@
 
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <PersonPicture ProfilePicture="https://direct5dom.github.io/images/avatar.jpg" />
+            <PersonPicture ProfilePicture="https://avatars.githubusercontent.com/u/59590732?v=4" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <TextBlock Text="👾作者:" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <HyperlinkButton Content="司晓龙 (SI Xiaolong)" FontSize="14" NavigateUri="https://github.com/Direct5dom" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -20,8 +20,12 @@
                 <HyperlinkButton Content="WinWoL" FontSize="14" NavigateUri="https://github.com/Direct5dom/WinWoL" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <TextBlock Text="⚖️License:" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <HyperlinkButton Content="MIT License" FontSize="14" NavigateUri="https://github.com/Direct5dom/WinWoL/blob/master/LICENSE" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="⚖️开源许可:" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <HyperlinkButton Content="MIT License" FontSize="14" NavigateUri="https://raw.githubusercontent.com/Direct5dom/WinWoL/master/LICENSE" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock Text="🔑隐私策略:" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <HyperlinkButton Content="PRIVACY" FontSize="14" NavigateUri="https://raw.githubusercontent.com/Direct5dom/WinWoL/master/PRIVACY" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <TextBlock Text="✈️Telegram:" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -30,6 +34,11 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <TextBlock Text="❓帮助:" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <HyperlinkButton Content="Github Wiki" FontSize="14" NavigateUri="https://github.com/Direct5dom/WinWoL/wiki" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock Text="❤️赞助:" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <HyperlinkButton Content="支付宝" FontSize="14" NavigateUri="https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/AliPay.jpg" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <HyperlinkButton Content="微信" FontSize="14" NavigateUri="https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/WeChat.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
     </Grid>
