@@ -185,80 +185,7 @@ namespace WinWoL
                 }
             }
         }
-        // 获取域名对应的IP
-        static IPAddress domain2ip(string domain)
-        {
-            // 此函数本身可以处理部分非法IP（例如：266.266.266.266）
-            // 这些非法IP会被算作域名来处理
-            IPAddress ipAddress;
-            if (IPAddress.TryParse(domain, out ipAddress))
-            {
-                // 是IP
-                return IPAddress.Parse(domain);
-            }
-            else
-            {
-                // 是域名或其他输入
-                return Dns.GetHostEntry(domain).AddressList[0];
-            }
-        }
-        // 以UDP协议发送MagicPacket
-        public void sendMagicPacket(string macAddress, IPAddress ipAddress, int port)
-        {
-            // 暂时停用相关按钮
-            WoLConfig.IsEnabled = false;
-            // 在子线程中执行任务
-            Thread subThread = new Thread(new ThreadStart(() =>
-            {
-                // 将传入的Mac地址字符串分割为十六进制字符串数组
-                // hexStrings = {"11", "22", "33", "44", "55", "66"}
-                string s = macAddress;
-                string[] hexStrings = s.Split(':');
 
-                // 创建一个byte数组
-                byte[] bytes = new byte[hexStrings.Length];
-                // 遍历字符串数组，将每个字符串转换为byte值，并存储到byte数组中
-                for (int i = 0; i < hexStrings.Length; i++)
-                {
-                    // 使用16作为基数表示十六进制格式
-                    bytes[i] = Convert.ToByte(hexStrings[i], 16);
-                }
-                // 将MAC地址转换为字节数组：byte[] mac = new byte[] { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66 };
-                byte[] mac = bytes;
-
-                // 创建一个UDP Socket对象
-                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                // 设置需要广播数据
-                socket.EnableBroadcast = true;
-
-                // 创建一个魔术包
-                byte[] packet = new byte[17 * 6];
-                // 填充前6个字节为0xFF
-                for (int i = 0; i < 6; i++)
-                    packet[i] = 0xFF;
-                // 填充后面16个重复的MAC地址字节
-                for (int i = 1; i <= 16; i++)
-                    for (int j = 0; j < 6; j++)
-                        packet[i * 6 + j] = mac[j];
-
-                // 多次发送，避免丢包
-                for (int i = 0; i < 10; i++)
-                {
-                    // 发送数据
-                    socket.SendTo(packet, new IPEndPoint(ipAddress, port));
-                }
-
-                // 关闭Socket对象
-                socket.Close();
-                _dispatcherQueue.TryEnqueue(() =>
-                {
-                    MagicPacketIsSendTips.IsOpen = true;
-                    // 开启相关按钮
-                    WoLConfig.IsEnabled = true;
-                });
-            }));
-            subThread.Start();
-        }
         // 根据配置文件，调用发送MagicPacket
         private void WoLPC(string ConfigIDNum)
         {
@@ -278,8 +205,23 @@ namespace WinWoL
                 try
                 {
                     // 获取IP地址
-                    IPAddress ip = domain2ip(ipAddress);
-                    sendMagicPacket(macAddress, ip, int.Parse(ipPort));
+                    IPAddress ip = CommonFunctions.domain2ip(ipAddress);
+                    // 暂时停用相关按钮
+                    WoLConfig.IsEnabled = false;
+                    // 在子线程中执行任务
+                    Thread subThread = new Thread(new ThreadStart(() =>
+                    {
+                        CommonFunctions.sendMagicPacket(macAddress, ip, int.Parse(ipPort));
+
+                        _dispatcherQueue.TryEnqueue(() =>
+                        {
+                            MagicPacketIsSendTips.IsOpen = true;
+                            // 开启相关按钮
+                            WoLConfig.IsEnabled = true;
+                        });
+                    }));
+                    subThread.Start();
+
                 }
                 // 失败打开发送失败弹窗
                 catch
@@ -288,47 +230,7 @@ namespace WinWoL
                 }
             }
         }
-        // Ping测试函数
-        static string PingTest(string domain, int port)
-        {
-            // 获取IP地址
-            // 在这里执行这个操作，可以处理一些非法IP的输入问题（例如：广播地址 255.255.255.255）
-            // 非法IP会被返回“主机地址无法联通”，而不会让pingSender报错导致应用崩溃
-            IPAddress ipAddress = domain2ip(domain);
-
-            // Ping实例对象
-            System.Net.NetworkInformation.Ping pingSender = new System.Net.NetworkInformation.Ping();
-            // Ping选项
-            PingOptions options = new PingOptions();
-            options.DontFragment = true;
-            string data = "ping";
-            byte[] buf = Encoding.ASCII.GetBytes(data);
-
-            // 调用同步Send方法发送数据，结果存入reply对象;
-            PingReply reply = pingSender.Send(ipAddress, 500, buf, options);
-            // 判断replay，是否连通
-            if (reply.Status == IPStatus.Success)
-            {
-                // 如果连通，尝试与指定端口通信
-                var client = new TcpClient();
-                if (!client.ConnectAsync(ipAddress, port).Wait(500))
-                {
-                    // 与指定端口通信失败
-                    return "端口连接失败";
-                }
-                else
-                {
-                    // 与指定端口通信成功，计算RTT并返回
-                    return reply.RoundtripTime.ToString() + " ms";
-                }
-            }
-            else
-            {
-                // 无法联通
-                return "无法联通";
-            }
-
-        }
+        
         // Ping RDP主机端口
         private void PingRDPRef(string ConfigIDNum)
         {
@@ -357,7 +259,7 @@ namespace WinWoL
                         // 检查RDP主机端口是否可以Ping通
                         try
                         {
-                            pingRes = "RDP 端口延迟：" + PingTest(rdpIpAddress, int.Parse(rdpPort)).ToString();
+                            pingRes = "RDP 端口延迟：" + CommonFunctions.PingTest(rdpIpAddress, int.Parse(rdpPort)).ToString();
                         }
                         catch
                         {
@@ -401,23 +303,10 @@ namespace WinWoL
             // 在子线程中执行任务
             Thread subThread = new Thread(new ThreadStart(() =>
             {
-                // 创建一个新的进程
-                Process process = new Process();
-                // 指定运行PowerShell
-                process.StartInfo.FileName = "PowerShell.exe";
-                // 参数为唤起mstsc的参数
-                // 他保存在localSettings中，随主刷新函数刷新
-                process.StartInfo.Arguments = localSettings.Values["mstscCMD"] as string;
-                //是否使用操作系统shell启动
-                process.StartInfo.UseShellExecute = false;
-                //是否在新窗口中启动该进程的值 (不显示程序窗口)
-                process.StartInfo.CreateNoWindow = true;
-                // 进程开始
-                process.Start();
-                // 等待执行结束
-                process.WaitForExit();
-                // 进程关闭
-                process.Close();
+                string arguments = localSettings.Values["mstscCMD"] as string;
+
+                CommonFunctions.RDPConnect(arguments);
+
                 // 要在UI线程上更新UI，使用DispatcherQueue
                 _dispatcherQueue.TryEnqueue(() =>
                 {
@@ -426,7 +315,6 @@ namespace WinWoL
                     RDPConfig.IsEnabled = true;
                 });
             }));
-
             subThread.Start();
         }
 

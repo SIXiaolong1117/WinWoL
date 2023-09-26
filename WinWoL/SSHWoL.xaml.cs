@@ -119,41 +119,7 @@ namespace WinWoL
                 RefConfig.IsEnabled = true;
             }
         }
-        // SSH执行命令
-        private void SendSSHCommand(string sshCommand, string sshHost, string sshPort, string sshUser, string sshPasswdAndKey, string privateKeyIsOpen)
-        {
-            SshClient sshClient;
-
-            if (privateKeyIsOpen == "True")
-            {
-                PrivateKeyFile privateKeyFile = new PrivateKeyFile(sshPasswdAndKey);
-                ConnectionInfo connectionInfo = new ConnectionInfo(sshHost, sshUser, new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile[] { privateKeyFile }));
-                sshClient = new SshClient(connectionInfo);
-            }
-            else
-            {
-                sshClient = new SshClient(sshHost, int.Parse(sshPort), sshUser, sshPasswdAndKey);
-            }
-
-            sshClient.Connect();
-
-            if (sshClient.IsConnected)
-            {
-                SshCommand SSHCommand = sshClient.RunCommand(sshCommand);
-
-                if (!string.IsNullOrEmpty(SSHCommand.Error))
-                {
-                    SSHResponse.Subtitle = "Error: " + SSHCommand.Error;
-                    SSHResponse.IsOpen = true;
-                }
-                else
-                {
-                    SSHResponse.Subtitle = SSHCommand.Result;
-                    SSHResponse.IsOpen = true;
-                }
-            }
-            sshClient.Disconnect();
-        }
+        
         private void runSSH(string SSHConfigIDNum)
         {
             // 读取localSettings中的字符串
@@ -185,11 +151,12 @@ namespace WinWoL
                 }
 
                 // 获取IP地址
-                sshHost = domain2ip(sshHost).ToString();
+                sshHost = CommonFunctions.domain2ip(sshHost).ToString();
 
                 try
                 {
-                    SendSSHCommand(sshCommand, sshHost, sshPort, sshUser, sshPasswdAndKey, privateKeyIsOpen);
+                    SSHResponse.Subtitle = CommonFunctions.SendSSHCommand(sshCommand, sshHost, sshPort, sshUser, sshPasswdAndKey, privateKeyIsOpen);
+                    SSHResponse.IsOpen = true;
                 }
                 catch
                 {
@@ -197,63 +164,6 @@ namespace WinWoL
                     SSHCommandNotSendTips.IsOpen = true;
                 }
             }
-        }
-        static IPAddress domain2ip(string domain)
-        {
-            // 此函数本身可以处理部分非法IP（例如：266.266.266.266）
-            // 这些非法IP会被算作域名来处理
-            IPAddress ipAddress;
-            if (IPAddress.TryParse(domain, out ipAddress))
-            {
-                // 是IP
-                return IPAddress.Parse(domain);
-            }
-            else
-            {
-                // 是域名或其他输入
-                return Dns.GetHostEntry(domain).AddressList[0];
-            }
-        }
-        // Ping测试函数
-        static string PingTest(string domain, int port)
-        {
-            // 获取IP地址
-            // 在这里执行这个操作，可以处理一些非法IP的输入问题（例如：广播地址 255.255.255.255）
-            // 非法IP会被返回“主机地址无法联通”，而不会让pingSender报错导致应用崩溃
-            IPAddress ipAddress = domain2ip(domain);
-
-            // Ping实例对象
-            System.Net.NetworkInformation.Ping pingSender = new System.Net.NetworkInformation.Ping();
-            // Ping选项
-            PingOptions options = new PingOptions();
-            options.DontFragment = true;
-            string data = "ping";
-            byte[] buf = Encoding.ASCII.GetBytes(data);
-
-            // 调用同步Send方法发送数据，结果存入reply对象;
-            PingReply reply = pingSender.Send(ipAddress, 500, buf, options);
-            // 判断replay，是否连通
-            if (reply.Status == IPStatus.Success)
-            {
-                // 如果连通，尝试与指定端口通信
-                var client = new TcpClient();
-                if (!client.ConnectAsync(ipAddress, port).Wait(500))
-                {
-                    // 与指定端口通信失败
-                    return "端口连接失败";
-                }
-                else
-                {
-                    // 与指定端口通信成功，计算RTT并返回
-                    return reply.RoundtripTime.ToString() + " ms";
-                }
-            }
-            else
-            {
-                // 无法联通
-                return "无法联通";
-            }
-
         }
         // Ping SSH主机端口
         private void PingSSHRef(string SSHConfigIDNum)
@@ -284,7 +194,7 @@ namespace WinWoL
                         // 检查RDP主机端口是否可以Ping通
                         try
                         {
-                            pingRes = "SSH 端口延迟：" + PingTest(sshHost, int.Parse(sshPort)).ToString();
+                            pingRes = "SSH 端口延迟：" + CommonFunctions.PingTest(sshHost, int.Parse(sshPort)).ToString();
                         }
                         catch
                         {
