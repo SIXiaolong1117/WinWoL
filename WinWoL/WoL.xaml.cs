@@ -84,6 +84,8 @@ namespace WinWoL
             IpPort.Text = "WoL 端口：";
             RDPIpPort.Text = "RDP 端口：";
             RDPPing.Text = "RDP 端口延迟：";
+            SSHIpPort.Text = "SSH 端口：";
+            SSHPing.Text = "SSH 端口延迟：";
 
             // 隐藏覆盖 显示导入
             ImportConfig.Visibility = Visibility.Visible;
@@ -219,12 +221,14 @@ namespace WinWoL
                 if (shutdownIsOpen == "True")
                 {
                     SSHIpPort.Text = "SSH 端口：" + sshPortDisplay;
+                    SSHPing.Text = "SSH 端口延迟：未测试";
                     ShutdownConfig.IsEnabled = true;
                 }
                 // 没有开启“关闭电脑”
                 else
                 {
                     SSHIpPort.Text = "SSH 端口：未设置";
+                    SSHPing.Text = "SSH 端口延迟：未设置";
                     ShutdownConfig.IsEnabled = false;
                 }
             }
@@ -285,44 +289,94 @@ namespace WinWoL
             Thread subThread = new Thread(new ThreadStart(() =>
             {
                 string pingRes = "";
+                string pingResSSH = "";
                 for (int i = 5; i > 0; i--)
                 {
                     // 从localSettings中读取字符串
                     string configInner = localSettings.Values["ConfigID" + ConfigIDNum] as string;
+
+                    // 分割字符串
+                    string[] configInnerSplit = configInner.Split(',');
+                    // 传入的字符串结构：
+                    //configName.Text = configInnerSplit[0];
+                    //macAddress.Text = configInnerSplit[1];
+                    //ipAddress.Text = configInnerSplit[2];
+                    //ipPort.Text = configInnerSplit[3];
+                    //rdpIsOpen.IsOn = configInnerSplit[4] == "True";
+                    //rdpIpAddress.Text = configInnerSplit[5];
+                    //rdpIpPort.Text = configInnerSplit[6];
+                    //Broadcast.IsChecked = configInnerSplit[7] == "True";
+                    //SSHCommand.Text = configInnerSplit[9];
+                    //SSHPort.Text = configInnerSplit[10];
+                    //SSHUser.Text = configInnerSplit[11];
+                    //PrivateKeyIsOpen.IsOn = configInnerSplit[12] == "True";
+                    //SSHPasswd.Password = configInnerSplit[13];
+                    //SSHKeyPath.Text = configInnerSplit[14];
+                    //shutdownIsOpen.IsOn = configInnerSplit[15] == "True";
+                    //SSHHost.Text = configInnerSplit[16];
+                    string rdpIpAddress = configInnerSplit[5];
+                    string rdpIsOpen = configInnerSplit[4];
+                    string shutdownIsOpen = configInnerSplit[15];
+                    string rdpPort = configInnerSplit[6];
+                    string sshPort = configInnerSplit[10];
+
                     // 如果字符串非空
                     if (configInner != null)
                     {
-                        // 分割字符串
-                        string[] configInnerSplit = configInner.Split(',');
-                        // 传入的字符串结构：
-                        // configName.Text + "," + macAddress.Text + ","
-                        // + ipAddress.Text + "," + ipPort.Text + ","
-                        // + rdpIsOpen.IsOn + "," + rdpIpAddress.Text + "," + rdpIpPort;
-                        string rdpIpAddress = configInnerSplit[5];
-                        string rdpPort = configInnerSplit[6];
-                        // 检查RDP主机端口是否可以Ping通
-                        try
+                        // 检查主机端口是否可以Ping通
+                        if (rdpIsOpen == "True")
                         {
-                            pingRes = "RDP 端口延迟：" + CommonFunctions.PingTest(rdpIpAddress, int.Parse(rdpPort)).ToString();
+                            try
+                            {
+                                pingRes = CommonFunctions.PingTest(rdpIpAddress, int.Parse(rdpPort)).ToString();
+                            }
+                            catch
+                            {
+                                pingRes = "无法联通";
+                            }
                         }
-                        catch
+                        if (shutdownIsOpen == "True")
                         {
-                            pingRes = "RDP 端口延迟：无法联通";
+                            try
+                            {
+                                pingResSSH = CommonFunctions.PingTest(rdpIpAddress, int.Parse(sshPort)).ToString();
+                            }
+                            catch
+                            {
+                                pingResSSH = "无法联通";
+                            }
                         }
                     }
                     // 要在UI线程上更新UI，使用DispatcherQueue
                     _dispatcherQueue.TryEnqueue(() =>
                     {
-                        int flag = 0;
-                        if (pingRes != "RDP 端口延迟：无法联通")
+                        int flagRDP = 0;
+                        int flagSSH = 0;
+                        if (rdpIsOpen == "True")
                         {
-                            RDPPing.Text = pingRes;
-                            flag++;
+                            if (pingRes != "无法联通")
+                            {
+                                RDPPing.Text = "RDP 端口延迟：" + pingRes;
+                                flagRDP++;
+                            }
+                            if (flagRDP == 3)
+                            {
+                                RDPPing.Text = "RDP 端口延迟：" + pingRes;
+                                flagRDP = 0;
+                            }
                         }
-                        if (flag == 3)
+                        if (shutdownIsOpen == "True")
                         {
-                            RDPPing.Text = "RDP 端口延迟：无法联通";
-                            flag = 0;
+                            if (pingRes != "无法联通")
+                            {
+                                SSHPing.Text = "SSH 端口延迟：" + pingResSSH;
+                                flagSSH++;
+                            }
+                            if (flagSSH == 3)
+                            {
+                                SSHPing.Text = "SSH 端口延迟：" + pingResSSH;
+                                flagSSH = 0;
+                            }
                         }
                         RefConfig.Content = "Ping (" + i + ")";
                     });

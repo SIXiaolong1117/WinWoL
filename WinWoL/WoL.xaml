@@ -85,6 +85,7 @@
                             <TextBlock x:Name="RDPIpPort"/>
                             <TextBlock x:Name="RDPPing"/>
                             <TextBlock x:Name="SSHIpPort"/>
+                            <TextBlock x:Name="SSHPing"/>
                         </StackPanel>
                     </StackPanel>
 
