@@ -35,7 +35,7 @@ namespace WinWoL
     internal class CommonFunctions
     {
         // 导入配置
-        public static async Task ImportConfig(string who, string configType, string configID)
+        public static async Task ImportConfig(string className, string configType, string configID)
         {
             // 引入localSettings
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -51,11 +51,11 @@ namespace WinWoL
             // 建议打开位置 桌面
             openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
             // 文件类型过滤器
-            if (who == "WinWoL.WoL")
+            if (className == "WinWoL.WoL")
             {
                 openPicker.FileTypeFilter.Add(".wolconfig");
             }
-            else if (who == "WinWoL.SSH")
+            else if (className == "WinWoL.SSH")
             {
                 openPicker.FileTypeFilter.Add(".sshcmdconfig");
             }
@@ -65,7 +65,10 @@ namespace WinWoL
             if (file != null)
             {
                 var path = file.Path;
-                localSettings.Values[configType + configID] = File.ReadAllText(path, Encoding.UTF8);
+                //localSettings.Values[configType + configID] = File.ReadAllText(path, Encoding.UTF8);
+                // 将ConfigIDTemp所存储的字符串设置为当前配置所存储的字符串
+                // 这样可以实现“修改”的操作
+                localSettings.Values["ConfigIDTemp"] = File.ReadAllText(path, Encoding.UTF8);
             }
         }
         // 导出配置

@@ -8,7 +8,7 @@
         <ScrollViewer Width="280">
             <StackPanel Width="250" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBox x:Name="SSHConfigName" TextChanged="TextChanged" Header="配置别名：" PlaceholderText="eg: 晓龙的路由器" Width="250" Margin="0,0,0,8"/>
-                <TextBox x:Name="SSHCommand" TextChanged="TextChanged" Header="SSH 命令：" PlaceholderText="eg: WoL或其他任何SSH命令" Width="250" Margin="0,0,0,8"/>
+                <TextBox x:Name="SSHCommand" TextChanged="TextChanged" Header="SSH 命令：" PlaceholderText="WoL或其他任何SSH命令" Width="250" Margin="0,0,0,8"/>
                 <TextBox x:Name="SSHHost" TextChanged="TextChanged" Header="SSH 主机：" PlaceholderText="192.168.1.1" Width="250" Margin="0,0,0,8"/>
                 <TextBox x:Name="SSHPort" TextChanged="TextChanged" Header="SSH 端口：" PlaceholderText="eg: 22" Width="250" Margin="0,0,0,8"/>
                 <TextBox x:Name="SSHUser" TextChanged="TextChanged" Header="SSH 用户：" PlaceholderText="eg: User" Width="250" Margin="0,0,0,8"/>

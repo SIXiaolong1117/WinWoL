@@ -28,6 +28,7 @@ namespace WinWoL
             string configInner = localSettings.Values["ConfigIDTemp"] as string;
             if (configInner != null)
             {
+                // 重新分割并格式化成适合当前版本的字符串
                 string[] configInnerSplit = new string[17];
                 string[] configInnerSplitOld = configInner.Split(',');
                 for (int i = 0; i < 17; i++)
@@ -68,18 +69,12 @@ namespace WinWoL
             }
 
             Test.Visibility = Visibility.Collapsed;
-            redIsOpenCheck();
+            rdpIsOpenCheck();
             ShutdownIsOpen();
             PrivateKeyIsOpenCheck();
-        }
-        private void InnerChanged()
-        {
-            SSHHost.Text = rdpIpAddress.Text;
+            InnerChanged();
 
-            localSettings.Values["ConfigIDTemp"] = configName.Text + "," + macAddress.Text + ","
-            + ipAddress.Text + "," + ipPort.Text + ","
-            + rdpIsOpen.IsOn + "," + rdpIpAddress.Text + "," + rdpIpPort.Text + ","
-            + Broadcast.IsChecked + "," + "SameIPAddr.IsChecked" + "," + SSHCommand.Text + "," + SSHPort.Text + "," + SSHUser.Text + "," + PrivateKeyIsOpen.IsOn + "," + SSHPasswd.Password + "," + SSHKeyPath.Text + "," + shutdownIsOpen.IsOn + "," + SSHHost.Text;
+            SSHHost.Text = rdpIpAddress.Text;
 
             if (localSettings.Values["DeveloperImpartIsOpen"] as string == "True")
             {
@@ -90,6 +85,15 @@ namespace WinWoL
             {
                 Test.Visibility = Visibility.Collapsed;
             }
+        }
+        private void InnerChanged()
+        {
+            SSHHost.Text = rdpIpAddress.Text;
+
+            localSettings.Values["ConfigIDTemp"] = configName.Text + "," + macAddress.Text + ","
+            + ipAddress.Text + "," + ipPort.Text + ","
+            + rdpIsOpen.IsOn + "," + rdpIpAddress.Text + "," + rdpIpPort.Text + ","
+            + Broadcast.IsChecked + "," + "" + "," + SSHCommand.Text + "," + SSHPort.Text + "," + SSHUser.Text + "," + PrivateKeyIsOpen.IsOn + "," + SSHPasswd.Password + "," + SSHKeyPath.Text + "," + shutdownIsOpen.IsOn + "," + SSHHost.Text;
         }
         public void TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -120,10 +124,10 @@ namespace WinWoL
         }
         private void rdpIsOpen_Toggled(object sender, RoutedEventArgs e)
         {
-            redIsOpenCheck();
+            rdpIsOpenCheck();
             InnerChanged();
         }
-        private void redIsOpenCheck()
+        private void rdpIsOpenCheck()
         {
             if (rdpIsOpen.IsOn == true)
             {

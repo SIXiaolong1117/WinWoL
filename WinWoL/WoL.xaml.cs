@@ -116,26 +116,7 @@ namespace WinWoL
                 ImportAndReplaceConfig.Visibility = Visibility.Visible;
 
                 // 分割字符串
-                string[] configInnerSplit = new string[17];
-                string[] configInnerSplitOld = configInner.Split(',');
-                for (int i = 0; i < 17; i++)
-                {
-                    try
-                    {
-                        configInnerSplit[i] = configInnerSplitOld[i];
-                    }
-                    catch
-                    {
-                        if (i == 4 || i == 7 || i == 8 || i == 12 || i == 15)
-                        {
-                            configInnerSplit[i] = "False";
-                        }
-                        else
-                        {
-                            configInnerSplit[i] = "";
-                        }
-                    }
-                }
+                string[] configInnerSplit = configInner.Split(',');
                 // 传入的字符串结构：
                 //configName.Text = configInnerSplit[0];
                 //macAddress.Text = configInnerSplit[1];
@@ -166,16 +147,9 @@ namespace WinWoL
                 // 更新RDP的命令行
                 localSettings.Values["mstscCMD"] = "mstsc /v:" + rdpIpAddress + ":" + rdpPort + ";";
 
-                // 如果不是广播地址，则显示IP或域名。
-                // 如果是广播地址，则显示“向 LAN 网络广播”
-                string ipAddressDisplay = ipAddress;
-                if (ipAddressDisplay == "255.255.255.255")
-                {
-                    ipAddressDisplay = "向 LAN 网络广播";
-                }
-
                 // 如果开启隐藏地址
                 string macAddressDisplay = macAddress;
+                string ipAddressDisplay = ipAddress;
                 string ipPortDisplay = ipPort;
                 string rdpPortDisplay = rdpPort;
                 string sshPortDisplay = sshPort;
@@ -511,8 +485,42 @@ namespace WinWoL
 
             await CommonFunctions.ImportConfig("WinWoL.WoL", "ConfigID", ConfigIDNum);
 
-            // 刷新UI
-            refresh(ConfigIDNum);
+            // 格式化字符串
+            // 创建一个新的dialog对象
+            AddConfigDialog configDialog = new AddConfigDialog();
+
+            // 对此dialog对象进行配置
+            configDialog.XamlRoot = this.XamlRoot;
+            configDialog.Style = Microsoft.UI.Xaml.Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            // 根据内容有无来决定PrimaryButton的内容
+            if (AddConfig.Content.ToString() == "修改配置")
+            {
+                configDialog.PrimaryButtonText = "修改";
+            }
+            else
+            {
+                configDialog.PrimaryButtonText = "添加";
+            }
+            configDialog.CloseButtonText = "关闭";
+            // 默认按钮为PrimaryButton
+            configDialog.DefaultButton = ContentDialogButton.Primary;
+
+            // 异步获取按下哪个按钮
+            var result = await configDialog.ShowAsync();
+
+            // 如果按下了Primary
+            if (result == ContentDialogResult.Primary)
+            {
+                // 将ConfigIDTemp写入到当前配置ID下的localSettings
+                localSettings.Values["ConfigID" + ConfigIDNum] = localSettings.Values["ConfigIDTemp"];
+                // 刷新UI
+                refresh(ConfigIDNum);
+            }
+            else
+            {
+                // 刷新UI
+                refresh(ConfigIDNum);
+            }
         }
         // 导出配置按钮点击
         private async void ExportConfig_Click(object sender, RoutedEventArgs e)

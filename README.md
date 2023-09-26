@@ -16,8 +16,10 @@
   </p>
 </p>
 <p align="center">
-    <img src="./README/1.png" width="49%"/>
-    <img src="./README/2.png" width="49%"/>
+    <img src="./README/1.png" width="24%"/>
+    <img src="./README/2.png" width="24%"/>
+    <img src="./README/3.png" width="24%"/>
+    <img src="./README/4.png" width="24%"/>
 </p>
 
 ## ⬇下载/Download
@@ -34,9 +36,9 @@
 
 > 自签名版需要打开开发者模式并安装一个证书，这并不是安全的应用安装方式。
 
-<!-- ## 使用教程/Wiki
+## ✋使用教程/Wiki
 
-参考本项目[Wiki](https://github.com/Direct5dom/WinWoL/wiki)。 -->
+参考本项目[Wiki](https://github.com/Direct5dom/WinWoL/wiki)。
 
 ## 🛠️获取源码/Source Code
 
