@@ -12,14 +12,17 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Width="268" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                    <TextBlock x:Name="Header" FontSize="24" Text="网络唤醒" HorizontalAlignment="Center" />
+                    <TextBlock x:Name="Header"
+                               x:Uid="WoLHeader"
+                               FontSize="24" 
+                               HorizontalAlignment="Center" />
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
                                 VerticalAlignment="Center" Margin="0,8,0,0">
                         <ComboBox x:Name="configNum" 
+                                  x:Uid="WoLConfigNum"
                               ItemsSource="{x:Bind ConfigSelector}" 
-                              SelectionChanged="configNum_SelectionChanged" 
-                              Header="配置编号："
+                              SelectionChanged="configNum_SelectionChanged"
                               Width="268">
                         </ComboBox>
                     </StackPanel>
@@ -29,7 +32,7 @@
                         <Button 
                             x:Name="HideConfig"
                             Click="HideConfig_Click" 
-                            Content="隐藏地址"
+                            x:Uid="HideConfig"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
                             Width="84" 
@@ -37,8 +40,8 @@
                             />
                         <Button 
                             x:Name="ImportConfig"
-                            Click="ImportConfig_Click" 
-                            Content="导入配置"
+                            Click="ImportConfig_Click"
+                            x:Uid="ImportConfig"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
                             Width="84"
@@ -46,7 +49,7 @@
                             />
                         <Button 
                             x:Name="ImportAndReplaceConfig"
-                            Content="覆盖配置"
+                            x:Uid="ImportAndReplaceConfig"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
                             Width="84"
@@ -57,11 +60,11 @@
                                     <StackPanel>
                                         <TextBlock 
                                             Style="{ThemeResource BaseTextBlockStyle}" 
-                                            Text="您确定要覆盖此配置文件吗？" 
+                                            x:Uid="ImportAndReplaceConfigTips"
                                             Margin="0,0,0,12" />
                                         <Button 
                                             Click="ImportConfig_Click" 
-                                            Content="确定" />
+                                            x:Uid="Confirm" />
                                     </StackPanel>
                                 </Flyout>
                             </Button.Flyout>
@@ -69,7 +72,7 @@
                         <Button 
                             x:Name="ExportConfig" 
                             Click="ExportConfig_Click" 
-                            Content="导出配置"
+                            x:Uid="ExportConfig"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
                             Width="84"
@@ -91,14 +94,15 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
                         <Button 
-                            x:Name="AddConfig" Click="AddConfigButton_Click" 
-                            Content="添加配置"
+                            x:Name="AddConfig"
+                            x:Uid="AddConfig"
+                            Click="AddConfigButton_Click"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                             Width="84" 
                             Margin="0,0,8,0"/>
                         <Button 
                             x:Name="DelConfig" 
-                            Content="删除配置"
+                            x:Uid="DelConfig"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                             Width="84"
                             Margin="0,0,8,0">
@@ -107,11 +111,11 @@
                                     <StackPanel>
                                         <TextBlock 
                                             Style="{ThemeResource BaseTextBlockStyle}" 
-                                            Text="您确定要删除此配置文件吗？" 
+                                            x:Uid="DelConfigConfirm"
                                             Margin="0,0,0,12" />
                                         <Button 
                                             Click="DelConfigButton_Click" 
-                                            Content="确定" />
+                                            x:Uid="Confirm" />
                                     </StackPanel>
                                 </Flyout>
                             </Button.Flyout>
@@ -125,8 +129,8 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
                         <Button 
                             x:Name="WoLConfig" 
-                            Click="WoLConfigButton_Click" 
-                            Content="网络唤醒"
+                            x:Uid="WoLConfig" 
+                            Click="WoLConfigButton_Click"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
                             Width="84" 
@@ -134,7 +138,7 @@
                             />
                         <Button 
                             x:Name="ShutdownConfig" 
-                            Content="关闭电脑"
+                            x:Uid="ShutdownConfig"
                             HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                             Width="84"
                             Margin="0,0,8,0">
@@ -143,19 +147,19 @@
                                     <StackPanel>
                                         <TextBlock 
                                         Style="{ThemeResource BaseTextBlockStyle}" 
-                                        Text="您确定要关闭此电脑吗？" 
+                                        x:Uid="ShutdownConfigConfirm"
                                         Margin="0,0,0,12" />
                                         <Button 
                                         Click="ShutdownConfigButton_Click" 
-                                        Content="确定" />
+                                        x:Uid="Confirm" />
                                     </StackPanel>
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
                         <Button 
                             x:Name="RDPConfig" 
+                            x:Uid="RDPConfig" 
                             Click="RDPConfigButton_Click" 
-                            Content="远程桌面"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom" 
                             Width="84" 
@@ -166,52 +170,40 @@
             </StackPanel>
         </StackPanel>
         <TeachingTip x:Name="MagicPacketIsSendTips"
-	                 Title="Magic Packet 已经通过 UDP 发送"
-	                 Subtitle=""
+	                 x:Uid="MagicPacketIsSendTips"
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
-	                 IsLightDismissEnabled="True"
-	                 CloseButtonContent="明白！">
+	                 IsLightDismissEnabled="True">
         </TeachingTip>
         <TeachingTip x:Name="MagicPacketNotSendTips"
-	                 Title="Magic Packet 发送失败"
-	                 Subtitle="请检查您填写的配置内容"
+                     x:Uid="MagicPacketNotSendTips"
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
-	                 IsLightDismissEnabled="True"
-	                 CloseButtonContent="确认">
+	                 IsLightDismissEnabled="True">
         </TeachingTip>
         <TeachingTip x:Name="RDPTips"
-	                 Title="远程桌面已在后台唤起"
-	                 Subtitle=""
+                     x:Uid="RDPTips"
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
-	                 IsLightDismissEnabled="True"
-	                 CloseButtonContent="确认">
+	                 IsLightDismissEnabled="True">
         </TeachingTip>
         <TeachingTip x:Name="SaveConfigTips"
-	                 Title=""
-	                 Subtitle=""
+                     x:Uid="SaveConfigTips"
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
-	                 IsLightDismissEnabled="True"
-	                 CloseButtonContent="确认">
+	                 IsLightDismissEnabled="True">
         </TeachingTip>
         <TeachingTip x:Name="SSHResponse"
-	                 Title="SSH 输出"
-	                 Subtitle=""
+                     x:Uid="SSHResponse"
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
-	                 IsLightDismissEnabled="True"
-	                 CloseButtonContent="明白！">
+	                 IsLightDismissEnabled="True">
         </TeachingTip>
         <TeachingTip x:Name="SSHCommandNotSendTips"
-	                 Title="SSH 链接失败"
-	                 Subtitle=""
+                     x:Uid="SSHCommandNotSendTips"
 	                 PreferredPlacement="Auto"
 	                 PlacementMargin="20"
-	                 IsLightDismissEnabled="True"
-	                 CloseButtonContent="确认">
+	                 IsLightDismissEnabled="True">
         </TeachingTip>
     </Grid>
 </Page>
