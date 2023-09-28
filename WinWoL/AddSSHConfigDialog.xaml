@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentDialog
     x:Class="WinWoL.AddSSHConfigDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -6,40 +6,91 @@
 
     <Grid>
         <ScrollViewer Width="280">
-            <StackPanel Width="250" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBox x:Name="SSHConfigName" TextChanged="TextChanged" Header="配置别名：" PlaceholderText="eg: 晓龙的路由器" Width="250" Margin="0,0,0,8"/>
-                <TextBox x:Name="SSHCommand" TextChanged="TextChanged" Header="SSH 命令：" PlaceholderText="WoL或其他任何SSH命令" Width="250" Margin="0,0,0,8"/>
-                <TextBox x:Name="SSHHost" TextChanged="TextChanged" Header="SSH 主机：" PlaceholderText="192.168.1.1" Width="250" Margin="0,0,0,8"/>
-                <TextBox x:Name="SSHPort" TextChanged="TextChanged" Header="SSH 端口：" PlaceholderText="eg: 22" Width="250" Margin="0,0,0,8"/>
-                <TextBox x:Name="SSHUser" TextChanged="TextChanged" Header="SSH 用户：" PlaceholderText="eg: User" Width="250" Margin="0,0,0,8"/>
-                <StackPanel Orientation="Vertical" Margin="0,0,0,8">
-                    <TextBlock Text="使用私钥"/>
-                    <ToggleSwitch 
-                    x:Name="PrivateKeyIsOpen" Toggled="PrivateKeyIsOpen_Toggled" 
-                    OffContent="关闭" OnContent="开启" Margin="0,-4,0,-14"/>
+            <StackPanel
+                Width="250"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                <TextBox
+                    x:Name="SSHConfigName"
+                    Width="250"
+                    Margin="0,0,0,8"
+                    Header="配置别名："
+                    PlaceholderText="eg: 晓龙的路由器"
+                    TextChanged="TextChanged" />
+                <TextBox
+                    x:Name="SSHCommand"
+                    Width="250"
+                    Margin="0,0,0,8"
+                    Header="SSH 命令："
+                    PlaceholderText="WoL或其他任何SSH命令"
+                    TextChanged="TextChanged" />
+                <TextBox
+                    x:Name="SSHHost"
+                    Width="250"
+                    Margin="0,0,0,8"
+                    Header="SSH 主机："
+                    PlaceholderText="192.168.1.1"
+                    TextChanged="TextChanged" />
+                <TextBox
+                    x:Name="SSHPort"
+                    Width="250"
+                    Margin="0,0,0,8"
+                    Header="SSH 端口："
+                    PlaceholderText="eg: 22"
+                    TextChanged="TextChanged" />
+                <TextBox
+                    x:Name="SSHUser"
+                    Width="250"
+                    Margin="0,0,0,8"
+                    Header="SSH 用户："
+                    PlaceholderText="eg: User"
+                    TextChanged="TextChanged" />
+                <StackPanel Margin="0,0,0,8" Orientation="Vertical">
+                    <TextBlock Text="使用私钥" />
+                    <ToggleSwitch
+                        x:Name="PrivateKeyIsOpen"
+                        Margin="0,-4,0,-14"
+                        OffContent="关闭"
+                        OnContent="开启"
+                        Toggled="PrivateKeyIsOpen_Toggled" />
                 </StackPanel>
-                <PasswordBox x:Name="SSHPasswd" PasswordChanged="PasswordChanged" Header="SSH 密码：" PlaceholderText="Password" Width="250" Margin="0,0,0,8"/>
-                <StackPanel x:Name="SSHKey" Orientation="Vertical" Margin="0,0,0,8">
+                <PasswordBox
+                    x:Name="SSHPasswd"
+                    Width="250"
+                    Margin="0,0,0,8"
+                    Header="SSH 密码："
+                    PasswordChanged="PasswordChanged"
+                    PlaceholderText="Password" />
+                <StackPanel
+                    x:Name="SSHKey"
+                    Margin="0,0,0,8"
+                    Orientation="Vertical">
                     <TextBlock FontSize="12">
                         <Run Foreground="Gray">
-                            仅支持 OpenSSH 和 ssh.com 格式的 
+                            仅支持 OpenSSH 和 ssh.com 格式的
                         </Run>
-                        <LineBreak/>
+                        <LineBreak />
                         <Run Foreground="Gray">
                             RSA 和 DSA 私钥。
                         </Run>
                     </TextBlock>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                        <TextBox x:Name="SSHKeyPath" TextChanged="TextChanged" Header="SSH 密钥地址：" PlaceholderText="SSH Key" Width="186" Margin="0,0,4,0"/>
-                        <Button 
-                            x:Name="SelectSSHKeyPath" 
-                            Click="SelectSSHKeyPath_Click" 
-                            Content="选择"
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Bottom" 
-                            Width="60" 
+                    <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
+                        <TextBox
+                            x:Name="SSHKeyPath"
+                            Width="186"
+                            Margin="0,0,4,0"
+                            Header="SSH 密钥地址："
+                            PlaceholderText="SSH Key"
+                            TextChanged="TextChanged" />
+                        <Button
+                            x:Name="SelectSSHKeyPath"
+                            Width="60"
                             Margin="0,0,0,0"
-                            />
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Click="SelectSSHKeyPath_Click"
+                            Content="选择" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

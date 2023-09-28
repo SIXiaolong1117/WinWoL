@@ -2,27 +2,33 @@
     x:Class="WinWoL.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:WinWoL"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:WinWoL"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
 
     <Grid>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel Orientation="Vertical" Margin="0,0,0,16">
-                <TextBlock Text="开发者模式"/>
-                <ToggleSwitch 
-                    x:Name="DeveloperImpart" Toggled="DeveloperImpart_Toggled" 
-                    OffContent="关闭" OnContent="开启" Margin="0,-4,0,-4"/>
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+            <StackPanel Margin="0,0,0,16" Orientation="Vertical">
+                <TextBlock Text="开发者模式" />
+                <ToggleSwitch
+                    x:Name="DeveloperImpart"
+                    Margin="0,-4,0,-4"
+                    OffContent="关闭"
+                    OnContent="开启"
+                    Toggled="DeveloperImpart_Toggled" />
             </StackPanel>
-            <ComboBox x:Name="backgroundMaterial" 
-                      ItemsSource="{x:Bind material}" 
-                      SelectionChanged="backgroundMaterial_SelectionChanged" 
-                      Header="背景材料：" 
-                      Width="268" 
-                      Margin="0,0,0,16">
-            </ComboBox>
+            <ComboBox
+                x:Name="backgroundMaterial"
+                Width="268"
+                Margin="0,0,0,16"
+                Header="背景材料："
+                ItemsSource="{x:Bind material}"
+                SelectionChanged="backgroundMaterial_SelectionChanged" />
         </StackPanel>
     </Grid>
 </Page>

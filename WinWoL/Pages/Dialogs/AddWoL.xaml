@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentDialog
+    x:Class="WinWoL.Pages.Dialogs.AddWoL"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:WinWoL.Pages.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ScrollViewer Width="280">
+            <StackPanel
+                Width="250"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+
+                <!--  配置别名  -->
+                <StackPanel
+                    Width="250"
+                    Margin="0,8,0,16"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock
+                        Margin="0,0,0,8"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="常规" />
+                    <TextBox
+                        x:Name="ConfigNameTextBox"
+                        Width="250"
+                        Margin="0,0,0,8"
+                        Header="配置别名："
+                        PlaceholderText="eg: 晓龙的电脑"
+                        TextChanged="TextChanged" />
+                    <TextBox
+                        x:Name="IpAddressTextBox"
+                        Width="250"
+                        Header="主机 IP 地址："
+                        PlaceholderText="eg: 192.168.1.2"
+                        TextChanged="TextChanged" />
+                    <CheckBox
+                        x:Name="BroadcastCheckBox"
+                        Margin="0,0,0,8"
+                        Checked="Broadcast_Checked"
+                        Content="WoL 向 LAN 网络广播"
+                        Unchecked="Broadcast_Unchecked" />
+                </StackPanel>
+
+                <!--  WoL 相关设置  -->
+                <StackPanel
+                    Width="250"
+                    Margin="0,8,0,16"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="WoL 相关设置" />
+                    <ToggleSwitch
+                        x:Name="WoLIsOpenToggleSwitch"
+                        Margin="0,-4,0,-4"
+                        OffContent="关闭"
+                        OnContent="开启"
+                        Toggled="wolIsOpen_Toggled" />
+                    <StackPanel x:Name="WoLConfig">
+                        <TextBox
+                            x:Name="MacAddressTextBox"
+                            Width="250"
+                            Margin="0,0,0,8"
+                            Header="目标设备 Mac 地址："
+                            PlaceholderText="eg: AA:BB:CC:DD:EE:FF"
+                            TextChanged="TextChanged" />
+                        <TextBox
+                            x:Name="WoLPortTextBox"
+                            Width="250"
+                            Header="WoL 端口："
+                            PlaceholderText="eg: 7, 9 或其他自定义端口"
+                            TextChanged="TextChanged" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!--  RDP 相关设置  -->
+                <StackPanel
+                    Width="250"
+                    Margin="0,8,0,16"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="远程桌面" />
+                    <ToggleSwitch
+                        x:Name="RDPIsOpenToggleSwitch"
+                        Margin="0,-4,0,-4"
+                        OffContent="关闭"
+                        OnContent="开启"
+                        Toggled="rdpIsOpen_Toggled" />
+                    <StackPanel x:Name="RDPConfig">
+                        <TextBox
+                            x:Name="RDPIPPortTextBox"
+                            Width="250"
+                            Header="RDP 端口："
+                            PlaceholderText="eg: 3389"
+                            TextChanged="TextChanged" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!--  SSH关机相关设置  -->
+                <StackPanel
+                    Width="250"
+                    Margin="0,8,0,16"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="SSH 关机" />
+                    <ToggleSwitch
+                        x:Name="SSHShutdownIsOpenToggleSwitch"
+                        Margin="0,-4,0,-4"
+                        OffContent="关闭"
+                        OnContent="开启"
+                        Toggled="SSHShutdownIsOpen_Toggled" />
+                    <StackPanel x:Name="shutdownConfig">
+                        <TextBox
+                            x:Name="SSHCommandTextBox"
+                            Width="250"
+                            Margin="0,0,0,8"
+                            Header="SSH 命令："
+                            PlaceholderText="关机命令 详见 GitHub Wiki"
+                            TextChanged="TextChanged" />
+                        <TextBox
+                            x:Name="SSHPortTextBox"
+                            Width="250"
+                            Margin="0,0,0,8"
+                            Header="SSH 端口："
+                            PlaceholderText="eg: 22"
+                            TextChanged="TextChanged" />
+                        <TextBox
+                            x:Name="SSHUserTextBox"
+                            Width="250"
+                            Margin="0,0,0,8"
+                            Header="SSH 用户："
+                            PlaceholderText="eg: User"
+                            TextChanged="TextChanged" />
+                        <TextBlock Text="使用私钥" />
+                        <ToggleSwitch
+                            x:Name="PrivateKeyIsOpenToggleSwitch"
+                            Margin="0,-4,0,-4"
+                            OffContent="关闭"
+                            OnContent="开启"
+                            Toggled="privateKeyIsOpen_Toggled" />
+                        <PasswordBox
+                            x:Name="SSHPasswordBox"
+                            Width="250"
+                            Margin="0,0,0,8"
+                            Header="SSH 密码："
+                            PasswordChanged="PasswordChanged"
+                            PlaceholderText="Password" />
+                        <StackPanel
+                            x:Name="SSHKey"
+                            Width="250"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Vertical">
+                            <TextBlock FontSize="12">
+                                <Run Foreground="Gray">
+                                    仅支持 OpenSSH 和 ssh.com 格式的
+                                </Run>
+                                <LineBreak />
+                                <Run Foreground="Gray">
+                                    RSA 和 DSA 私钥。
+                                </Run>
+                            </TextBlock>
+                            <StackPanel
+                                Width="250"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                                <TextBox
+                                    x:Name="SSHKeyPathTextBox"
+                                    Width="186"
+                                    Margin="0,0,4,0"
+                                    Header="SSH 密钥地址："
+                                    PlaceholderText="SSH Key"
+                                    TextChanged="TextChanged" />
+                                <Button
+                                    x:Name="SelectSSHKeyPath"
+                                    Width="60"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Click="SelectSSHKeyPath_Click"
+                                    Content="选择" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</ContentDialog>

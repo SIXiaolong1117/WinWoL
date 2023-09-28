@@ -2,208 +2,234 @@
     x:Class="WinWoL.WoL"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:WinWoL"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:WinWoL"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
     <Grid>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <StackPanel Width="268" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <StackPanel
+                    Width="268"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
 
-                    <TextBlock x:Name="Header"
-                               x:Uid="WoLHeader"
-                               FontSize="24" 
-                               HorizontalAlignment="Center" />
+                    <TextBlock
+                        x:Name="Header"
+                        x:Uid="WoLHeader"
+                        HorizontalAlignment="Center"
+                        FontSize="24" />
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
-                                VerticalAlignment="Center" Margin="0,8,0,0">
-                        <ComboBox x:Name="configNum" 
-                                  x:Uid="WoLConfigNum"
-                              ItemsSource="{x:Bind ConfigSelector}" 
-                              SelectionChanged="configNum_SelectionChanged"
-                              Width="268">
-                        </ComboBox>
+                    <StackPanel
+                        Margin="0,8,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <ComboBox
+                            x:Name="configNum"
+                            x:Uid="WoLConfigNum"
+                            Width="268"
+                            ItemsSource="{x:Bind ConfigSelector}"
+                            SelectionChanged="configNum_SelectionChanged" />
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
-                                VerticalAlignment="Center" Margin="0,8,0,0">
-                        <Button 
+                    <StackPanel
+                        Margin="0,8,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
                             x:Name="HideConfig"
-                            Click="HideConfig_Click" 
                             x:Uid="HideConfig"
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Bottom" 
-                            Width="84" 
-                            Margin="0,0,8,0"
-                            />
-                        <Button 
-                            x:Name="ImportConfig"
-                            Click="ImportConfig_Click"
-                            x:Uid="ImportConfig"
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Bottom" 
                             Width="84"
                             Margin="0,0,8,0"
-                            />
-                        <Button 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Click="HideConfig_Click" />
+                        <Button
+                            x:Name="ImportConfig"
+                            x:Uid="ImportConfig"
+                            Width="84"
+                            Margin="0,0,8,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Click="ImportConfig_Click" />
+                        <Button
                             x:Name="ImportAndReplaceConfig"
                             x:Uid="ImportAndReplaceConfig"
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Bottom" 
                             Width="84"
                             Margin="0,0,8,0"
-                            >
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom">
                             <Button.Flyout>
                                 <Flyout>
                                     <StackPanel>
-                                        <TextBlock 
-                                            Style="{ThemeResource BaseTextBlockStyle}" 
+                                        <TextBlock
                                             x:Uid="ImportAndReplaceConfigTips"
-                                            Margin="0,0,0,12" />
-                                        <Button 
-                                            Click="ImportConfig_Click" 
-                                            x:Uid="Confirm" />
+                                            Margin="0,0,0,12"
+                                            Style="{ThemeResource BaseTextBlockStyle}" />
+                                        <Button x:Uid="Confirm" Click="ImportConfig_Click" />
                                     </StackPanel>
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
-                        <Button 
-                            x:Name="ExportConfig" 
-                            Click="ExportConfig_Click" 
+                        <Button
+                            x:Name="ExportConfig"
                             x:Uid="ExportConfig"
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Bottom" 
                             Width="84"
-                            />
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Click="ExportConfig_Click" />
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
-                        <StackPanel Width="268" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock x:Name="ConfigName"/>
-                            <TextBlock x:Name="MacAddress"/>
-                            <TextBlock x:Name="IpAddress"/>
-                            <TextBlock x:Name="IpPort"/>
-                            <TextBlock x:Name="RDPIpPort"/>
-                            <TextBlock x:Name="RDPPing"/>
-                            <TextBlock x:Name="SSHIpPort"/>
-                            <TextBlock x:Name="SSHPing"/>
+                    <StackPanel
+                        Margin="0,8,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <StackPanel
+                            Width="268"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Vertical">
+                            <TextBlock x:Name="ConfigName" />
+                            <TextBlock x:Name="MacAddress" />
+                            <TextBlock x:Name="IpAddress" />
+                            <TextBlock x:Name="IpPort" />
+                            <TextBlock x:Name="RDPIpPort" />
+                            <TextBlock x:Name="RDPPing" />
+                            <TextBlock x:Name="SSHIpPort" />
+                            <TextBlock x:Name="SSHPing" />
                         </StackPanel>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
-                        <Button 
+                    <StackPanel
+                        Margin="0,8,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
                             x:Name="AddConfig"
                             x:Uid="AddConfig"
-                            Click="AddConfigButton_Click"
-                            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                            Width="84" 
-                            Margin="0,0,8,0"/>
-                        <Button 
-                            x:Name="DelConfig" 
-                            x:Uid="DelConfig"
-                            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                             Width="84"
-                            Margin="0,0,8,0">
-                            <Button.Flyout>
-                                <Flyout>
-                                    <StackPanel>
-                                        <TextBlock 
-                                            Style="{ThemeResource BaseTextBlockStyle}" 
-                                            x:Uid="DelConfigConfirm"
-                                            Margin="0,0,0,12" />
-                                        <Button 
-                                            Click="DelConfigButton_Click" 
-                                            x:Uid="Confirm" />
-                                    </StackPanel>
-                                </Flyout>
-                            </Button.Flyout>
-                        </Button>
-                        <Button 
-                            x:Name="RefConfig" Click="RefConfigButton_Click" 
-                            Content="Ping"
-                            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                            Width="84" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
-                        <Button 
-                            x:Name="WoLConfig" 
-                            x:Uid="WoLConfig" 
-                            Click="WoLConfigButton_Click"
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Bottom" 
-                            Width="84" 
                             Margin="0,0,8,0"
-                            />
-                        <Button 
-                            x:Name="ShutdownConfig" 
-                            x:Uid="ShutdownConfig"
-                            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Click="AddConfigButton_Click" />
+                        <Button
+                            x:Name="DelConfig"
+                            x:Uid="DelConfig"
                             Width="84"
-                            Margin="0,0,8,0">
+                            Margin="0,0,8,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom">
                             <Button.Flyout>
                                 <Flyout>
                                     <StackPanel>
-                                        <TextBlock 
-                                        Style="{ThemeResource BaseTextBlockStyle}" 
-                                        x:Uid="ShutdownConfigConfirm"
-                                        Margin="0,0,0,12" />
-                                        <Button 
-                                        Click="ShutdownConfigButton_Click" 
-                                        x:Uid="Confirm" />
+                                        <TextBlock
+                                            x:Uid="DelConfigConfirm"
+                                            Margin="0,0,0,12"
+                                            Style="{ThemeResource BaseTextBlockStyle}" />
+                                        <Button x:Uid="Confirm" Click="DelConfigButton_Click" />
                                     </StackPanel>
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
-                        <Button 
-                            x:Name="RDPConfig" 
-                            x:Uid="RDPConfig" 
-                            Click="RDPConfigButton_Click" 
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Bottom" 
-                            Width="84" 
-                            />
+                        <Button
+                            x:Name="RefConfig"
+                            Width="84"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Click="RefConfigButton_Click"
+                            Content="Ping" />
+                    </StackPanel>
+                    <StackPanel
+                        Margin="0,8,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="WoLConfig"
+                            x:Uid="WoLConfig"
+                            Width="84"
+                            Margin="0,0,8,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Click="WoLConfigButton_Click" />
+                        <Button
+                            x:Name="ShutdownConfig"
+                            x:Uid="ShutdownConfig"
+                            Width="84"
+                            Margin="0,0,8,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom">
+                            <Button.Flyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <TextBlock
+                                            x:Uid="ShutdownConfigConfirm"
+                                            Margin="0,0,0,12"
+                                            Style="{ThemeResource BaseTextBlockStyle}" />
+                                        <Button x:Uid="Confirm" Click="ShutdownConfigButton_Click" />
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                        <Button
+                            x:Name="RDPConfig"
+                            x:Uid="RDPConfig"
+                            Width="84"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Click="RDPConfigButton_Click" />
                     </StackPanel>
 
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <TeachingTip x:Name="MagicPacketIsSendTips"
-	                 x:Uid="MagicPacketIsSendTips"
-	                 PreferredPlacement="Auto"
-	                 PlacementMargin="20"
-	                 IsLightDismissEnabled="True">
-        </TeachingTip>
-        <TeachingTip x:Name="MagicPacketNotSendTips"
-                     x:Uid="MagicPacketNotSendTips"
-	                 PreferredPlacement="Auto"
-	                 PlacementMargin="20"
-	                 IsLightDismissEnabled="True">
-        </TeachingTip>
-        <TeachingTip x:Name="RDPTips"
-                     x:Uid="RDPTips"
-	                 PreferredPlacement="Auto"
-	                 PlacementMargin="20"
-	                 IsLightDismissEnabled="True">
-        </TeachingTip>
-        <TeachingTip x:Name="SaveConfigTips"
-                     x:Uid="SaveConfigTips"
-	                 PreferredPlacement="Auto"
-	                 PlacementMargin="20"
-	                 IsLightDismissEnabled="True">
-        </TeachingTip>
-        <TeachingTip x:Name="SSHResponse"
-                     x:Uid="SSHResponse"
-	                 PreferredPlacement="Auto"
-	                 PlacementMargin="20"
-	                 IsLightDismissEnabled="True">
-        </TeachingTip>
-        <TeachingTip x:Name="SSHCommandNotSendTips"
-                     x:Uid="SSHCommandNotSendTips"
-	                 PreferredPlacement="Auto"
-	                 PlacementMargin="20"
-	                 IsLightDismissEnabled="True">
-        </TeachingTip>
+        <TeachingTip
+            x:Name="MagicPacketIsSendTips"
+            x:Uid="MagicPacketIsSendTips"
+            IsLightDismissEnabled="True"
+            PlacementMargin="20"
+            PreferredPlacement="Auto" />
+        <TeachingTip
+            x:Name="MagicPacketNotSendTips"
+            x:Uid="MagicPacketNotSendTips"
+            IsLightDismissEnabled="True"
+            PlacementMargin="20"
+            PreferredPlacement="Auto" />
+        <TeachingTip
+            x:Name="RDPTips"
+            x:Uid="RDPTips"
+            IsLightDismissEnabled="True"
+            PlacementMargin="20"
+            PreferredPlacement="Auto" />
+        <TeachingTip
+            x:Name="SaveConfigTips"
+            x:Uid="SaveConfigTips"
+            IsLightDismissEnabled="True"
+            PlacementMargin="20"
+            PreferredPlacement="Auto" />
+        <TeachingTip
+            x:Name="SSHResponse"
+            x:Uid="SSHResponse"
+            IsLightDismissEnabled="True"
+            PlacementMargin="20"
+            PreferredPlacement="Auto" />
+        <TeachingTip
+            x:Name="SSHCommandNotSendTips"
+            x:Uid="SSHCommandNotSendTips"
+            IsLightDismissEnabled="True"
+            PlacementMargin="20"
+            PreferredPlacement="Auto" />
     </Grid>
 </Page>

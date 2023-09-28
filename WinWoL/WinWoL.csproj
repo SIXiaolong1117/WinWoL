@@ -37,6 +37,8 @@
     <None Remove="About.xaml" />
     <None Remove="AddConfigDialog.xaml" />
     <None Remove="AddSSHConfigDialog.xaml" />
+    <None Remove="Pages\Dialogs\AddWoL.xaml" />
+    <None Remove="Pages\WoL.xaml" />
     <None Remove="SettingsPage.xaml" />
     <None Remove="SSHWoL.xaml" />
     <None Remove="WoL.xaml" />
@@ -96,6 +98,16 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="WoL.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\WoL.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Dialog\AddWoL.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

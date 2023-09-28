@@ -170,7 +170,7 @@ namespace WinWoL
                 var selectedItem = (NavigationViewItem)args.SelectedItem;
                 if ((string)selectedItem.Tag == "WoL")
                 {
-                    contentFrame.Navigate(typeof(WoL));
+                    contentFrame.Navigate(typeof(Pages.WoL));
                 }
                 if ((string)selectedItem.Tag == "SSHWoL")
                 {

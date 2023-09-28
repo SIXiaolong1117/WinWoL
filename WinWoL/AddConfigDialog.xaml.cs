@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Windows.Storage;
 using System.Text.RegularExpressions;
 using Windows.Storage.Pickers;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WinWoL
 {
