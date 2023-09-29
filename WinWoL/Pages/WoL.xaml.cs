@@ -56,6 +56,7 @@ namespace WinWoL.Pages
                 SQLiteHelper dbHelper = new SQLiteHelper();
                 // 插入新数据
                 dbHelper.InsertData(initialWoLData);
+                LoadData();
             }
         }
         private void LoadData()
@@ -66,11 +67,62 @@ namespace WinWoL.Pages
             // 将数据列表绑定到ListView
             dataListView.ItemsSource = dataList;
         }
-        private async void TestButton_Click(object sender, RoutedEventArgs e)
+        private async void ChangeConfigButton_Click(object sender, RoutedEventArgs e)
         {
+            if (dataListView.SelectedItem != null)
+            {
+                // 获取WoLModel对象
+                WoLModel selectedModel = (WoLModel)dataListView.SelectedItem;
+
+                // 创建一个新的dialog对象
+                Dialogs.AddWoL dialog = new Dialogs.AddWoL(selectedModel);
+                // 对此dialog对象进行配置
+                dialog.XamlRoot = this.XamlRoot;
+                dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+                dialog.PrimaryButtonText = "修改";
+                dialog.CloseButtonText = "关闭";
+                // 默认按钮为PrimaryButton
+                dialog.DefaultButton = ContentDialogButton.Primary;
+
+                // 显示Dialog并等待其关闭
+                ContentDialogResult result = await dialog.ShowAsync();
+
+                // 如果按下了Primary
+                if (result == ContentDialogResult.Primary)
+                {
+                    // 实例化SQLiteHelper
+                    SQLiteHelper dbHelper = new SQLiteHelper();
+                    // 更新数据
+                    dbHelper.UpdateData(selectedModel);
+                    LoadData();
+                }
+            }
+            else
+            {
+                NeedSelectedTips.IsOpen = true;
+            }
         }
-        private async void DropTableButton_Click(object sender, RoutedEventArgs e)
+        private void DelConfigButton_Click(object sender, RoutedEventArgs e)
         {
+            if (dataListView.SelectedItem != null)
+            {
+                // 获取WoLModel对象
+                WoLModel selectedModel = (WoLModel)dataListView.SelectedItem;
+                // 实例化SQLiteHelper
+                SQLiteHelper dbHelper = new SQLiteHelper();
+                // 删除数据
+                dbHelper.DeleteData(selectedModel);
+                LoadData();
+                // 隐藏提示Flyout
+                if (this.DelConfig.Flyout is Flyout f)
+                {
+                    f.Hide();
+                }
+            }
+            else
+            {
+                NeedSelectedTips.IsOpen = true;
+            }
         }
     }
 }

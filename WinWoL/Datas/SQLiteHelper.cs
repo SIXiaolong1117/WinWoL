@@ -80,7 +80,7 @@ namespace WinWoL.Datas
         }
 
         // 删除数据
-        public void DeleteData(int id)
+        public void DeleteData(WoLModel model)
         {
             using (SqliteConnection connection = new SqliteConnection(connectionString))
             {
@@ -88,7 +88,7 @@ namespace WinWoL.Datas
 
                 var deleteCommand = connection.CreateCommand();
                 deleteCommand.CommandText = "DELETE FROM WoLTable WHERE Id = @Id";
-                deleteCommand.Parameters.AddWithValue("@Id", id);
+                deleteCommand.Parameters.AddWithValue("@Id", model.Id);
 
                 deleteCommand.ExecuteNonQuery();
             }

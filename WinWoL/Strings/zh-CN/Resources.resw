@@ -120,6 +120,9 @@
   <data name="AddConfig.Content" xml:space="preserve">
     <value>添加配置</value>
   </data>
+  <data name="ChangeConfig.Content" xml:space="preserve">
+    <value>修改配置</value>
+  </data>
   <data name="Confirm.Content" xml:space="preserve">
     <value>确定</value>
   </data>
@@ -159,20 +162,14 @@
   <data name="MagicPacketIsSendTips.Title" xml:space="preserve">
     <value>Magic Packet 发送成功！</value>
   </data>
-  <data name="MagicPacketNotSendTips.CloseButtonContent" xml:space="preserve">
-    <value>确认</value>
+  <data name="NeedSelectedTips.Title" xml:space="preserve">
+    <value>需要选中一个配置</value>
   </data>
   <data name="RDPConfig.Content" xml:space="preserve">
     <value>远程桌面</value>
   </data>
-  <data name="RDPTips.CloseButtonContent" xml:space="preserve">
-    <value>确认</value>
-  </data>
   <data name="RDPTips.Title" xml:space="preserve">
     <value>注意：远程桌面可能已在后台启动！</value>
-  </data>
-  <data name="SaveConfigTips.CloseButtonContent" xml:space="preserve">
-    <value>确认</value>
   </data>
   <data name="ShowConfig.Content" xml:space="preserve">
     <value>显示地址</value>
@@ -182,9 +179,6 @@
   </data>
   <data name="ShutdownConfigConfirm.Text" xml:space="preserve">
     <value>您确定要关闭此电脑吗？</value>
-  </data>
-  <data name="SSHCommandNotSendTips.CloseButtonContent" xml:space="preserve">
-    <value>确认</value>
   </data>
   <data name="SSHCommandNotSendTips.Title" xml:space="preserve">
     <value>SSH 连接失败</value>

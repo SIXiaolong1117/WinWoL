@@ -9,112 +9,132 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid>
-        <ScrollViewer>
-            <Grid>
-                <ListView
-                    x:Name="dataListView"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Text="配置名称：" />
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Text="{Binding Name}" />
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Text="IP 地址：" />
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    Text="{Binding IPAddress}" />
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Grid.Column="0"
-                                    Text="MAC 地址：" />
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    Text="{Binding MacAddress}" />
-                                <TextBlock
-                                    Grid.Row="3"
-                                    Grid.Column="0"
-                                    Text="WoL 端口：" />
-                                <TextBlock
-                                    Grid.Row="3"
-                                    Grid.Column="1"
-                                    Text="{Binding WoLPort}" />
-                                <TextBlock
-                                    Grid.Row="4"
-                                    Grid.Column="0"
-                                    Text="RDP 端口：" />
-                                <TextBlock
-                                    Grid.Row="4"
-                                    Grid.Column="1"
-                                    Text="{Binding RDPPort}" />
-                                <TextBlock
-                                    Grid.Row="5"
-                                    Grid.Column="0"
-                                    Text="SSH 端口：" />
-                                <TextBlock
-                                    Grid.Row="5"
-                                    Grid.Column="1"
-                                    Text="{Binding SSHPort}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
-        </ScrollViewer>
+    <Page.Resources>
+        <!--  定义 ScrollViewer 的样式  -->
+        <Style x:Key="TransparentScrollViewerStyle" TargetType="ScrollViewer">
+            <!--  设置背景为透明  -->
+            <Setter Property="Background" Value="#11FFFFFF" />
+            <!--  设置边框为透明  -->
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <!--  设置边框厚度为0  -->
+            <Setter Property="BorderThickness" Value="0" />
+            <!--  设置圆角  -->
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
+    </Page.Resources>
 
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel
-            Margin="0,8,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Orientation="Horizontal">
-            <Button
-                x:Name="AddConfig"
-                x:Uid="AddConfig"
-                Width="84"
-                Margin="0,0,8,0"
+            Orientation="Vertical">
+            <StackPanel
                 HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Click="AddConfigButton_Click" />
-            <Button
-                x:Name="Test"
-                Width="84"
-                Margin="0,0,8,0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Click="TestButton_Click"
-                Content="测试刷新" />
-            <Button
-                x:Name="DropTable"
-                Width="84"
-                Margin="0,0,8,0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Click="DropTableButton_Click"
-                Content="删除全部" />
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+
+                    <TextBlock
+                        x:Name="Header"
+                        x:Uid="WoLHeader"
+                        HorizontalAlignment="Center"
+                        FontSize="24" />
+
+                    <ScrollViewer
+                        Width="268"
+                        Height="300"
+                        Margin="0,8,0,0"
+                        Style="{StaticResource TransparentScrollViewerStyle}">
+                        <Grid>
+                            <ListView
+                                x:Name="dataListView"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="0,8,0,8">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Text="配置名称：" />
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Text="{Binding Name}" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Text="延迟：" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Text="" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </ScrollViewer>
+
+                    <StackPanel
+                        Margin="0,8,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="AddConfig"
+                            x:Uid="AddConfig"
+                            Width="84"
+                            Margin="0,0,8,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Click="AddConfigButton_Click" />
+                        <Button
+                            x:Name="ChangeConfig"
+                            x:Uid="ChangeConfig"
+                            Width="84"
+                            Margin="0,0,8,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Click="ChangeConfigButton_Click" />
+                        <Button
+                            x:Name="DelConfig"
+                            x:Uid="DelConfig"
+                            Width="84"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom">
+                            <Button.Flyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <TextBlock
+                                            x:Uid="DelConfigConfirm"
+                                            Margin="0,0,0,12"
+                                            Style="{ThemeResource BaseTextBlockStyle}" />
+                                        <Button x:Uid="Confirm" Click="DelConfigButton_Click" />
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
+        <TeachingTip
+            x:Name="NeedSelectedTips"
+            x:Uid="NeedSelectedTips"
+            IsLightDismissEnabled="True"
+            PlacementMargin="20"
+            PreferredPlacement="Auto" />
     </Grid>
 </Page>
