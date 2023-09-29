@@ -74,33 +74,33 @@ namespace WinWoL.Pages.Dialogs
         private void refresh()
         {
             // 是否启用功能
-            //WoLIsOpen();
-            //RDPIsOpen();
+            WoLIsOpen();
+            RDPIsOpen();
             ShutdownIsOpen();
             PrivateKeyIsOpen();
         }
-        //private void WoLIsOpen()
-        //{
-        //    if (wolIsOpen.IsOn == true)
-        //    {
-        //        WoLConfig.Visibility = Visibility.Visible;
-        //    }
-        //    else
-        //    {
-        //        WoLConfig.Visibility = Visibility.Collapsed;
-        //    }
-        //}
-        //private void RDPIsOpen()
-        //{
-        //    if (rdpIsOpen.IsOn == true)
-        //    {
-        //        RDPConfig.Visibility = Visibility.Visible;
-        //    }
-        //    else
-        //    {
-        //        RDPConfig.Visibility = Visibility.Collapsed;
-        //    }
-        //}
+        private void WoLIsOpen()
+        {
+            if (WoLIsOpenToggleSwitch.IsOn == true)
+            {
+                WoLConfig.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                WoLConfig.Visibility = Visibility.Collapsed;
+            }
+        }
+        private void RDPIsOpen()
+        {
+            if (RDPIsOpenToggleSwitch.IsOn == true)
+            {
+                RDPConfig.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                RDPConfig.Visibility = Visibility.Collapsed;
+            }
+        }
         private void ShutdownIsOpen()
         {
             if (SSHShutdownIsOpenToggleSwitch.IsOn == true)

@@ -18,6 +18,8 @@ using Windows.Storage;
 using WinWoL.Datas;
 using WinWoL.Models;
 using System.Net;
+using Newtonsoft.Json;
+using WinWoL.Methods;
 
 namespace WinWoL.Pages
 {
@@ -29,6 +31,7 @@ namespace WinWoL.Pages
         public WoL()
         {
             this.InitializeComponent();
+            // 加载数据
             LoadData();
         }
 
@@ -68,6 +71,7 @@ namespace WinWoL.Pages
                 SQLiteHelper dbHelper = new SQLiteHelper();
                 // 插入新数据
                 dbHelper.InsertData(initialWoLData);
+                // 重新加载数据
                 LoadData();
             }
         }
@@ -98,6 +102,7 @@ namespace WinWoL.Pages
                     SQLiteHelper dbHelper = new SQLiteHelper();
                     // 更新数据
                     dbHelper.UpdateData(selectedModel);
+                    // 重新加载数据
                     LoadData();
                 }
             }
@@ -116,6 +121,7 @@ namespace WinWoL.Pages
                 SQLiteHelper dbHelper = new SQLiteHelper();
                 // 删除数据
                 dbHelper.DeleteData(selectedModel);
+                // 重新加载数据
                 LoadData();
                 // 隐藏提示Flyout
                 if (this.DelConfig.Flyout is Flyout f)
@@ -154,6 +160,32 @@ namespace WinWoL.Pages
         // 关闭电脑按钮点击
         private void ShutdownConfigButton_Click(object sender, RoutedEventArgs e)
         {
+        }
+        // 导入配置按钮点击
+        private async void ImportConfig_Click(object sender, RoutedEventArgs e)
+        {
+            // 实例化SQLiteHelper
+            SQLiteHelper dbHelper = new SQLiteHelper();
+            // 获取导入的数据
+            WoLModel woLModel = await WoLMethod.ImportConfig();
+            // 插入新数据
+            dbHelper.InsertData(woLModel);
+            // 重新加载数据
+            LoadData();
+        }
+        // 导出配置按钮点击
+        private async void ExportConfig_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataListView.SelectedItem != null)
+            {
+                // 获取WoLModel对象
+                WoLModel selectedModel = (WoLModel)dataListView.SelectedItem;
+                string result = await WoLMethod.ExportConfig(selectedModel);
+            }
+            else
+            {
+                NeedSelectedTips.IsOpen = true;
+            }
         }
     }
 }
