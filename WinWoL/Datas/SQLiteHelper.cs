@@ -126,6 +126,49 @@ namespace WinWoL.Datas
                 updateCommand.ExecuteNonQuery();
             }
         }
+        // 根据ID获得数据
+        public WoLModel GetDataById(WoLModel model)
+        {
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+
+                var selectCommand = connection.CreateCommand();
+                selectCommand.CommandText = "SELECT * FROM WoLTable WHERE Id = @Id";
+                selectCommand.Parameters.AddWithValue("@Id", model.Id);
+
+                using (SqliteDataReader reader = selectCommand.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        WoLModel entry = new WoLModel
+                        {
+                            Id = reader.GetInt32(0),
+                            Name = reader.IsDBNull(1) ? null : reader.GetString(1),
+                            MacAddress = reader.IsDBNull(2) ? null : reader.GetString(2),
+                            IPAddress = reader.IsDBNull(3) ? null : reader.GetString(3),
+                            WoLAddress = reader.IsDBNull(4) ? null : reader.GetString(4),
+                            WoLPort = reader.IsDBNull(5) ? null : reader.GetString(5),
+                            RDPPort = reader.IsDBNull(6) ? null : reader.GetString(6),
+                            SSHCommand = reader.IsDBNull(7) ? null : reader.GetString(7),
+                            SSHPort = reader.IsDBNull(8) ? null : reader.GetString(8),
+                            SSHUser = reader.IsDBNull(9) ? null : reader.GetString(9),
+                            SSHPasswd = reader.IsDBNull(10) ? null : reader.GetString(10),
+                            SSHKeyPath = reader.IsDBNull(11) ? null : reader.GetString(11),
+                            WoLIsOpen = reader.IsDBNull(12) ? null : reader.GetString(12),
+                            RDPIsOpen = reader.IsDBNull(13) ? null : reader.GetString(13),
+                            SSHIsOpen = reader.IsDBNull(14) ? null : reader.GetString(14),
+                            BroadcastIsOpen = reader.IsDBNull(15) ? null : reader.GetString(15)
+                        };
+
+                        return entry;
+                    }
+                }
+            }
+
+            // 如果未找到匹配的数据，可以返回null或者抛出异常，具体根据需求来决定
+            return null;
+        }
 
         // 查询数据
         public List<WoLModel> QueryData()

@@ -45,7 +45,7 @@
 
                     <ScrollViewer
                         Width="268"
-                        Height="300"
+                        Height="268"
                         Margin="0,8,0,0"
                         Style="{StaticResource TransparentScrollViewerStyle}">
                         <Grid>
@@ -126,6 +126,46 @@
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
+                    </StackPanel>
+                    <StackPanel
+                        Margin="0,8,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="WoLConfig"
+                            x:Uid="WoLConfig"
+                            Width="84"
+                            Margin="0,0,8,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Click="WoLConfigButton_Click" />
+                        <Button
+                            x:Name="ShutdownConfig"
+                            x:Uid="ShutdownConfig"
+                            Width="84"
+                            Margin="0,0,8,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom">
+                            <Button.Flyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <TextBlock
+                                            x:Uid="ShutdownConfigConfirm"
+                                            Margin="0,0,0,12"
+                                            Style="{ThemeResource BaseTextBlockStyle}" />
+                                        <Button x:Uid="Confirm" Click="ShutdownConfigButton_Click" />
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                        <Button
+                            x:Name="RDPConfig"
+                            x:Uid="RDPConfig"
+                            Width="84"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Click="RDPConfigButton_Click" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

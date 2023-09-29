@@ -17,6 +17,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using WinWoL.Datas;
 using WinWoL.Models;
+using System.Net;
 
 namespace WinWoL.Pages
 {
@@ -29,6 +30,17 @@ namespace WinWoL.Pages
         {
             this.InitializeComponent();
             LoadData();
+        }
+
+        private void LoadData()
+        {
+            // 实例化SQLiteHelper
+            SQLiteHelper dbHelper = new SQLiteHelper();
+            // 查询数据
+            List<WoLModel> dataList = dbHelper.QueryData();
+
+            // 将数据列表绑定到ListView
+            dataListView.ItemsSource = dataList;
         }
         // 添加/修改配置按钮点击
         private async void AddConfigButton_Click(object sender, RoutedEventArgs e)
@@ -58,14 +70,6 @@ namespace WinWoL.Pages
                 dbHelper.InsertData(initialWoLData);
                 LoadData();
             }
-        }
-        private void LoadData()
-        {
-            SQLiteHelper dbHelper = new SQLiteHelper();
-            List<WoLModel> dataList = dbHelper.QueryData();
-
-            // 将数据列表绑定到ListView
-            dataListView.ItemsSource = dataList;
         }
         private async void ChangeConfigButton_Click(object sender, RoutedEventArgs e)
         {
@@ -123,6 +127,33 @@ namespace WinWoL.Pages
             {
                 NeedSelectedTips.IsOpen = true;
             }
+        }
+        // 网络唤醒按钮点击
+        private void WoLConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataListView.SelectedItem != null)
+            {
+                // 获取WoLModel对象
+                WoLModel selectedModel = (WoLModel)dataListView.SelectedItem;
+                // 实例化SQLiteHelper
+                SQLiteHelper dbHelper = new SQLiteHelper();
+                // 根据id获得数据
+                WoLModel woLModel = dbHelper.GetDataById(selectedModel);
+                IPAddress wolAddress = Methods.WoLMethod.domain2ip(woLModel.WoLAddress);
+                Methods.WoLMethod.sendMagicPacket(woLModel.MacAddress, wolAddress, int.Parse(woLModel.WoLPort));
+            }
+            else
+            {
+                NeedSelectedTips.IsOpen = true;
+            }
+        }
+        // 远程桌面按钮点击
+        private void RDPConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+        }
+        // 关闭电脑按钮点击
+        private void ShutdownConfigButton_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }
