@@ -25,9 +25,6 @@ namespace WinWoL.Pages
 {
     public sealed partial class WoL : Page
     {
-        // 定义一个ObservableCollection用于保存数据
-        private ObservableCollection<Models.WoLModel> dataList = new ObservableCollection<Models.WoLModel>();
-        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         public WoL()
         {
             this.InitializeComponent();
@@ -145,7 +142,7 @@ namespace WinWoL.Pages
                 SQLiteHelper dbHelper = new SQLiteHelper();
                 // 根据id获得数据
                 WoLModel woLModel = dbHelper.GetDataById(selectedModel);
-                IPAddress wolAddress = WoLMethod.DomainToIp(woLModel.WoLAddress,"IPv4");
+                IPAddress wolAddress = WoLMethod.DomainToIp(woLModel.WoLAddress, "IPv4");
                 WoLMethod.sendMagicPacket(woLModel.MacAddress, wolAddress, int.Parse(woLModel.WoLPort));
             }
             else
@@ -164,14 +161,19 @@ namespace WinWoL.Pages
         // 导入配置按钮点击
         private async void ImportConfig_Click(object sender, RoutedEventArgs e)
         {
+            ImportConfig.IsEnabled = false;
             // 实例化SQLiteHelper
             SQLiteHelper dbHelper = new SQLiteHelper();
             // 获取导入的数据
             WoLModel woLModel = await WoLMethod.ImportConfig();
-            // 插入新数据
-            dbHelper.InsertData(woLModel);
-            // 重新加载数据
-            LoadData();
+            if (woLModel != null)
+            {
+                // 插入新数据
+                dbHelper.InsertData(woLModel);
+                // 重新加载数据
+                LoadData();
+            }
+            ImportConfig.IsEnabled = true;
         }
         // 导出配置按钮点击
         private async void ExportConfig_Click(object sender, RoutedEventArgs e)

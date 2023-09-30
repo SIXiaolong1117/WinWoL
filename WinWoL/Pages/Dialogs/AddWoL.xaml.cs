@@ -128,15 +128,21 @@ namespace WinWoL.Pages.Dialogs
 
         private void TextChanged(object sender, TextChangedEventArgs e)
         {
+            refresh();
         }
         private void PasswordChanged(object sender, RoutedEventArgs e)
         {
+            refresh();
         }
         private void Broadcast_Checked(object sender, RoutedEventArgs e)
         {
+            WoLData.WoLAddress = "255.255.255.255";
+            refresh();
         }
         private void Broadcast_Unchecked(object sender, RoutedEventArgs e)
         {
+            WoLData.WoLAddress = IpAddressTextBox.Text;
+            refresh();
         }
         private void rdpIsOpen_Toggled(object sender, RoutedEventArgs e)
         {
