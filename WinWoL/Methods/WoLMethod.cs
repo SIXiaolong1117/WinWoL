@@ -17,20 +17,49 @@ namespace WinWoL.Methods
     class WoLMethod
     {
         // 获取域名对应的IP
-        public static IPAddress domain2ip(string domain)
+        public static IPAddress DomainToIp(string domain, string ipVersion)
         {
-            // 此函数本身可以处理部分非法IP（例如：266.266.266.266）
-            // 这些非法IP会被算作域名来处理
             IPAddress ipAddress;
             if (IPAddress.TryParse(domain, out ipAddress))
             {
                 // 是IP
-                return IPAddress.Parse(domain);
+                if ((ipVersion == "IPv4" && ipAddress.AddressFamily == AddressFamily.InterNetwork) ||
+                    (ipVersion == "IPv6" && ipAddress.AddressFamily == AddressFamily.InterNetworkV6))
+                {
+                    return ipAddress;
+                }
+                else
+                {
+                    throw new ArgumentException("IP version mismatch");
+                }
             }
             else
             {
                 // 是域名或其他输入
-                return Dns.GetHostEntry(domain).AddressList[0];
+                IPAddress[] addressList = Dns.GetHostEntry(domain).AddressList;
+
+                if (ipVersion == "IPv4")
+                {
+                    foreach (IPAddress address in addressList)
+                    {
+                        if (address.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            return address;
+                        }
+                    }
+                }
+                else if (ipVersion == "IPv6")
+                {
+                    foreach (IPAddress address in addressList)
+                    {
+                        if (address.AddressFamily == AddressFamily.InterNetworkV6)
+                        {
+                            return address;
+                        }
+                    }
+                }
+
+                throw new ArgumentException("No matching IP address found");
             }
         }
         // 以UDP协议发送MagicPacket

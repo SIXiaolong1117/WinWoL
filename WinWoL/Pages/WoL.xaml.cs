@@ -145,8 +145,8 @@ namespace WinWoL.Pages
                 SQLiteHelper dbHelper = new SQLiteHelper();
                 // 根据id获得数据
                 WoLModel woLModel = dbHelper.GetDataById(selectedModel);
-                IPAddress wolAddress = Methods.WoLMethod.domain2ip(woLModel.WoLAddress);
-                Methods.WoLMethod.sendMagicPacket(woLModel.MacAddress, wolAddress, int.Parse(woLModel.WoLPort));
+                IPAddress wolAddress = WoLMethod.DomainToIp(woLModel.WoLAddress,"IPv4");
+                WoLMethod.sendMagicPacket(woLModel.MacAddress, wolAddress, int.Parse(woLModel.WoLPort));
             }
             else
             {
