@@ -20,14 +20,19 @@ using WinWoL.Models;
 using System.Net;
 using Newtonsoft.Json;
 using WinWoL.Methods;
+using System.Threading;
+using Microsoft.UI.Dispatching;
 
 namespace WinWoL.Pages
 {
     public sealed partial class WoL : Page
     {
+        private DispatcherQueue _dispatcherQueue;
         public WoL()
         {
             this.InitializeComponent();
+            // 获取UI线程的DispatcherQueue
+            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             // 加载数据
             LoadData();
         }
@@ -136,14 +141,56 @@ namespace WinWoL.Pages
         {
             if (dataListView.SelectedItem != null)
             {
+                // 暂时停用相关按钮
+                WoLConfig.IsEnabled = false;
+
                 // 获取WoLModel对象
                 WoLModel selectedModel = (WoLModel)dataListView.SelectedItem;
                 // 实例化SQLiteHelper
                 SQLiteHelper dbHelper = new SQLiteHelper();
                 // 根据id获得数据
                 WoLModel woLModel = dbHelper.GetDataById(selectedModel);
-                IPAddress wolAddress = WoLMethod.DomainToIp(woLModel.WoLAddress, "IPv4");
-                WoLMethod.sendMagicPacket(woLModel.MacAddress, wolAddress, int.Parse(woLModel.WoLPort));
+
+                // 在子线程中执行任务
+                Thread subThread = new Thread(new ThreadStart(() =>
+                {
+                    string SuccessFlag = "0";
+                    // 尝试发送Magic Packet，成功打开已发送弹窗
+                    try
+                    {
+                        IPAddress wolAddress = WoLMethod.DomainToIp(woLModel.WoLAddress, "IPv4");
+                        WoLMethod.sendMagicPacket(woLModel.MacAddress, wolAddress, int.Parse(woLModel.WoLPort));
+                        SuccessFlag = "1";
+                    }
+                    // 失败打开发送失败弹窗
+                    catch
+                    {
+                        SuccessFlag = "0";
+                    }
+                    if (SuccessFlag == "1")
+                    {
+                        _dispatcherQueue.TryEnqueue(() =>
+                        {
+                            WoLResultTips.IsOpen = true;
+                            WoLResultTips.Title = "Magic Packet 发送成功！";
+                            WoLResultTips.Subtitle = "Magic Packet 已经通过 UDP 成功发送";
+                        });
+                    }
+                    else
+                    {
+                        _dispatcherQueue.TryEnqueue(() =>
+                        {
+                            WoLResultTips.IsOpen = true;
+                            WoLResultTips.Title = "Magic Packet 发送失败！";
+                            WoLResultTips.Subtitle = "请检查您填写的配置内容";
+                        });
+                    }
+                    _dispatcherQueue.TryEnqueue(() =>
+                    {
+                        WoLConfig.IsEnabled = true;
+                    });
+                }));
+                subThread.Start();
             }
             else
             {

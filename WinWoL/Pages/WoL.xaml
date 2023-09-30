@@ -194,9 +194,12 @@
         </StackPanel>
         <TeachingTip
             x:Name="NeedSelectedTips"
-            x:Uid="NeedSelectedTips"
-            IsLightDismissEnabled="True"
-            PlacementMargin="20"
-            PreferredPlacement="Auto" />
+            Title="需要选中一个配置"
+            CloseButtonContent="确认"
+            IsLightDismissEnabled="True" />
+        <TeachingTip
+            x:Name="WoLResultTips"
+            CloseButtonContent="确认"
+            IsLightDismissEnabled="True" />
     </Grid>
 </Page>
