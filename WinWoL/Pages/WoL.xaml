@@ -21,6 +21,18 @@
             <!--  设置圆角  -->
             <Setter Property="CornerRadius" Value="4" />
         </Style>
+        <Flyout x:Name="confirmationFlyout" Placement="Right">
+            <StackPanel>
+                <TextBlock Margin="0,0,0,8" Text="确定要删除吗？" />
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        Margin="0,0,8,0"
+                        Click="ConfirmDelete_Click"
+                        Content="确认" />
+                    <Button Click="CancelDelete_Click" Content="取消" />
+                </StackPanel>
+            </StackPanel>
+        </Flyout>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -67,7 +79,7 @@
 
                     <ScrollViewer
                         Width="268"
-                        Height="200"
+                        Height="168"
                         Margin="0,8,0,0"
                         Style="{StaticResource TransparentScrollViewerStyle}">
                         <Grid>
@@ -77,9 +89,8 @@
                                 VerticalAlignment="Stretch">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid Padding="0,8,0,8">
+                                        <Grid RightTapped="OnListViewRightTapped">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
                                                 <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
@@ -89,19 +100,13 @@
                                             <TextBlock
                                                 Grid.Row="0"
                                                 Grid.Column="0"
-                                                Text="配置名称：" />
+                                                Padding="0,20,0,20"
+                                                Text="配置：" />
                                             <TextBlock
                                                 Grid.Row="0"
                                                 Grid.Column="1"
+                                                Padding="0,20,0,20"
                                                 Text="{Binding Name}" />
-                                            <TextBlock
-                                                Grid.Row="1"
-                                                Grid.Column="0"
-                                                Text="延迟：" />
-                                            <TextBlock
-                                                Grid.Row="1"
-                                                Grid.Column="1"
-                                                Text="" />
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -117,77 +122,10 @@
                         <Button
                             x:Name="AddConfig"
                             x:Uid="AddConfig"
-                            Width="84"
-                            Margin="0,0,8,0"
+                            Width="268"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Bottom"
                             Click="AddConfigButton_Click" />
-                        <Button
-                            x:Name="ChangeConfig"
-                            x:Uid="ChangeConfig"
-                            Width="84"
-                            Margin="0,0,8,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Click="ChangeConfigButton_Click" />
-                        <Button
-                            x:Name="DelConfig"
-                            x:Uid="DelConfig"
-                            Width="84"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom">
-                            <Button.Flyout>
-                                <Flyout>
-                                    <StackPanel>
-                                        <TextBlock
-                                            x:Uid="DelConfigConfirm"
-                                            Margin="0,0,0,12"
-                                            Style="{ThemeResource BaseTextBlockStyle}" />
-                                        <Button x:Uid="Confirm" Click="DelConfigButton_Click" />
-                                    </StackPanel>
-                                </Flyout>
-                            </Button.Flyout>
-                        </Button>
-                    </StackPanel>
-                    <StackPanel
-                        Margin="0,8,0,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <Button
-                            x:Name="WoLConfig"
-                            x:Uid="WoLConfig"
-                            Width="84"
-                            Margin="0,0,8,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Click="WoLConfigButton_Click" />
-                        <Button
-                            x:Name="ShutdownConfig"
-                            x:Uid="ShutdownConfig"
-                            Width="84"
-                            Margin="0,0,8,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom">
-                            <Button.Flyout>
-                                <Flyout>
-                                    <StackPanel>
-                                        <TextBlock
-                                            x:Uid="ShutdownConfigConfirm"
-                                            Margin="0,0,0,12"
-                                            Style="{ThemeResource BaseTextBlockStyle}" />
-                                        <Button x:Uid="Confirm" Click="ShutdownConfigButton_Click" />
-                                    </StackPanel>
-                                </Flyout>
-                            </Button.Flyout>
-                        </Button>
-                        <Button
-                            x:Name="RDPConfig"
-                            x:Uid="RDPConfig"
-                            Width="84"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Click="RDPConfigButton_Click" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
