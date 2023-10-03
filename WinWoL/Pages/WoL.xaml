@@ -12,24 +12,36 @@
     <Page.Resources>
         <!--  定义 ScrollViewer 的样式  -->
         <Style x:Key="TransparentScrollViewerStyle" TargetType="ScrollViewer">
-            <!--  设置背景为透明  -->
+            <!--  设置背景  -->
             <Setter Property="Background" Value="#11FFFFFF" />
-            <!--  设置边框为透明  -->
-            <Setter Property="BorderBrush" Value="Transparent" />
-            <!--  设置边框厚度为0  -->
+            <!--  设置边框  -->
+            <Setter Property="BorderBrush" Value="#11FFFFFF" />
+            <!--  设置边框厚度  -->
             <Setter Property="BorderThickness" Value="0" />
             <!--  设置圆角  -->
             <Setter Property="CornerRadius" Value="4" />
         </Style>
         <Flyout x:Name="confirmationFlyout" Placement="Right">
             <StackPanel>
-                <TextBlock Margin="0,0,0,8" Text="确定要删除吗？" />
+                <TextBlock Margin="0,0,8,0" Text="确定要删除吗？" />
                 <StackPanel Orientation="Horizontal">
                     <Button
                         Margin="0,0,8,0"
                         Click="ConfirmDelete_Click"
                         Content="确认" />
                     <Button Click="CancelDelete_Click" Content="取消" />
+                </StackPanel>
+            </StackPanel>
+        </Flyout>
+        <Flyout x:Name="confirmationReplaceFlyout" Placement="Right">
+            <StackPanel>
+                <TextBlock Margin="0,0,0,8" Text="确定要覆盖吗？" />
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        Margin="0,0,8,0"
+                        Click="ConfirmReplace_Click"
+                        Content="确认" />
+                    <Button Click="CancelReplace_Click" Content="取消" />
                 </StackPanel>
             </StackPanel>
         </Flyout>
@@ -52,80 +64,155 @@
                     <TextBlock
                         x:Name="Header"
                         x:Uid="WoLHeader"
+                        Margin="0,0,0,8"
                         HorizontalAlignment="Center"
                         FontSize="24" />
 
-                    <StackPanel
-                        Margin="0,8,0,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <Button
-                            x:Name="ImportConfig"
-                            x:Uid="ImportConfig"
-                            Width="130"
+                    <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
+                        <StackPanel
                             Margin="0,0,8,0"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Click="ImportConfig_Click" />
-                        <Button
-                            x:Name="ExportConfig"
-                            x:Uid="ExportConfig"
-                            Width="130"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Click="ExportConfig_Click" />
-                    </StackPanel>
+                            VerticalAlignment="Center"
+                            Orientation="Vertical">
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="DarkGray"
+                                Text="双击左键唤醒电脑 右键配置打开菜单" />
+                            <ScrollViewer
+                                Width="293"
+                                Height="292"
+                                Margin="0,0,0,8"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource TransparentScrollViewerStyle}">
+                                <Grid>
+                                    <ListView
+                                        x:Name="dataListView"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid DoubleTapped="OnListViewDoubleTapped" RightTapped="OnListViewRightTapped">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Text="配置：" />
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Text="{Binding Name}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </Grid>
+                            </ScrollViewer>
 
-                    <ScrollViewer
-                        Width="268"
-                        Height="168"
-                        Margin="0,8,0,0"
-                        Style="{StaticResource TransparentScrollViewerStyle}">
-                        <Grid>
-                            <ListView
-                                x:Name="dataListView"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid RightTapped="OnListViewRightTapped">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock
-                                                Grid.Row="0"
-                                                Grid.Column="0"
-                                                Padding="0,20,0,20"
-                                                Text="配置：" />
-                                            <TextBlock
-                                                Grid.Row="0"
-                                                Grid.Column="1"
-                                                Padding="0,20,0,20"
-                                                Text="{Binding Name}" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </Grid>
-                    </ScrollViewer>
+                            <StackPanel
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                                <Button
+                                    x:Name="AddConfig"
+                                    x:Uid="AddConfig"
+                                    Width="142"
+                                    Margin="0,0,8,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Click="AddConfigButton_Click" />
 
-                    <StackPanel
-                        Margin="0,8,0,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <Button
-                            x:Name="AddConfig"
-                            x:Uid="AddConfig"
-                            Width="268"
+                                <Button
+                                    x:Name="ImportConfig"
+                                    x:Uid="ImportConfig"
+                                    Width="142"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Click="ImportConfig_Click" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Click="AddConfigButton_Click" />
+                            VerticalAlignment="Center"
+                            Orientation="Vertical">
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="DarkGray"
+                                Text="选中配置的详情" />
+                            <ScrollViewer
+                                Width="292"
+                                Height="292"
+                                Margin="0,0,0,8"
+                                Style="{StaticResource TransparentScrollViewerStyle}">
+                                <StackPanel
+                                    Width="262"
+                                    Margin="15"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Orientation="Vertical">
+                                    <TextBlock
+                                        x:Name="OutputTextBlock0"
+                                        Margin="0,0,0,8"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Name="OutputTextBlock1"
+                                        Margin="0,0,0,8"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Name="OutputTextBlock2"
+                                        Margin="0,0,0,8"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Name="OutputTextBlock3"
+                                        Margin="0,0,0,8"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Name="OutputTextBlock4"
+                                        Margin="0,0,0,8"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Name="OutputTextBlock5"
+                                        Margin="0,0,0,8"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Name="OutputTextBlock6"
+                                        Margin="0,0,0,8"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                            </ScrollViewer>
+                            <StackPanel
+                                Width="292"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                                <Button
+                                    x:Name="DHCPConfig"
+                                    Width="142"
+                                    Margin="0,0,8,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Content="DHCP（自动）" />
+                                <Button
+                                    x:Name="RefreshConfig"
+                                    Width="142"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Content="刷新信息" />
+                            </StackPanel>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
@@ -139,5 +226,6 @@
             x:Name="WoLResultTips"
             CloseButtonContent="确认"
             IsLightDismissEnabled="True" />
+        <ProgressRing x:Name="InProgressing" IsActive="False" />
     </Grid>
 </Page>

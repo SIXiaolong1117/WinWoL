@@ -23,6 +23,7 @@ using WinWoL.Methods;
 using System.Threading;
 using Microsoft.UI.Dispatching;
 using WinWoL.Pages.Dialogs;
+using System.Security.Principal;
 
 namespace WinWoL.Pages
 {
@@ -111,22 +112,9 @@ namespace WinWoL.Pages
             }
             ImportConfig.IsEnabled = true;
         }
-        // 导出配置按钮点击
-        private async void ExportConfig_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataListView.SelectedItem != null)
-            {
-                // 获取WoLModel对象
-                WoLModel selectedModel = (WoLModel)dataListView.SelectedItem;
-                string result = await WoLMethod.ExportConfig(selectedModel);
-            }
-            else
-            {
-                NeedSelectedTips.IsOpen = true;
-            }
-        }
         private void WoLPC(WoLModel woLModel)
         {
+            InProgressing.IsActive = true;
             // 在子线程中执行任务
             Thread subThread = new Thread(new ThreadStart(() =>
             {
@@ -161,6 +149,10 @@ namespace WinWoL.Pages
                         WoLResultTips.Subtitle = "请检查您填写的配置内容";
                     });
                 }
+                _dispatcherQueue.TryEnqueue(() =>
+                {
+                    InProgressing.IsActive = false;
+                });
             }));
             subThread.Start();
         }
@@ -190,7 +182,19 @@ namespace WinWoL.Pages
                 LoadData();
             }
         }
-
+        private async void ExportConfigFunction()
+        {
+            // 获取WoLModel对象
+            WoLModel selectedModel = (WoLModel)dataListView.SelectedItem;
+            string result = await WoLMethod.ExportConfig(selectedModel);
+        }
+        private void CopyThisConfig(WoLModel wolModel)
+        {
+            SQLiteHelper dbHelper = new SQLiteHelper();
+            dbHelper.InsertData(wolModel);
+            // 重新加载数据
+            LoadData();
+        }
         private void DelThisConfig(WoLModel wolModel)
         {
             // 实例化SQLiteHelper
@@ -206,7 +210,37 @@ namespace WinWoL.Pages
             confirmationFlyout.Hide();
             DelThisConfig(selectedWoLModel);
         }
+        private async void ConfirmReplace_Click(object sender, RoutedEventArgs e)
+        {
+            // 关闭二次确认Flyout
+            confirmationReplaceFlyout.Hide();
+            // 获取NSModel对象
+            WoLModel selectedModel = (WoLModel)dataListView.SelectedItem;
+            ImportConfig.IsEnabled = false;
+            // 实例化SQLiteHelper
+            SQLiteHelper dbHelper = new SQLiteHelper();
 
+            // 获取导入的数据
+            WoLModel newModel = await WoLMethod.ImportConfig();
+
+            if (newModel != null)
+            {
+                // 获取当前配置的ID
+                int id = selectedModel.Id;
+                // 赋给导入的配置
+                newModel.Id = id;
+                // 插入新数据
+                dbHelper.UpdateData(newModel);
+                // 重新加载数据
+                LoadData();
+            }
+            ImportConfig.IsEnabled = true;
+        }
+        private void CancelReplace_Click(object sender, RoutedEventArgs e)
+        {
+            // 关闭二次确认Flyout
+            confirmationReplaceFlyout.Hide();
+        }
         private void CancelDelete_Click(object sender, RoutedEventArgs e)
         {
             // 关闭二次确认Flyout
@@ -242,6 +276,31 @@ namespace WinWoL.Pages
                 MenuFlyoutSeparator separator = new MenuFlyoutSeparator();
                 menuFlyout.Items.Add(separator);
 
+                MenuFlyoutItem exportMenuItem = new MenuFlyoutItem
+                {
+                    Text = "导出配置"
+                };
+                exportMenuItem.Click += (sender, e) =>
+                {
+                    ExportConfigFunction();
+                };
+                menuFlyout.Items.Add(exportMenuItem);
+
+                MenuFlyoutItem replaceMenuItem = new MenuFlyoutItem
+                {
+                    Text = "覆盖配置"
+                };
+                replaceMenuItem.Click += (sender, e) =>
+                {
+                    // 弹出二次确认Flyout
+                    confirmationReplaceFlyout.ShowAt(listViewItem);
+                };
+                menuFlyout.Items.Add(replaceMenuItem);
+
+                // 添加分割线
+                MenuFlyoutSeparator separator2 = new MenuFlyoutSeparator();
+                menuFlyout.Items.Add(separator2);
+
                 MenuFlyoutItem editMenuItem = new MenuFlyoutItem
                 {
                     Text = "编辑配置"
@@ -251,6 +310,16 @@ namespace WinWoL.Pages
                     EditThisConfig(selectedItem);
                 };
                 menuFlyout.Items.Add(editMenuItem);
+
+                MenuFlyoutItem copyMenuItem = new MenuFlyoutItem
+                {
+                    Text = "复制配置"
+                };
+                copyMenuItem.Click += (sender, e) =>
+                {
+                    CopyThisConfig(selectedItem);
+                };
+                menuFlyout.Items.Add(copyMenuItem);
 
                 MenuFlyoutItem deleteMenuItem = new MenuFlyoutItem
                 {
@@ -265,10 +334,25 @@ namespace WinWoL.Pages
                 };
                 menuFlyout.Items.Add(deleteMenuItem);
 
+                Thread.Sleep(10);
+
                 // 在指定位置显示ContextMenu
                 menuFlyout.ShowAt(listViewItem, e.GetPosition(listViewItem));
             }
 
+        }
+        private void OnListViewDoubleTapped(object sender, RoutedEventArgs e)
+        {
+            if (InProgressing.IsActive == false)
+            {
+                // 处理左键双击事件的代码
+                // 获取右键点击的ListViewItem
+                FrameworkElement listViewItem = (sender as FrameworkElement);
+
+                // 获取右键点击的数据对象（NSModel）
+                WoLModel selectedItem = listViewItem?.DataContext as WoLModel;
+                WoLPC(selectedItem);
+            }
         }
     }
 }
