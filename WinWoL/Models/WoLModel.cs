@@ -24,5 +24,6 @@ namespace WinWoL.Models
         public string RDPIsOpen { get; set; }
         public string SSHIsOpen { get; set; }
         public string BroadcastIsOpen { get; set; }
+        public string SSHKeyIsOpen { get; set; }
     }
 }

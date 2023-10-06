@@ -1,4 +1,5 @@
-﻿using Microsoft.UI;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -20,6 +21,8 @@ using Windows.Storage;
 using Windows.UI.ApplicationSettings;
 using Windows.UI.ViewManagement;
 using WinRT;
+using WinWoL.Datas;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace WinWoL
@@ -45,9 +48,62 @@ namespace WinWoL
             // 设置任务栏显示名称
             Title = $"网络唤醒 (Wake on LAN)";
 
+            SqliteConnection connection = new SqliteConnection("Data Source=wol.db");
+            connection.Open();
+            UpgradeDatabase(connection);
+
             TrySetSystemBackdrop();
 
             NavView.SelectedItem = NavView.MenuItems[0];
+        }
+
+        // 检查数据库版本
+        public static int GetDatabaseVersion(SqliteConnection connection)
+        {
+            using (var cmd = connection.CreateCommand())
+            {
+                cmd.CommandText = "SELECT VersionNumber FROM Version";
+                var result = cmd.ExecuteScalar();
+                if (result != null && int.TryParse(result.ToString(), out int version))
+                {
+                    return version;
+                }
+                return 0; // 如果没有版本信息，默认为0
+            }
+        }
+
+        // 数据库升级
+        public static void UpgradeDatabase(SqliteConnection connection)
+        {
+            int currentVersion = GetDatabaseVersion(connection);
+
+            // 检查当前数据库版本并执行升级操作
+            if (currentVersion < 1)
+            {
+                // 执行升级操作，例如添加新字段
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "ALTER TABLE WoLTable ADD COLUMN SSHKeyIsOpen TEXT";
+                    cmd.ExecuteNonQuery();
+                }
+
+                // 更新数据库版本信息
+                using (var cmd = connection.CreateCommand())
+                {
+                    if (currentVersion == 0)
+                    {
+                        cmd.CommandText = "INSERT INTO Version (VersionNumber) VALUES (@VersionNumber)";
+
+                        cmd.Parameters.AddWithValue("@VersionNumber", 1);
+                        cmd.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        cmd.CommandText = "UPDATE Version SET VersionNumber = 1";
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
         }
 
         bool TrySetSystemBackdrop()

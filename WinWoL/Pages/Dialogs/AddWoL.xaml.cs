@@ -42,7 +42,7 @@ namespace WinWoL.Pages.Dialogs
             SSHCommandTextBox.Text = wolModel.SSHCommand;
             SSHPortTextBox.Text = wolModel.SSHPort;
             SSHUserTextBox.Text = wolModel.SSHUser;
-            PrivateKeyIsOpenToggleSwitch.IsOn = wolModel.SSHIsOpen == "True";
+            PrivateKeyIsOpenToggleSwitch.IsOn = wolModel.SSHKeyIsOpen == "True";
             SSHPasswordBox.Password = wolModel.SSHPasswd;
             SSHKeyPathTextBox.Text = wolModel.SSHKeyPath;
 
@@ -66,6 +66,7 @@ namespace WinWoL.Pages.Dialogs
             WoLData.SSHUser = SSHUserTextBox.Text;
             WoLData.SSHPasswd = SSHPasswordBox.Password;
             WoLData.SSHKeyPath = SSHKeyPathTextBox.Text;
+            WoLData.SSHKeyIsOpen = PrivateKeyIsOpenToggleSwitch.IsOn ? "True" : "False";
         }
 
         private void MyDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

@@ -12,6 +12,7 @@ using WinWoL.Models;
 using Newtonsoft.Json;
 using WinWoL.Datas;
 using System.Diagnostics;
+using Renci.SshNet;
 
 namespace WinWoL.Methods
 {
@@ -231,6 +232,44 @@ namespace WinWoL.Methods
             process.WaitForExit();
             // 进程关闭
             process.Close();
+        }
+        // SSH执行命令
+        public static string SendSSHCommand(string sshCommand, string sshHost, string sshPort, string sshUser, string sshPasswd, string sshKey, string privateKeyIsOpen)
+        {
+            SshClient sshClient;
+
+            if (privateKeyIsOpen == "True")
+            {
+                PrivateKeyFile privateKeyFile = new PrivateKeyFile(sshKey);
+                ConnectionInfo connectionInfo = new ConnectionInfo(sshHost, sshUser, new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile[] { privateKeyFile }));
+                sshClient = new SshClient(connectionInfo);
+            }
+            else
+            {
+                sshClient = new SshClient(sshHost, int.Parse(sshPort), sshUser, sshPasswd);
+            }
+
+            sshClient.Connect();
+
+            if (sshClient.IsConnected)
+            {
+                SshCommand SSHCommand = sshClient.RunCommand(sshCommand);
+
+                if (!string.IsNullOrEmpty(SSHCommand.Error))
+                {
+                    //SSHResponse.Subtitle = "Error: " + SSHCommand.Error;
+                    //SSHResponse.IsOpen = true;
+                    return "Error: " + SSHCommand.Error;
+                }
+                else
+                {
+                    //SSHResponse.Subtitle = SSHCommand.Result;
+                    //SSHResponse.IsOpen = true;
+                    return SSHCommand.Result;
+                }
+            }
+            sshClient.Disconnect();
+            return "0";
         }
     }
 }

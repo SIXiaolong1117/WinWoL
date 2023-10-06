@@ -42,9 +42,15 @@ namespace WinWoL.Datas
                 "WoLIsOpen TEXT, " +
                 "RDPIsOpen TEXT, " +
                 "SSHIsOpen TEXT, " +
-                "BroadcastIsOpen TEXT" +
+                "BroadcastIsOpen TEXT, " +
+                "SSHKeyIsOpen TEXT" +
                 ")";
                 createTableCommand.ExecuteNonQuery();
+
+                // 创建版本表
+                var createTableCommand2 = connection.CreateCommand();
+                createTableCommand2.CommandText = "CREATE TABLE IF NOT EXISTS Version (VersionNumber INTEGER)";
+                createTableCommand2.ExecuteNonQuery();
             }
         }
 
@@ -56,8 +62,8 @@ namespace WinWoL.Datas
                 connection.Open();
 
                 var insertCommand = connection.CreateCommand();
-                insertCommand.CommandText = "INSERT INTO WoLTable (Name, MacAddress, IPAddress, WoLAddress, WoLPort, RDPPort, SSHCommand, SSHPort, SSHUser, SSHPasswd, SSHKeyPath, WoLIsOpen, RDPIsOpen, SSHIsOpen, BroadcastIsOpen) " +
-                    "VALUES (@Name, @MacAddress, @IPAddress, @WoLAddress, @WoLPort, @RDPPort, @SSHCommand, @SSHPort, @SSHUser, @SSHPasswd, @SSHKeyPath, @WoLIsOpen, @RDPIsOpen, @SSHIsOpen, @BroadcastIsOpen)";
+                insertCommand.CommandText = "INSERT INTO WoLTable (Name, MacAddress, IPAddress, WoLAddress, WoLPort, RDPPort, SSHCommand, SSHPort, SSHUser, SSHPasswd, SSHKeyPath, WoLIsOpen, RDPIsOpen, SSHIsOpen, BroadcastIsOpen， SSHKeyIsOpen) " +
+                    "VALUES (@Name, @MacAddress, @IPAddress, @WoLAddress, @WoLPort, @RDPPort, @SSHCommand, @SSHPort, @SSHUser, @SSHPasswd, @SSHKeyPath, @WoLIsOpen, @RDPIsOpen, @SSHIsOpen, @BroadcastIsOpen, @SSHKeyIsOpen)";
 
                 insertCommand.Parameters.AddWithValue("@Name", model.Name ?? (object)DBNull.Value);
                 insertCommand.Parameters.AddWithValue("@MacAddress", model.MacAddress ?? (object)DBNull.Value);
@@ -74,6 +80,7 @@ namespace WinWoL.Datas
                 insertCommand.Parameters.AddWithValue("@RDPIsOpen", model.RDPIsOpen ?? (object)DBNull.Value);
                 insertCommand.Parameters.AddWithValue("@SSHIsOpen", model.SSHIsOpen ?? (object)DBNull.Value);
                 insertCommand.Parameters.AddWithValue("@BroadcastIsOpen", model.BroadcastIsOpen ?? (object)DBNull.Value);
+                insertCommand.Parameters.AddWithValue("@SSHKeyIsOpen", model.SSHKeyIsOpen ?? (object)DBNull.Value);
 
                 insertCommand.ExecuteNonQuery();
             }
@@ -102,9 +109,7 @@ namespace WinWoL.Datas
                 connection.Open();
 
                 var updateCommand = connection.CreateCommand();
-                updateCommand.CommandText = "UPDATE WoLTable " +
-                    "SET Name = @Name, MacAddress = @MacAddress, IPAddress = @IPAddress, WoLAddress = @WoLAddress, WoLPort = @WoLPort, RDPPort = @RDPPort, SSHCommand = @SSHCommand, SSHPort = @SSHPort, SSHUser = @SSHUser, SSHPasswd = @SSHPasswd, SSHKeyPath = @SSHKeyPath, WoLIsOpen = @WoLIsOpen, RDPIsOpen = @RDPIsOpen, SSHIsOpen = @SSHIsOpen, BroadcastIsOpen = @BroadcastIsOpen " +
-                    "WHERE Id = @Id";
+                updateCommand.CommandText = "UPDATE WoLTable SET Name = @Name, MacAddress = @MacAddress, IPAddress = @IPAddress, WoLAddress = @WoLAddress, WoLPort = @WoLPort, RDPPort = @RDPPort, SSHCommand = @SSHCommand, SSHPort = @SSHPort, SSHUser = @SSHUser, SSHPasswd = @SSHPasswd, SSHKeyPath = @SSHKeyPath, WoLIsOpen = @WoLIsOpen, RDPIsOpen = @RDPIsOpen, SSHIsOpen = @SSHIsOpen, BroadcastIsOpen = @BroadcastIsOpen, SSHKeyIsOpen = @SSHKeyIsOpen WHERE Id = @Id";
 
                 updateCommand.Parameters.AddWithValue("@Id", model.Id);
                 updateCommand.Parameters.AddWithValue("@Name", model.Name ?? (object)DBNull.Value);
@@ -122,6 +127,7 @@ namespace WinWoL.Datas
                 updateCommand.Parameters.AddWithValue("@RDPIsOpen", model.RDPIsOpen ?? (object)DBNull.Value);
                 updateCommand.Parameters.AddWithValue("@SSHIsOpen", model.SSHIsOpen ?? (object)DBNull.Value);
                 updateCommand.Parameters.AddWithValue("@BroadcastIsOpen", model.BroadcastIsOpen ?? (object)DBNull.Value);
+                updateCommand.Parameters.AddWithValue("@SSHKeyIsOpen", model.SSHKeyIsOpen ?? (object)DBNull.Value);
 
                 updateCommand.ExecuteNonQuery();
             }
@@ -158,7 +164,8 @@ namespace WinWoL.Datas
                             WoLIsOpen = reader.IsDBNull(12) ? null : reader.GetString(12),
                             RDPIsOpen = reader.IsDBNull(13) ? null : reader.GetString(13),
                             SSHIsOpen = reader.IsDBNull(14) ? null : reader.GetString(14),
-                            BroadcastIsOpen = reader.IsDBNull(15) ? null : reader.GetString(15)
+                            BroadcastIsOpen = reader.IsDBNull(15) ? null : reader.GetString(15),
+                            SSHKeyIsOpen = reader.IsDBNull(16) ? null : reader.GetString(16)
                         };
 
                         return entry;
@@ -203,7 +210,8 @@ namespace WinWoL.Datas
                             WoLIsOpen = reader.IsDBNull(12) ? "" : reader.GetString(12),
                             RDPIsOpen = reader.IsDBNull(13) ? "" : reader.GetString(13),
                             SSHIsOpen = reader.IsDBNull(14) ? "" : reader.GetString(14),
-                            BroadcastIsOpen = reader.IsDBNull(15) ? "" : reader.GetString(15)
+                            BroadcastIsOpen = reader.IsDBNull(15) ? "" : reader.GetString(15),
+                            SSHKeyIsOpen = reader.IsDBNull(16) ? "" : reader.GetString(16)
                         };
                         entries.Add(entry);
                     }
@@ -212,7 +220,6 @@ namespace WinWoL.Datas
 
             return entries;
         }
-
 
         // 查询数据
         public List<WoLModel> QueryData()
@@ -247,7 +254,8 @@ namespace WinWoL.Datas
                             WoLIsOpen = reader.IsDBNull(12) ? "" : reader.GetString(12),
                             RDPIsOpen = reader.IsDBNull(13) ? "" : reader.GetString(13),
                             SSHIsOpen = reader.IsDBNull(14) ? "" : reader.GetString(14),
-                            BroadcastIsOpen = reader.IsDBNull(15) ? "" : reader.GetString(15)
+                            BroadcastIsOpen = reader.IsDBNull(15) ? "" : reader.GetString(15),
+                            SSHKeyIsOpen = reader.IsDBNull(16) ? "" : reader.GetString(16)
                         };
                         entries.Add(entry);
                     }

@@ -25,6 +25,7 @@ using Microsoft.UI.Dispatching;
 using WinWoL.Pages.Dialogs;
 using System.Security.Principal;
 using Validation;
+using Renci.SshNet;
 
 namespace WinWoL.Pages
 {
@@ -290,7 +291,7 @@ namespace WinWoL.Pages
                 };
                 sshShutdownPCMenuItem.Click += (sender, e) =>
                 {
-                   
+                    WoLMethod.SendSSHCommand(selectedItem.SSHCommand, selectedItem.IPAddress, selectedItem.SSHPort, selectedItem.SSHUser, selectedItem.SSHPasswd, selectedItem.SSHKeyPath, selectedItem.SSHKeyIsOpen);
                 };
                 menuFlyout.Items.Add(sshShutdownPCMenuItem);
 
