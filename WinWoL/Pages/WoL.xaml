@@ -163,54 +163,79 @@
                                 <ListView
                                     x:Name="dataListView2"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Stretch">
+                                    VerticalAlignment="Stretch"
+                                    SelectionMode="None">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel
                                                 Width="292"
+                                                Margin="0,16,0,16"
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Center"
                                                 Orientation="Vertical">
                                                 <TextBlock
-                                                    Grid.Row="0"
-                                                    Grid.Column="0"
-                                                    Text="配置别名：" />
+                                                    Margin="0,0,0,8"
+                                                    Text="配置别名："
+                                                    TextWrapping="Wrap" />
                                                 <TextBlock
-                                                    Grid.Row="0"
-                                                    Grid.Column="1"
-                                                    Text="{Binding Name}" />
+                                                    Margin="0,0,0,8"
+                                                    Foreground="DarkGray"
+                                                    Text="{Binding Name}"
+                                                    TextWrapping="Wrap" />
                                                 <TextBlock
-                                                    Grid.Row="1"
-                                                    Grid.Column="0"
-                                                    Text="IP 地址：" />
+                                                    Margin="0,0,0,8"
+                                                    Text="IP 地址："
+                                                    TextWrapping="Wrap" />
                                                 <TextBlock
-                                                    Grid.Row="1"
-                                                    Grid.Column="1"
-                                                    Text="{Binding IPAddress}" />
+                                                    Margin="0,0,0,8"
+                                                    Foreground="DarkGray"
+                                                    Text="{Binding IPAddress}"
+                                                    TextWrapping="Wrap" />
                                                 <TextBlock
-                                                    Grid.Row="2"
-                                                    Grid.Column="0"
-                                                    Text="是否启用 WoL 功能：" />
+                                                    Margin="0,0,0,8"
+                                                    Text="网络唤醒地址："
+                                                    TextWrapping="Wrap" />
                                                 <TextBlock
-                                                    Grid.Row="2"
-                                                    Grid.Column="1"
-                                                    Text="{Binding WoLIsOpen}" />
+                                                    Margin="0,0,0,8"
+                                                    Foreground="DarkGray"
+                                                    Text="{Binding WoLAddress}"
+                                                    TextWrapping="Wrap" />
                                                 <TextBlock
-                                                    Grid.Row="3"
-                                                    Grid.Column="0"
-                                                    Text="是否启用 RDP 功能：" />
+                                                    Margin="0,0,0,8"
+                                                    Text="网络唤醒端口："
+                                                    TextWrapping="Wrap" />
                                                 <TextBlock
-                                                    Grid.Row="3"
-                                                    Grid.Column="1"
-                                                    Text="{Binding RDPIsOpen}" />
+                                                    Margin="0,0,0,8"
+                                                    Foreground="DarkGray"
+                                                    Text="{Binding WoLPort}"
+                                                    TextWrapping="Wrap" />
                                                 <TextBlock
-                                                    Grid.Row="4"
-                                                    Grid.Column="0"
-                                                    Text="是否启用 SSH 关机功能：" />
+                                                    Margin="0,0,0,8"
+                                                    Text="远程桌面端口："
+                                                    TextWrapping="Wrap" />
                                                 <TextBlock
-                                                    Grid.Row="4"
-                                                    Grid.Column="1"
-                                                    Text="{Binding SSHIsOpen}" />
+                                                    Margin="0,0,0,8"
+                                                    Foreground="DarkGray"
+                                                    Text="{Binding RDPPort}"
+                                                    TextWrapping="Wrap" />
+                                                <TextBlock
+                                                    Margin="0,0,0,8"
+                                                    Text="SSH关机端口："
+                                                    TextWrapping="Wrap" />
+                                                <TextBlock
+                                                    Margin="0,0,0,8"
+                                                    Foreground="DarkGray"
+                                                    Text="{Binding SSHPort}"
+                                                    TextWrapping="Wrap" />
+                                                <TextBlock
+                                                    Margin="0,0,0,8"
+                                                    Text="SSH关机命令："
+                                                    TextWrapping="Wrap" />
+                                                <TextBlock
+                                                    Margin="0,0,0,8"
+                                                    Foreground="DarkGray"
+                                                    Text="{Binding SSHCommand}"
+                                                    TextWrapping="Wrap" />
                                             </StackPanel>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
