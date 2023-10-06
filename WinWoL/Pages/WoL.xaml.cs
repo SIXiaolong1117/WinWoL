@@ -24,6 +24,7 @@ using System.Threading;
 using Microsoft.UI.Dispatching;
 using WinWoL.Pages.Dialogs;
 using System.Security.Principal;
+using Validation;
 
 namespace WinWoL.Pages
 {
@@ -271,6 +272,27 @@ namespace WinWoL.Pages
                     WoLPC(selectedItem);
                 };
                 menuFlyout.Items.Add(wolPCMenuItem);
+
+                MenuFlyoutItem rdpPCMenuItem = new MenuFlyoutItem
+                {
+                    Text = "远程桌面"
+                };
+                rdpPCMenuItem.Click += (sender, e) =>
+                {
+                    string mstscCMD = $"mstsc /v:{selectedItem.IPAddress}:{selectedItem.RDPPort};";
+                    WoLMethod.RDPConnect(mstscCMD);
+                };
+                menuFlyout.Items.Add(rdpPCMenuItem);
+
+                MenuFlyoutItem sshShutdownPCMenuItem = new MenuFlyoutItem
+                {
+                    Text = "远程关机"
+                };
+                sshShutdownPCMenuItem.Click += (sender, e) =>
+                {
+                   
+                };
+                menuFlyout.Items.Add(sshShutdownPCMenuItem);
 
                 // 添加分割线
                 MenuFlyoutSeparator separator = new MenuFlyoutSeparator();

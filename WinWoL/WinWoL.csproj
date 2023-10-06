@@ -34,9 +34,9 @@
     <Content Remove="Assets\StoreLogo.scale-150.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="About.xaml" />
     <None Remove="AddConfigDialog.xaml" />
     <None Remove="AddSSHConfigDialog.xaml" />
+    <None Remove="Pages\About.xaml" />
     <None Remove="Pages\Dialogs\AddWoL.xaml" />
     <None Remove="Pages\WoL.xaml" />
     <None Remove="SettingsPage.xaml" />
@@ -73,6 +73,11 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Pages\About.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="AddSSHConfigDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -84,11 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="AddConfigDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="About.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

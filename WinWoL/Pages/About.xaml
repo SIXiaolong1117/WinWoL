@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="WinWoL.Pages.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:WinWoL.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Grid>
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+            <TextBlock
+                x:Name="Header"
+                x:Uid="AboutHeader"
+                Margin="0,0,0,8"
+                HorizontalAlignment="Center"
+                FontSize="24" />
+            <StackPanel
+                Margin="0,0,0,8"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                <PersonPicture DisplayName="SI Xiaolong" ProfilePicture="https://avatars.githubusercontent.com/u/59590732?v=4" />
+            </StackPanel>
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Border
+                    Margin="0,0,8,0"
+                    BorderBrush="#11FFFFFF"
+                    BorderThickness="0,0,1,0">
+                    <StackPanel
+                        Width="210"
+                        Margin="0,0,8,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                        <StackPanel
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                x:Uid="AboutAuthor"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="14" />
+                            <HyperlinkButton
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="司晓龙 (Si-Xiao long)"
+                                FontSize="14"
+                                NavigateUri="https://github.com/Direct5dom" />
+                        </StackPanel>
+                        <StackPanel
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Text="💽Repo:" />
+                            <HyperlinkButton
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="Wake on LAN"
+                                FontSize="14"
+                                NavigateUri="https://github.com/Direct5dom/WinWoL" />
+                        </StackPanel>
+                        <StackPanel
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                x:Uid="AboutLicense"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="14" />
+                            <HyperlinkButton
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="MIT License"
+                                FontSize="14"
+                                NavigateUri="https://raw.githubusercontent.com/Direct5dom/WinWoL/master/LICENSE" />
+                        </StackPanel>
+                        <StackPanel
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                x:Uid="AboutPrivacy"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="14" />
+                            <HyperlinkButton
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="PRIVACY"
+                                FontSize="14"
+                                NavigateUri="https://raw.githubusercontent.com/Direct5dom/WinWoL/master/PRIVACY" />
+                        </StackPanel>
+                        <StackPanel
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                x:Uid="AboutHelp"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="14" />
+                            <HyperlinkButton
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="Github Wiki"
+                                FontSize="14"
+                                NavigateUri="https://github.com/Direct5dom/WinWoL/wiki" />
+                        </StackPanel>
+                        <StackPanel
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                x:Uid="AboutVersion"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="14" />
+                            <HyperlinkButton
+                                x:Name="APPVersion"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="14" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <StackPanel
+                    Width="210"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock
+                        x:Uid="AboutSponsor"
+                        Margin="0,0,0,8"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="18" />
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <HyperlinkButton
+                            x:Uid="AboutAliPay"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            NavigateUri="https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/AliPay.jpg" />
+                        <HyperlinkButton
+                            x:Uid="AboutWePay"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            NavigateUri="https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/WeChat.png" />
+                    </StackPanel>
+                    <TextBlock
+                        x:Uid="AboutSponsorTips"
+                        Margin="0,0,0,8"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Foreground="DarkGray" />
+                    <WebView2
+                        Grid.Row="1"
+                        Width="210"
+                        Height="100"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        DefaultBackgroundColor="Transparent"
+                        Source="https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/List" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

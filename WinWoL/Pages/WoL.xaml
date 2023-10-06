@@ -107,10 +107,12 @@
                                                     <TextBlock
                                                         Grid.Row="0"
                                                         Grid.Column="0"
+                                                        Padding="0,16,8,16"
                                                         Text="配置：" />
                                                     <TextBlock
                                                         Grid.Row="0"
                                                         Grid.Column="1"
+                                                        Padding="0,16,0,16"
                                                         Text="{Binding Name}" />
                                                 </Grid>
                                             </DataTemplate>
@@ -125,7 +127,7 @@
                                 Orientation="Horizontal">
                                 <Button
                                     x:Name="AddConfig"
-                                    x:Uid="AddConfig"
+                                    x:Uid="WoLAddConfig"
                                     Width="142"
                                     Margin="0,0,8,0"
                                     HorizontalAlignment="Center"
@@ -134,7 +136,7 @@
 
                                 <Button
                                     x:Name="ImportConfig"
-                                    x:Uid="ImportConfig"
+                                    x:Uid="WoLImportConfig"
                                     Width="142"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Bottom"

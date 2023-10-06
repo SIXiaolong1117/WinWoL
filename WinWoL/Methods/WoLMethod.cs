@@ -11,6 +11,7 @@ using Windows.Storage;
 using WinWoL.Models;
 using Newtonsoft.Json;
 using WinWoL.Datas;
+using System.Diagnostics;
 
 namespace WinWoL.Methods
 {
@@ -209,6 +210,27 @@ namespace WinWoL.Methods
                 // 未选择JSON文件。
                 return null;
             }
+        }
+        // 唤起RDP
+        public static void RDPConnect(string arguments)
+        {
+            // 创建一个新的进程
+            Process process = new Process();
+            // 指定运行PowerShell
+            process.StartInfo.FileName = "PowerShell.exe";
+            // 参数为唤起mstsc的参数
+            // 他保存在localSettings中，随主刷新函数刷新
+            process.StartInfo.Arguments = arguments;
+            //是否使用操作系统shell启动
+            process.StartInfo.UseShellExecute = false;
+            //是否在新窗口中启动该进程的值 (不显示程序窗口)
+            process.StartInfo.CreateNoWindow = true;
+            // 进程开始
+            process.Start();
+            // 等待执行结束
+            process.WaitForExit();
+            // 进程关闭
+            process.Close();
         }
     }
 }
