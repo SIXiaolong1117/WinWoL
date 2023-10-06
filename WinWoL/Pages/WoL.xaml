@@ -92,7 +92,8 @@
                                     <ListView
                                         x:Name="dataListView"
                                         HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch">
+                                        VerticalAlignment="Stretch"
+                                        SelectionChanged="dataListView_SelectionChanged">
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid DoubleTapped="OnListViewDoubleTapped" RightTapped="OnListViewRightTapped">
@@ -157,41 +158,61 @@
                                 Height="292"
                                 Margin="0,0,0,8"
                                 Style="{StaticResource TransparentScrollViewerStyle}">
-                                <StackPanel
-                                    Width="262"
-                                    Margin="15"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Orientation="Vertical">
-                                    <TextBlock
-                                        x:Name="OutputTextBlock0"
-                                        Margin="0,0,0,8"
-                                        TextWrapping="Wrap" />
-                                    <TextBlock
-                                        x:Name="OutputTextBlock1"
-                                        Margin="0,0,0,8"
-                                        TextWrapping="Wrap" />
-                                    <TextBlock
-                                        x:Name="OutputTextBlock2"
-                                        Margin="0,0,0,8"
-                                        TextWrapping="Wrap" />
-                                    <TextBlock
-                                        x:Name="OutputTextBlock3"
-                                        Margin="0,0,0,8"
-                                        TextWrapping="Wrap" />
-                                    <TextBlock
-                                        x:Name="OutputTextBlock4"
-                                        Margin="0,0,0,8"
-                                        TextWrapping="Wrap" />
-                                    <TextBlock
-                                        x:Name="OutputTextBlock5"
-                                        Margin="0,0,0,8"
-                                        TextWrapping="Wrap" />
-                                    <TextBlock
-                                        x:Name="OutputTextBlock6"
-                                        Margin="0,0,0,8"
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
+                                <ListView
+                                    x:Name="dataListView2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Stretch">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel
+                                                Width="292"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Orientation="Vertical">
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Text="配置别名：" />
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    Text="{Binding Name}" />
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Text="IP 地址：" />
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Text="{Binding IPAddress}" />
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Text="是否启用 WoL 功能：" />
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="1"
+                                                    Text="{Binding WoLIsOpen}" />
+                                                <TextBlock
+                                                    Grid.Row="3"
+                                                    Grid.Column="0"
+                                                    Text="是否启用 RDP 功能：" />
+                                                <TextBlock
+                                                    Grid.Row="3"
+                                                    Grid.Column="1"
+                                                    Text="{Binding RDPIsOpen}" />
+                                                <TextBlock
+                                                    Grid.Row="4"
+                                                    Grid.Column="0"
+                                                    Text="是否启用 SSH 关机功能：" />
+                                                <TextBlock
+                                                    Grid.Row="4"
+                                                    Grid.Column="1"
+                                                    Text="{Binding SSHIsOpen}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
                             </ScrollViewer>
                             <StackPanel
                                 Width="292"

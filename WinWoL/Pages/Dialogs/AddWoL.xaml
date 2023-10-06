@@ -41,12 +41,6 @@
                         Header="主机 IP 地址："
                         PlaceholderText="eg: 192.168.1.2"
                         TextChanged="TextChanged" />
-                    <CheckBox
-                        x:Name="BroadcastCheckBox"
-                        Margin="0,0,0,8"
-                        Checked="Broadcast_Checked"
-                        Content="WoL 向 LAN 网络广播"
-                        Unchecked="Broadcast_Unchecked" />
                 </StackPanel>
 
                 <!--  WoL 相关设置  -->
@@ -67,6 +61,12 @@
                         OnContent="开启"
                         Toggled="wolIsOpen_Toggled" />
                     <StackPanel x:Name="WoLConfig">
+                        <CheckBox
+                        x:Name="BroadcastCheckBox"
+                        Margin="0,0,0,8"
+                        Checked="Broadcast_Checked"
+                        Content="WoL 向 LAN 网络广播"
+                        Unchecked="Broadcast_Unchecked" />
                         <TextBox
                             x:Name="MacAddressTextBox"
                             Width="250"

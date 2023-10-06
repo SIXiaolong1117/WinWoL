@@ -55,6 +55,7 @@ namespace WinWoL.Pages.Dialogs
             WoLData.IPAddress = IpAddressTextBox.Text;
             WoLData.BroadcastIsOpen = BroadcastCheckBox.IsChecked == true ? "True" : "False";
             WoLData.WoLIsOpen = WoLIsOpenToggleSwitch.IsOn ? "True" : "False";
+            WoLData.WoLAddress = IpAddressTextBox.Text;
             WoLData.MacAddress = MacAddressTextBox.Text;
             WoLData.WoLPort = WoLPortTextBox.Text;
             WoLData.RDPIsOpen = RDPIsOpenToggleSwitch.IsOn ? "True" : "False";

@@ -170,6 +170,50 @@ namespace WinWoL.Datas
             return null;
         }
 
+        public List<WoLModel> GetDataListById(int id)
+        {
+            List<WoLModel> entries = new List<WoLModel>();
+
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+
+                var queryCommand = connection.CreateCommand();
+                queryCommand.CommandText = "SELECT * FROM WoLTable WHERE Id = @Id";
+                queryCommand.Parameters.AddWithValue("@Id", id);
+
+                using (SqliteDataReader reader = queryCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        WoLModel entry = new WoLModel
+                        {
+                            Id = reader.GetInt32(0),
+                            Name = reader.IsDBNull(1) ? "" : reader.GetString(1),
+                            MacAddress = reader.IsDBNull(2) ? "" : reader.GetString(2),
+                            IPAddress = reader.IsDBNull(3) ? "" : reader.GetString(3),
+                            WoLAddress = reader.IsDBNull(4) ? "" : reader.GetString(4),
+                            WoLPort = reader.IsDBNull(5) ? "" : reader.GetString(5),
+                            RDPPort = reader.IsDBNull(6) ? "" : reader.GetString(6),
+                            SSHCommand = reader.IsDBNull(7) ? "" : reader.GetString(7),
+                            SSHPort = reader.IsDBNull(8) ? "" : reader.GetString(8),
+                            SSHUser = reader.IsDBNull(9) ? "" : reader.GetString(9),
+                            SSHPasswd = reader.IsDBNull(10) ? "" : reader.GetString(10),
+                            SSHKeyPath = reader.IsDBNull(11) ? "" : reader.GetString(11),
+                            WoLIsOpen = reader.IsDBNull(12) ? "" : reader.GetString(12),
+                            RDPIsOpen = reader.IsDBNull(13) ? "" : reader.GetString(13),
+                            SSHIsOpen = reader.IsDBNull(14) ? "" : reader.GetString(14),
+                            BroadcastIsOpen = reader.IsDBNull(15) ? "" : reader.GetString(15)
+                        };
+                        entries.Add(entry);
+                    }
+                }
+            }
+
+            return entries;
+        }
+
+
         // 查询数据
         public List<WoLModel> QueryData()
         {

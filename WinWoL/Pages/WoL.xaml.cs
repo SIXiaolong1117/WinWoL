@@ -80,7 +80,7 @@ namespace WinWoL.Pages
                 LoadData();
             }
         }
-        
+
 
         private void ChangeConfigButton_Click(object sender, RoutedEventArgs e)
         {
@@ -254,7 +254,7 @@ namespace WinWoL.Pages
             // 获取右键点击的数据对象（WoLModel）
             WoLModel selectedItem = listViewItem?.DataContext as WoLModel;
 
-            if (selectedItem != null)
+            if (selectedItem != null && InProgressing.IsActive == false)
             {
                 // 将右键点击的项设置为选中项
                 dataListView.SelectedItem = selectedItem;
@@ -343,15 +343,30 @@ namespace WinWoL.Pages
         }
         private void OnListViewDoubleTapped(object sender, RoutedEventArgs e)
         {
-            if (InProgressing.IsActive == false)
+            // 处理左键双击事件的代码
+            // 获取右键点击的ListViewItem
+            FrameworkElement listViewItem = (sender as FrameworkElement);
+            if (listViewItem != null && InProgressing.IsActive == false)
             {
-                // 处理左键双击事件的代码
-                // 获取右键点击的ListViewItem
-                FrameworkElement listViewItem = (sender as FrameworkElement);
-
-                // 获取右键点击的数据对象（NSModel）
+                // 获取点击的数据对象
                 WoLModel selectedItem = listViewItem?.DataContext as WoLModel;
                 WoLPC(selectedItem);
+            }
+        }
+        private void dataListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dataListView.SelectedItem != null)
+            {
+                // 获取当前选择的项
+                WoLModel selectedItem = (WoLModel)dataListView.SelectedItem;
+
+                // 实例化SQLiteHelper
+                SQLiteHelper dbHelper = new SQLiteHelper();
+                // 查询数据
+                List<WoLModel> dataList = dbHelper.GetDataListById(selectedItem.Id);
+
+                // 将数据列表绑定到ListView
+                dataListView2.ItemsSource = dataList;
             }
         }
     }
