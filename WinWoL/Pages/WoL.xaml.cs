@@ -40,6 +40,8 @@ namespace WinWoL.Pages
             _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             // 加载数据
             LoadData();
+
+            PingRefConfig.IsEnabled = false;
         }
 
         private void LoadData()
@@ -248,6 +250,11 @@ namespace WinWoL.Pages
             // 关闭二次确认Flyout
             confirmationFlyout.Hide();
         }
+        private void PingRefConfig_Click(object sender, RoutedEventArgs e)
+        {
+            WoLModel selectedItem = (WoLModel)dataListView.SelectedItem;
+            PingRef.Text = WoLMethod.PingTest(selectedItem.IPAddress);
+        }
         private void OnListViewRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             // 获取右键点击的ListViewItem
@@ -264,36 +271,45 @@ namespace WinWoL.Pages
                 // 创建ContextMenu
                 MenuFlyout menuFlyout = new MenuFlyout();
 
-                MenuFlyoutItem wolPCMenuItem = new MenuFlyoutItem
+                if (selectedItem.WoLIsOpen == "True")
                 {
-                    Text = "网络唤醒"
-                };
-                wolPCMenuItem.Click += (sender, e) =>
-                {
-                    WoLPC(selectedItem);
-                };
-                menuFlyout.Items.Add(wolPCMenuItem);
+                    MenuFlyoutItem wolPCMenuItem = new MenuFlyoutItem
+                    {
+                        Text = "网络唤醒"
+                    };
+                    wolPCMenuItem.Click += (sender, e) =>
+                    {
+                        WoLPC(selectedItem);
+                    };
+                    menuFlyout.Items.Add(wolPCMenuItem);
+                }
 
-                MenuFlyoutItem rdpPCMenuItem = new MenuFlyoutItem
+                if (selectedItem.RDPIsOpen == "True")
                 {
-                    Text = "远程桌面"
-                };
-                rdpPCMenuItem.Click += (sender, e) =>
-                {
-                    string mstscCMD = $"mstsc /v:{selectedItem.IPAddress}:{selectedItem.RDPPort};";
-                    WoLMethod.RDPConnect(mstscCMD);
-                };
-                menuFlyout.Items.Add(rdpPCMenuItem);
+                    MenuFlyoutItem rdpPCMenuItem = new MenuFlyoutItem
+                    {
+                        Text = "远程桌面"
+                    };
+                    rdpPCMenuItem.Click += (sender, e) =>
+                    {
+                        string mstscCMD = $"mstsc /v:{selectedItem.IPAddress}:{selectedItem.RDPPort};";
+                        WoLMethod.RDPConnect(mstscCMD);
+                    };
+                    menuFlyout.Items.Add(rdpPCMenuItem);
+                }
 
-                MenuFlyoutItem sshShutdownPCMenuItem = new MenuFlyoutItem
+                if (selectedItem.SSHIsOpen == "True")
                 {
-                    Text = "远程关机"
-                };
-                sshShutdownPCMenuItem.Click += (sender, e) =>
-                {
-                    WoLMethod.SendSSHCommand(selectedItem.SSHCommand, selectedItem.IPAddress, selectedItem.SSHPort, selectedItem.SSHUser, selectedItem.SSHPasswd, selectedItem.SSHKeyPath, selectedItem.SSHKeyIsOpen);
-                };
-                menuFlyout.Items.Add(sshShutdownPCMenuItem);
+                    MenuFlyoutItem sshShutdownPCMenuItem = new MenuFlyoutItem
+                    {
+                        Text = "远程关机"
+                    };
+                    sshShutdownPCMenuItem.Click += (sender, e) =>
+                    {
+                        WoLMethod.SendSSHCommand(selectedItem.SSHCommand, selectedItem.IPAddress, selectedItem.SSHPort, selectedItem.SSHUser, selectedItem.SSHPasswd, selectedItem.SSHKeyPath, selectedItem.SSHKeyIsOpen);
+                    };
+                    menuFlyout.Items.Add(sshShutdownPCMenuItem);
+                }
 
                 // 添加分割线
                 MenuFlyoutSeparator separator = new MenuFlyoutSeparator();
@@ -380,6 +396,8 @@ namespace WinWoL.Pages
         {
             if (dataListView.SelectedItem != null)
             {
+                PingRefConfig.IsEnabled = true;
+
                 // 获取当前选择的项
                 WoLModel selectedItem = (WoLModel)dataListView.SelectedItem;
 

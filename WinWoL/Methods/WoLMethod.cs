@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using WinWoL.Datas;
 using System.Diagnostics;
 using Renci.SshNet;
+using System.Net.NetworkInformation;
 
 namespace WinWoL.Methods
 {
@@ -270,6 +271,73 @@ namespace WinWoL.Methods
             }
             sshClient.Disconnect();
             return "0";
+        }
+        // Ping测试
+        public static string PingTest(string domain)
+        {
+            // 获取IP地址
+            // 在这里执行这个操作，可以处理一些非法IP的输入问题（例如：广播地址 255.255.255.255）
+            // 非法IP会被返回“主机地址无法联通”，而不会让pingSender报错导致应用崩溃
+            IPAddress ipAddress = DomainToIp(domain, "IPv4");
+
+            // Ping实例对象
+            Ping pingSender = new Ping();
+            // Ping选项
+            PingOptions options = new PingOptions();
+            options.DontFragment = true;
+            string data = "ping";
+            byte[] buf = Encoding.ASCII.GetBytes(data);
+            // 调用同步Send方法发送数据，结果存入reply对象;
+            PingReply reply = pingSender.Send(ipAddress, 500, buf, options);
+
+            // 判断replay，是否连通
+            if (reply.Status == IPStatus.Success)
+            {
+                return $"{reply.RoundtripTime} ms";
+            }
+            else
+            {
+                return $"{reply.Status}";
+            }
+        }
+        // Tcping测试
+        public static string PingPortTest(string domain, int port)
+        {
+            // 获取IP地址
+            // 在这里执行这个操作，可以处理一些非法IP的输入问题（例如：广播地址 255.255.255.255）
+            // 非法IP会被返回“主机地址无法联通”，而不会让pingSender报错导致应用崩溃
+            IPAddress ipAddress = DomainToIp(domain, "IPv4");
+
+            // Ping实例对象
+            Ping pingSender = new Ping();
+            // Ping选项
+            PingOptions options = new PingOptions();
+            options.DontFragment = true;
+            string data = "ping";
+            byte[] buf = Encoding.ASCII.GetBytes(data);
+            // 调用同步Send方法发送数据，结果存入reply对象;
+            PingReply reply = pingSender.Send(ipAddress, 500, buf, options);
+
+            // 判断replay，是否连通
+            if (reply.Status == IPStatus.Success)
+            {
+                // 如果连通，尝试与指定端口通信
+                var client = new TcpClient();
+                if (!client.ConnectAsync(ipAddress, port).Wait(500))
+                {
+                    // 与指定端口通信失败
+                    return "端口连接失败";
+                }
+                else
+                {
+                    // 与指定端口通信成功，计算RTT并返回
+                    return $"{reply.RoundtripTime} ms";
+                }
+            }
+            else
+            {
+                return $"{reply.Status}";
+            }
         }
     }
 }
