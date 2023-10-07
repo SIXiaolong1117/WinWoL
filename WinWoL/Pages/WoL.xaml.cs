@@ -26,11 +26,14 @@ using WinWoL.Pages.Dialogs;
 using System.Security.Principal;
 using Validation;
 using Renci.SshNet;
+using System.Reflection.PortableExecutable;
+using Windows.ApplicationModel.Resources;
 
 namespace WinWoL.Pages
 {
     public sealed partial class WoL : Page
     {
+        ResourceLoader resourceLoader = new ResourceLoader();
         WoLModel selectedWoLModel;
         private DispatcherQueue _dispatcherQueue;
         public WoL()
@@ -40,6 +43,8 @@ namespace WinWoL.Pages
             _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             // 加载数据
             LoadData();
+
+            Header.Text = resourceLoader.GetString("WoLHeader");
 
             PingRefConfig.IsEnabled = false;
         }
@@ -250,10 +255,30 @@ namespace WinWoL.Pages
             // 关闭二次确认Flyout
             confirmationFlyout.Hide();
         }
-        private void PingRefConfig_Click(object sender, RoutedEventArgs e)
+        private async void PingRefConfig_Click(object sender, RoutedEventArgs e)
         {
-            WoLModel selectedItem = (WoLModel)dataListView.SelectedItem;
-            PingRef.Text = WoLMethod.PingTest(selectedItem.IPAddress);
+            // 获取当前选择的项
+            WoLModel wolModel = (WoLModel)dataListView.SelectedItem;
+            if (wolModel != null)
+            {
+                // 创建一个新的dialog对象
+                PingTools dialog = new PingTools(wolModel);
+                // 对此dialog对象进行配置
+                dialog.XamlRoot = this.XamlRoot;
+                dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+                dialog.CloseButtonText = "关闭";
+                // 默认按钮为PrimaryButton
+                dialog.DefaultButton = ContentDialogButton.Primary;
+
+                // 显示Dialog并等待其关闭
+                ContentDialogResult result = await dialog.ShowAsync();
+
+                // 如果按下了Primary
+                if (result == ContentDialogResult.Primary)
+                {
+
+                }
+            }
         }
         private void OnListViewRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
@@ -396,8 +421,6 @@ namespace WinWoL.Pages
         {
             if (dataListView.SelectedItem != null)
             {
-                PingRefConfig.IsEnabled = true;
-
                 // 获取当前选择的项
                 WoLModel selectedItem = (WoLModel)dataListView.SelectedItem;
 
@@ -408,6 +431,15 @@ namespace WinWoL.Pages
 
                 // 将数据列表绑定到ListView
                 dataListView2.ItemsSource = dataList;
+
+                if (selectedItem.IPAddress == null || selectedItem.IPAddress == "")
+                {
+                    PingRefConfig.IsEnabled = false;
+                }
+                else
+                {
+                    PingRefConfig.IsEnabled = true;
+                }
             }
         }
     }

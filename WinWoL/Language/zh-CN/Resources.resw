@@ -147,11 +147,14 @@
   <data name="AboutWePay.Content" xml:space="preserve">
     <value>微信</value>
   </data>
+  <data name="AppTitle" xml:space="preserve">
+    <value>远程工具箱</value>
+  </data>
   <data name="WoLAddConfig.Content" xml:space="preserve">
     <value>添加配置</value>
   </data>
-  <data name="WoLHeader.Text" xml:space="preserve">
-    <value>网络唤醒</value>
+  <data name="WoLHeader" xml:space="preserve">
+    <value>远程工具</value>
   </data>
   <data name="WoLImportConfig.Content" xml:space="preserve">
     <value>导入配置</value>

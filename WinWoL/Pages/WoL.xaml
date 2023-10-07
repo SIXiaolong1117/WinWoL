@@ -63,7 +63,6 @@
 
                     <TextBlock
                         x:Name="Header"
-                        x:Uid="WoLHeader"
                         Margin="0,0,0,8"
                         HorizontalAlignment="Center"
                         FontSize="24" />
@@ -246,21 +245,13 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal">
-                                <TextBlock
-                                    x:Name="PingRef"
-                                    Width="142"
-                                    Margin="0,0,8,0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Foreground="DarkGray"
-                                    TextWrapping="Wrap" />
                                 <Button
                                     x:Name="PingRefConfig"
-                                    Width="142"
+                                    Width="292"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Bottom"
                                     Click="PingRefConfig_Click"
-                                    Content="Ping" />
+                                    Content="Ping 工具" />
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>

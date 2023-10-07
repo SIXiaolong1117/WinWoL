@@ -25,7 +25,6 @@
                 Margin="32,0"
                 VerticalAlignment="Center"
                 Style="{StaticResource CaptionTextBlockStyle}"
-                Text="网络唤醒 (Wake on LAN)"
                 TextWrapping="NoWrap" />
         </Grid>
         <NavigationView
@@ -35,7 +34,7 @@
             IsSettingsVisible="True"
             SelectionChanged="NavigationView_SelectionChanged">
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="网络唤醒 (WoL)" Tag="WoL">
+                <NavigationViewItem x:Name="RemoteTools" Tag="WoL">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xeda3;" />
                     </NavigationViewItem.Icon>

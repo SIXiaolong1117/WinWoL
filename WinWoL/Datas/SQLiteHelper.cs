@@ -51,6 +51,76 @@ namespace WinWoL.Datas
                 var createTableCommand2 = connection.CreateCommand();
                 createTableCommand2.CommandText = "CREATE TABLE IF NOT EXISTS Version (VersionNumber INTEGER)";
                 createTableCommand2.ExecuteNonQuery();
+
+                UpgradeDatabaseVersion();
+            }
+        }
+
+        // 检查数据库版本
+        public int GetDatabaseVersion()
+        {
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                using (var cmd = connection.CreateCommand())
+                {
+                    connection.Open();
+                    cmd.CommandText = "SELECT VersionNumber FROM Version";
+                    var result = cmd.ExecuteScalar();
+                    if (result != null && int.TryParse(result.ToString(), out int version))
+                    {
+                        return version;
+                    }
+                    // 如果没有版本信息，返回-1
+                    return -1;
+                }
+            }
+        }
+
+        // 更新数据库版本信息
+        public void UpgradeDatabaseVersion()
+        {
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                // 检查版本，新建数据库要插入版本号
+                var cmd = connection.CreateCommand();
+                cmd.Parameters.AddWithValue("@VersionNumber", 1);
+                if (GetDatabaseVersion() == -1)
+                {
+                    cmd.CommandText = "INSERT INTO Version (VersionNumber) VALUES (@VersionNumber)";
+                    cmd.ExecuteNonQuery();
+                }
+                else
+                {
+                    cmd.CommandText = "UPDATE Version SET VersionNumber = @VersionNumber";
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+
+        }
+
+        // 数据库升级
+        public void UpgradeDatabase()
+        {
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                int currentVersion = GetDatabaseVersion();
+
+                // 检查当前数据库版本并执行升级操作
+                if (currentVersion < 1)
+                {
+                    // 执行升级操作，例如添加新字段
+                    using (var cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandText = "ALTER TABLE WoLTable ADD COLUMN SSHKeyIsOpen TEXT";
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // 更新数据库版本信息
+                    UpgradeDatabaseVersion();
+                }
             }
         }
 
@@ -60,10 +130,10 @@ namespace WinWoL.Datas
             using (SqliteConnection connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
+                UpgradeDatabase();
 
                 var insertCommand = connection.CreateCommand();
-                insertCommand.CommandText = "INSERT INTO WoLTable (Name, MacAddress, IPAddress, WoLAddress, WoLPort, RDPPort, SSHCommand, SSHPort, SSHUser, SSHPasswd, SSHKeyPath, WoLIsOpen, RDPIsOpen, SSHIsOpen, BroadcastIsOpen， SSHKeyIsOpen) " +
-                    "VALUES (@Name, @MacAddress, @IPAddress, @WoLAddress, @WoLPort, @RDPPort, @SSHCommand, @SSHPort, @SSHUser, @SSHPasswd, @SSHKeyPath, @WoLIsOpen, @RDPIsOpen, @SSHIsOpen, @BroadcastIsOpen, @SSHKeyIsOpen)";
+                insertCommand.CommandText = "INSERT INTO WoLTable (Name, MacAddress, IPAddress, WoLAddress, WoLPort, RDPPort, SSHCommand, SSHPort, SSHUser, SSHPasswd, SSHKeyPath, WoLIsOpen, RDPIsOpen, SSHIsOpen, BroadcastIsOpen,  SSHKeyIsOpen) VALUES (@Name, @MacAddress, @IPAddress, @WoLAddress, @WoLPort, @RDPPort, @SSHCommand, @SSHPort, @SSHUser, @SSHPasswd, @SSHKeyPath, @WoLIsOpen, @RDPIsOpen, @SSHIsOpen, @BroadcastIsOpen, @SSHKeyIsOpen)";
 
                 insertCommand.Parameters.AddWithValue("@Name", model.Name ?? (object)DBNull.Value);
                 insertCommand.Parameters.AddWithValue("@MacAddress", model.MacAddress ?? (object)DBNull.Value);
@@ -92,6 +162,7 @@ namespace WinWoL.Datas
             using (SqliteConnection connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
+                UpgradeDatabase();
 
                 var deleteCommand = connection.CreateCommand();
                 deleteCommand.CommandText = "DELETE FROM WoLTable WHERE Id = @Id";
@@ -107,6 +178,7 @@ namespace WinWoL.Datas
             using (SqliteConnection connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
+                UpgradeDatabase();
 
                 var updateCommand = connection.CreateCommand();
                 updateCommand.CommandText = "UPDATE WoLTable SET Name = @Name, MacAddress = @MacAddress, IPAddress = @IPAddress, WoLAddress = @WoLAddress, WoLPort = @WoLPort, RDPPort = @RDPPort, SSHCommand = @SSHCommand, SSHPort = @SSHPort, SSHUser = @SSHUser, SSHPasswd = @SSHPasswd, SSHKeyPath = @SSHKeyPath, WoLIsOpen = @WoLIsOpen, RDPIsOpen = @RDPIsOpen, SSHIsOpen = @SSHIsOpen, BroadcastIsOpen = @BroadcastIsOpen, SSHKeyIsOpen = @SSHKeyIsOpen WHERE Id = @Id";
@@ -138,6 +210,7 @@ namespace WinWoL.Datas
             using (SqliteConnection connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
+                UpgradeDatabase();
 
                 var selectCommand = connection.CreateCommand();
                 selectCommand.CommandText = "SELECT * FROM WoLTable WHERE Id = @Id";
@@ -184,6 +257,7 @@ namespace WinWoL.Datas
             using (SqliteConnection connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
+                UpgradeDatabase();
 
                 var queryCommand = connection.CreateCommand();
                 queryCommand.CommandText = "SELECT * FROM WoLTable WHERE Id = @Id";
@@ -229,6 +303,7 @@ namespace WinWoL.Datas
             using (SqliteConnection connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
+                UpgradeDatabase();
 
                 var queryCommand = connection.CreateCommand();
                 queryCommand.CommandText = "SELECT * FROM WoLTable";

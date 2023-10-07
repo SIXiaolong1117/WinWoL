@@ -122,9 +122,9 @@ namespace WinWoL.Methods
             // 为FilePicker设置选项
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             // 用户可以将文件另存为的文件类型下拉列表
-            savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".wolconfig" });
+            savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".wolconfigx" });
             // 如果用户没有选择文件类型，则默认为
-            savePicker.DefaultFileExtension = ".wolconfig";
+            savePicker.DefaultFileExtension = ".wolconfigx";
 
             // 默认文件名
             savePicker.SuggestedFileName = woLModel.Name + "_BackUp_" + DateTime.Now.ToString();
@@ -186,7 +186,7 @@ namespace WinWoL.Methods
             // 建议打开位置 桌面
             openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
             // 文件类型过滤器
-            openPicker.FileTypeFilter.Add(".wolconfig");
+            openPicker.FileTypeFilter.Add(".wolconfigx");
 
             // 打开选择器供用户选择文件
             var file = await openPicker.PickSingleFileAsync();
@@ -288,7 +288,7 @@ namespace WinWoL.Methods
             string data = "ping";
             byte[] buf = Encoding.ASCII.GetBytes(data);
             // 调用同步Send方法发送数据，结果存入reply对象;
-            PingReply reply = pingSender.Send(ipAddress, 500, buf, options);
+            PingReply reply = pingSender.Send(ipAddress, 4000, buf, options);
 
             // 判断replay，是否连通
             if (reply.Status == IPStatus.Success)
@@ -301,7 +301,7 @@ namespace WinWoL.Methods
             }
         }
         // Tcping测试
-        public static string PingPortTest(string domain, int port)
+        public static string PingPortTest(string domain, string port)
         {
             // 获取IP地址
             // 在这里执行这个操作，可以处理一些非法IP的输入问题（例如：广播地址 255.255.255.255）
@@ -316,14 +316,14 @@ namespace WinWoL.Methods
             string data = "ping";
             byte[] buf = Encoding.ASCII.GetBytes(data);
             // 调用同步Send方法发送数据，结果存入reply对象;
-            PingReply reply = pingSender.Send(ipAddress, 500, buf, options);
+            PingReply reply = pingSender.Send(ipAddress, 4000, buf, options);
 
             // 判断replay，是否连通
             if (reply.Status == IPStatus.Success)
             {
                 // 如果连通，尝试与指定端口通信
                 var client = new TcpClient();
-                if (!client.ConnectAsync(ipAddress, port).Wait(500))
+                if (!client.ConnectAsync(ipAddress, int.Parse(port)).Wait(4000))
                 {
                     // 与指定端口通信失败
                     return "端口连接失败";
