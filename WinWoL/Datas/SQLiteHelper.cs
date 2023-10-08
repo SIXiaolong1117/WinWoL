@@ -26,25 +26,7 @@ namespace WinWoL.Datas
 
                 // 创建WoL信息表
                 var createTableCommand = connection.CreateCommand();
-                createTableCommand.CommandText = "CREATE TABLE IF NOT EXISTS WoLTable (" +
-                "Id INTEGER PRIMARY KEY, " +
-                "Name TEXT, " +
-                "MacAddress TEXT, " +
-                "IPAddress TEXT, " +
-                "WoLAddress TEXT, " +
-                "WoLPort TEXT, " +
-                "RDPPort TEXT, " +
-                "SSHCommand TEXT, " +
-                "SSHPort TEXT, " +
-                "SSHUser TEXT, " +
-                "SSHPasswd TEXT, " +
-                "SSHKeyPath TEXT, " +
-                "WoLIsOpen TEXT, " +
-                "RDPIsOpen TEXT, " +
-                "SSHIsOpen TEXT, " +
-                "BroadcastIsOpen TEXT, " +
-                "SSHKeyIsOpen TEXT" +
-                ")";
+                createTableCommand.CommandText = "CREATE TABLE IF NOT EXISTS WoLTable (Id INTEGER PRIMARY KEY, Name TEXT, MacAddress TEXT, IPAddress TEXT, WoLAddress TEXT, WoLPort TEXT, RDPPort TEXT, SSHCommand TEXT, SSHPort TEXT, SSHUser TEXT, SSHKeyPath TEXT, WoLIsOpen TEXT, RDPIsOpen TEXT, SSHIsOpen TEXT, BroadcastIsOpen TEXT, SSHKeyIsOpen TEXT)";
                 createTableCommand.ExecuteNonQuery();
 
                 // 创建版本表
@@ -52,6 +34,7 @@ namespace WinWoL.Datas
                 createTableCommand2.CommandText = "CREATE TABLE IF NOT EXISTS Version (VersionNumber INTEGER)";
                 createTableCommand2.ExecuteNonQuery();
 
+                // 更新数据库版本信息
                 UpgradeDatabaseVersion();
             }
         }
@@ -114,8 +97,8 @@ namespace WinWoL.Datas
                     // 执行升级操作，例如添加新字段
                     using (var cmd = connection.CreateCommand())
                     {
-                        cmd.CommandText = "ALTER TABLE WoLTable ADD COLUMN SSHKeyIsOpen TEXT";
-                        cmd.ExecuteNonQuery();
+                        //cmd.CommandText = "ALTER TABLE WoLTable ADD COLUMN SSHKeyIsOpen TEXT";
+                        //cmd.ExecuteNonQuery();
                     }
 
                     // 更新数据库版本信息
@@ -133,7 +116,7 @@ namespace WinWoL.Datas
                 UpgradeDatabase();
 
                 var insertCommand = connection.CreateCommand();
-                insertCommand.CommandText = "INSERT INTO WoLTable (Name, MacAddress, IPAddress, WoLAddress, WoLPort, RDPPort, SSHCommand, SSHPort, SSHUser, SSHPasswd, SSHKeyPath, WoLIsOpen, RDPIsOpen, SSHIsOpen, BroadcastIsOpen,  SSHKeyIsOpen) VALUES (@Name, @MacAddress, @IPAddress, @WoLAddress, @WoLPort, @RDPPort, @SSHCommand, @SSHPort, @SSHUser, @SSHPasswd, @SSHKeyPath, @WoLIsOpen, @RDPIsOpen, @SSHIsOpen, @BroadcastIsOpen, @SSHKeyIsOpen)";
+                insertCommand.CommandText = "INSERT INTO WoLTable (Name, MacAddress, IPAddress, WoLAddress, WoLPort, RDPPort, SSHCommand, SSHPort, SSHUser, SSHKeyPath, WoLIsOpen, RDPIsOpen, SSHIsOpen, BroadcastIsOpen,  SSHKeyIsOpen) VALUES (@Name, @MacAddress, @IPAddress, @WoLAddress, @WoLPort, @RDPPort, @SSHCommand, @SSHPort, @SSHUser, @SSHKeyPath, @WoLIsOpen, @RDPIsOpen, @SSHIsOpen, @BroadcastIsOpen, @SSHKeyIsOpen)";
 
                 insertCommand.Parameters.AddWithValue("@Name", model.Name ?? (object)DBNull.Value);
                 insertCommand.Parameters.AddWithValue("@MacAddress", model.MacAddress ?? (object)DBNull.Value);
@@ -144,7 +127,6 @@ namespace WinWoL.Datas
                 insertCommand.Parameters.AddWithValue("@SSHCommand", model.SSHCommand ?? (object)DBNull.Value);
                 insertCommand.Parameters.AddWithValue("@SSHPort", model.SSHPort ?? (object)DBNull.Value);
                 insertCommand.Parameters.AddWithValue("@SSHUser", model.SSHUser ?? (object)DBNull.Value);
-                insertCommand.Parameters.AddWithValue("@SSHPasswd", model.SSHPasswd ?? (object)DBNull.Value);
                 insertCommand.Parameters.AddWithValue("@SSHKeyPath", model.SSHKeyPath ?? (object)DBNull.Value);
                 insertCommand.Parameters.AddWithValue("@WoLIsOpen", model.WoLIsOpen ?? (object)DBNull.Value);
                 insertCommand.Parameters.AddWithValue("@RDPIsOpen", model.RDPIsOpen ?? (object)DBNull.Value);
@@ -181,7 +163,7 @@ namespace WinWoL.Datas
                 UpgradeDatabase();
 
                 var updateCommand = connection.CreateCommand();
-                updateCommand.CommandText = "UPDATE WoLTable SET Name = @Name, MacAddress = @MacAddress, IPAddress = @IPAddress, WoLAddress = @WoLAddress, WoLPort = @WoLPort, RDPPort = @RDPPort, SSHCommand = @SSHCommand, SSHPort = @SSHPort, SSHUser = @SSHUser, SSHPasswd = @SSHPasswd, SSHKeyPath = @SSHKeyPath, WoLIsOpen = @WoLIsOpen, RDPIsOpen = @RDPIsOpen, SSHIsOpen = @SSHIsOpen, BroadcastIsOpen = @BroadcastIsOpen, SSHKeyIsOpen = @SSHKeyIsOpen WHERE Id = @Id";
+                updateCommand.CommandText = "UPDATE WoLTable SET Name = @Name, MacAddress = @MacAddress, IPAddress = @IPAddress, WoLAddress = @WoLAddress, WoLPort = @WoLPort, RDPPort = @RDPPort, SSHCommand = @SSHCommand, SSHPort = @SSHPort, SSHUser = @SSHUser, SSHKeyPath = @SSHKeyPath, WoLIsOpen = @WoLIsOpen, RDPIsOpen = @RDPIsOpen, SSHIsOpen = @SSHIsOpen, BroadcastIsOpen = @BroadcastIsOpen, SSHKeyIsOpen = @SSHKeyIsOpen WHERE Id = @Id";
 
                 updateCommand.Parameters.AddWithValue("@Id", model.Id);
                 updateCommand.Parameters.AddWithValue("@Name", model.Name ?? (object)DBNull.Value);
@@ -193,7 +175,6 @@ namespace WinWoL.Datas
                 updateCommand.Parameters.AddWithValue("@SSHCommand", model.SSHCommand ?? (object)DBNull.Value);
                 updateCommand.Parameters.AddWithValue("@SSHPort", model.SSHPort ?? (object)DBNull.Value);
                 updateCommand.Parameters.AddWithValue("@SSHUser", model.SSHUser ?? (object)DBNull.Value);
-                updateCommand.Parameters.AddWithValue("@SSHPasswd", model.SSHPasswd ?? (object)DBNull.Value);
                 updateCommand.Parameters.AddWithValue("@SSHKeyPath", model.SSHKeyPath ?? (object)DBNull.Value);
                 updateCommand.Parameters.AddWithValue("@WoLIsOpen", model.WoLIsOpen ?? (object)DBNull.Value);
                 updateCommand.Parameters.AddWithValue("@RDPIsOpen", model.RDPIsOpen ?? (object)DBNull.Value);
@@ -232,7 +213,6 @@ namespace WinWoL.Datas
                             SSHCommand = reader.IsDBNull(7) ? null : reader.GetString(7),
                             SSHPort = reader.IsDBNull(8) ? null : reader.GetString(8),
                             SSHUser = reader.IsDBNull(9) ? null : reader.GetString(9),
-                            SSHPasswd = reader.IsDBNull(10) ? null : reader.GetString(10),
                             SSHKeyPath = reader.IsDBNull(11) ? null : reader.GetString(11),
                             WoLIsOpen = reader.IsDBNull(12) ? null : reader.GetString(12),
                             RDPIsOpen = reader.IsDBNull(13) ? null : reader.GetString(13),
@@ -279,13 +259,12 @@ namespace WinWoL.Datas
                             SSHCommand = reader.IsDBNull(7) ? "" : reader.GetString(7),
                             SSHPort = reader.IsDBNull(8) ? "" : reader.GetString(8),
                             SSHUser = reader.IsDBNull(9) ? "" : reader.GetString(9),
-                            SSHPasswd = reader.IsDBNull(10) ? "" : reader.GetString(10),
-                            SSHKeyPath = reader.IsDBNull(11) ? "" : reader.GetString(11),
-                            WoLIsOpen = reader.IsDBNull(12) ? "" : reader.GetString(12),
-                            RDPIsOpen = reader.IsDBNull(13) ? "" : reader.GetString(13),
-                            SSHIsOpen = reader.IsDBNull(14) ? "" : reader.GetString(14),
-                            BroadcastIsOpen = reader.IsDBNull(15) ? "" : reader.GetString(15),
-                            SSHKeyIsOpen = reader.IsDBNull(16) ? "" : reader.GetString(16)
+                            SSHKeyPath = reader.IsDBNull(10) ? "" : reader.GetString(10),
+                            WoLIsOpen = reader.IsDBNull(11) ? "" : reader.GetString(11),
+                            RDPIsOpen = reader.IsDBNull(12) ? "" : reader.GetString(12),
+                            SSHIsOpen = reader.IsDBNull(13) ? "" : reader.GetString(13),
+                            BroadcastIsOpen = reader.IsDBNull(14) ? "" : reader.GetString(14),
+                            SSHKeyIsOpen = reader.IsDBNull(15) ? "" : reader.GetString(15)
                         };
                         entries.Add(entry);
                     }
@@ -324,13 +303,12 @@ namespace WinWoL.Datas
                             SSHCommand = reader.IsDBNull(7) ? "" : reader.GetString(7),
                             SSHPort = reader.IsDBNull(8) ? "" : reader.GetString(8),
                             SSHUser = reader.IsDBNull(9) ? "" : reader.GetString(9),
-                            SSHPasswd = reader.IsDBNull(10) ? "" : reader.GetString(10),
-                            SSHKeyPath = reader.IsDBNull(11) ? "" : reader.GetString(11),
-                            WoLIsOpen = reader.IsDBNull(12) ? "" : reader.GetString(12),
-                            RDPIsOpen = reader.IsDBNull(13) ? "" : reader.GetString(13),
-                            SSHIsOpen = reader.IsDBNull(14) ? "" : reader.GetString(14),
-                            BroadcastIsOpen = reader.IsDBNull(15) ? "" : reader.GetString(15),
-                            SSHKeyIsOpen = reader.IsDBNull(16) ? "" : reader.GetString(16)
+                            SSHKeyPath = reader.IsDBNull(10) ? "" : reader.GetString(10),
+                            WoLIsOpen = reader.IsDBNull(11) ? "" : reader.GetString(11),
+                            RDPIsOpen = reader.IsDBNull(12) ? "" : reader.GetString(12),
+                            SSHIsOpen = reader.IsDBNull(13) ? "" : reader.GetString(13),
+                            BroadcastIsOpen = reader.IsDBNull(14) ? "" : reader.GetString(14),
+                            SSHKeyIsOpen = reader.IsDBNull(15) ? "" : reader.GetString(15)
                         };
                         entries.Add(entry);
                     }

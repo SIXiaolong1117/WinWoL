@@ -62,11 +62,11 @@
                         Toggled="wolIsOpen_Toggled" />
                     <StackPanel x:Name="WoLConfig">
                         <CheckBox
-                        x:Name="BroadcastCheckBox"
-                        Margin="0,0,0,8"
-                        Checked="Broadcast_Checked"
-                        Content="WoL 向 LAN 网络广播"
-                        Unchecked="Broadcast_Unchecked" />
+                            x:Name="BroadcastCheckBox"
+                            Margin="0,0,0,8"
+                            Checked="Broadcast_Checked"
+                            Content="WoL 向 LAN 网络广播"
+                            Unchecked="Broadcast_Unchecked" />
                         <TextBox
                             x:Name="MacAddressTextBox"
                             Width="250"
@@ -156,28 +156,33 @@
                             OffContent="关闭"
                             OnContent="开启"
                             Toggled="privateKeyIsOpen_Toggled" />
-                        <PasswordBox
+                        <StackPanel
                             x:Name="SSHPasswordBox"
                             Width="250"
-                            Margin="0,0,0,8"
-                            Header="SSH 密码："
-                            PasswordChanged="PasswordChanged"
-                            PlaceholderText="Password" />
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Vertical">
+                            <TextBlock
+                                FontSize="12"
+                                Foreground="Gray"
+                                Text="SSH 密码会在发出请求前要求您输入，此应用不会以任何形式记录您的密码。"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                FontSize="12"
+                                Text="请注意：SSH 密码登录并不是一个安全的选择，建议您使用密钥登录。"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
                         <StackPanel
                             x:Name="SSHKey"
                             Width="250"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Orientation="Vertical">
-                            <TextBlock FontSize="12">
-                                <Run Foreground="Gray">
-                                    仅支持 OpenSSH 和 ssh.com 格式的
-                                </Run>
-                                <LineBreak />
-                                <Run Foreground="Gray">
-                                    RSA 和 DSA 私钥。
-                                </Run>
-                            </TextBlock>
+                            <TextBlock
+                                FontSize="12"
+                                Foreground="Gray"
+                                Text="仅支持 OpenSSH 和 ssh.com 格式的 RSA 和 DSA 私钥。"
+                                TextWrapping="Wrap" />
                             <StackPanel
                                 Width="250"
                                 HorizontalAlignment="Center"

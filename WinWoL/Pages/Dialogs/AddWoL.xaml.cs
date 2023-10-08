@@ -43,7 +43,7 @@ namespace WinWoL.Pages.Dialogs
             SSHPortTextBox.Text = wolModel.SSHPort;
             SSHUserTextBox.Text = wolModel.SSHUser;
             PrivateKeyIsOpenToggleSwitch.IsOn = wolModel.SSHKeyIsOpen == "True";
-            SSHPasswordBox.Password = wolModel.SSHPasswd;
+            //SSHPasswordBox.Password = wolModel.SSHPasswd;
             SSHKeyPathTextBox.Text = wolModel.SSHKeyPath;
 
             refresh();
@@ -64,7 +64,7 @@ namespace WinWoL.Pages.Dialogs
             WoLData.SSHCommand = SSHCommandTextBox.Text;
             WoLData.SSHPort = SSHPortTextBox.Text;
             WoLData.SSHUser = SSHUserTextBox.Text;
-            WoLData.SSHPasswd = SSHPasswordBox.Password;
+            //WoLData.SSHPasswd = SSHPasswordBox.Password;
             WoLData.SSHKeyPath = SSHKeyPathTextBox.Text;
             WoLData.SSHKeyIsOpen = PrivateKeyIsOpenToggleSwitch.IsOn ? "True" : "False";
         }

@@ -329,9 +329,27 @@ namespace WinWoL.Pages
                     {
                         Text = "远程关机"
                     };
-                    sshShutdownPCMenuItem.Click += (sender, e) =>
+                    sshShutdownPCMenuItem.Click += async (sender, e) =>
                     {
-                        WoLMethod.SendSSHCommand(selectedItem.SSHCommand, selectedItem.IPAddress, selectedItem.SSHPort, selectedItem.SSHUser, selectedItem.SSHPasswd, selectedItem.SSHKeyPath, selectedItem.SSHKeyIsOpen);
+                        SSHPasswdModel sshPasswdModel = new SSHPasswdModel();
+                        // 创建一个新的dialog对象
+                        EnterSSHPasswd dialog = new EnterSSHPasswd(sshPasswdModel);
+                        // 对此dialog对象进行配置
+                        dialog.XamlRoot = this.XamlRoot;
+                        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+                        dialog.PrimaryButtonText = "确认";
+                        dialog.CloseButtonText = "关闭";
+                        // 默认按钮为PrimaryButton
+                        dialog.DefaultButton = ContentDialogButton.Primary;
+
+                        // 显示Dialog并等待其关闭
+                        ContentDialogResult result = await dialog.ShowAsync();
+
+                        // 如果按下了Primary
+                        if (result == ContentDialogResult.Primary)
+                        {
+                            WoLMethod.SendSSHCommand(selectedItem.SSHCommand, selectedItem.IPAddress, selectedItem.SSHPort, selectedItem.SSHUser, sshPasswdModel.SSHPasswd, selectedItem.SSHKeyPath, selectedItem.SSHKeyIsOpen);
+                        }
                     };
                     menuFlyout.Items.Add(sshShutdownPCMenuItem);
                 }
