@@ -1,3 +1,7 @@
+此分支对应目前仍在微软商店的旧版应用[网络唤醒（Wake on LAN）](https://apps.microsoft.com/detail/%25E7%25BD%2591%25E7%25BB%259C%25E5%2594%25A4%25E9%2586%2592%25EF%25BC%2588wake-on-lan%25EF%25BC%2589/9N0JJ4VHZ6X5?hl=zh-cn&gl=CN)，该分支所对应的实现已被废弃，目前已停止一切非必要的开发动作。
+
+---
+
 <p align="center">
   <h1 align="center">网络唤醒（Wake on LAN）</h1>
   <p align="center">一个基于 WinUI3 的网络唤醒 (Wake on LAN) 客户端。</p>
