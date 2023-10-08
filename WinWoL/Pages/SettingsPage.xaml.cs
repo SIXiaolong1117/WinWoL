@@ -14,7 +14,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 
-namespace WinWoL
+namespace WinWoL.Pages
 {
     public sealed partial class SettingsPage : Page
     {

@@ -170,7 +170,7 @@ namespace WinWoL
         {
             if (args.IsSettingsSelected)
             {
-                contentFrame.Navigate(typeof(SettingsPage));
+                contentFrame.Navigate(typeof(Pages.SettingsPage));
             }
             else
             {
@@ -178,10 +178,6 @@ namespace WinWoL
                 if ((string)selectedItem.Tag == "WoL")
                 {
                     contentFrame.Navigate(typeof(Pages.WoL));
-                }
-                if ((string)selectedItem.Tag == "SSHWoL")
-                {
-                    contentFrame.Navigate(typeof(SSHWoL));
                 }
                 else if ((string)selectedItem.Tag == "About")
                 {
