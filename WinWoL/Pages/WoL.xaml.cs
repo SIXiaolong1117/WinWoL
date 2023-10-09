@@ -89,8 +89,6 @@ namespace WinWoL.Pages
                 LoadData();
             }
         }
-
-
         private void ChangeConfigButton_Click(object sender, RoutedEventArgs e)
         {
             if (dataListView.SelectedItem != null)
@@ -254,6 +252,14 @@ namespace WinWoL.Pages
         {
             // 关闭二次确认Flyout
             confirmationFlyout.Hide();
+        }
+        private void AboutAliPay_Click(object sender, RoutedEventArgs e)
+        {
+            AboutAliPayTips.IsOpen = true;
+        }
+        private void AboutWePay_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWePayTips.IsOpen = true;
         }
         private async void PingRefConfig_Click(object sender, RoutedEventArgs e)
         {

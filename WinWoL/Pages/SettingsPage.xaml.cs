@@ -63,8 +63,6 @@ namespace WinWoL.Pages
                 // 非法输入，扔出警报
                 //throw new Exception($"Wrong material type: {localSettings.Values["materialStatus"]}");
             }
-
-            DeveloperImpart.IsOn = (localSettings.Values["DeveloperImpartIsOpen"] as string == "True");
         }
 
         // 背景材料设置ComboBox改动事件
@@ -108,45 +106,6 @@ namespace WinWoL.Pages
                     break;
                 default:
                     throw new Exception($"Invalid argument: {materialStatus}");
-            }
-        }
-
-        private void CMDDisplay_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string CMDDisplay = e.AddedItems[0].ToString();
-            switch (CMDDisplay)
-            {
-                case "是":
-                    if (localSettings.Values["CMDDisplay"] as string != "是")
-                    {
-                        localSettings.Values["CMDDisplay"] = "是";
-                    }
-                    else
-                    {
-                        localSettings.Values["CMDDisplay"] = "是";
-                    }
-                    break;
-                case "否":
-                    if (localSettings.Values["CMDDisplay"] as string != "否")
-                    {
-                        localSettings.Values["CMDDisplay"] = "否";
-                    }
-                    else
-                    {
-                        localSettings.Values["CMDDisplay"] = "否";
-                    }
-                    break;
-            }
-        }
-        private void DeveloperImpart_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (DeveloperImpart.IsOn == true)
-            {
-                localSettings.Values["DeveloperImpartIsOpen"] = "True";
-            }
-            else
-            {
-                localSettings.Values["DeveloperImpartIsOpen"] = "False";
             }
         }
     }

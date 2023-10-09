@@ -29,5 +29,14 @@ namespace WinWoL.Pages
             APPVersion.Content = $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
             APPVersion.NavigateUri = new System.Uri($"https://github.com/Direct5dom/WinWoL/releases/tag/{version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
         }
+
+        private void AboutAliPay_Click(object sender, RoutedEventArgs e)
+        {
+            AboutAliPayTips.IsOpen = true;
+        }
+        private void AboutWePay_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWePayTips.IsOpen = true;
+        }
     }
 }

@@ -53,7 +53,7 @@
                             <HyperlinkButton
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Content="司晓龙 (Si-Xiao long)"
+                                Content="司晓龙 (SI Xiaolong)"
                                 FontSize="14"
                                 NavigateUri="https://github.com/Direct5dom" />
                         </StackPanel>
@@ -154,17 +154,19 @@
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
                         <HyperlinkButton
+                            x:Name="AboutAliPay"
                             x:Uid="AboutAliPay"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontSize="12"
-                            NavigateUri="https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/AliPay.jpg" />
+                            Click="AboutAliPay_Click"
+                            FontSize="12" />
                         <HyperlinkButton
+                            x:Name="AboutWePay"
                             x:Uid="AboutWePay"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontSize="12"
-                            NavigateUri="https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/WeChat.png" />
+                            Click="AboutWePay_Click"
+                            FontSize="12" />
                     </StackPanel>
                     <TextBlock
                         x:Uid="AboutSponsorTips"
@@ -184,5 +186,23 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
+        <TeachingTip x:Name="AboutAliPayTips">
+            <TeachingTip.HeroContent>
+                <Image Height="400">
+                    <Image.Source>
+                        <BitmapImage UriSource="/Assets/AliPay.jpg" />
+                    </Image.Source>
+                </Image>
+            </TeachingTip.HeroContent>
+        </TeachingTip>
+        <TeachingTip x:Name="AboutWePayTips">
+            <TeachingTip.HeroContent>
+                <Image Height="400">
+                    <Image.Source>
+                        <BitmapImage UriSource="/Assets/WePay.png" />
+                    </Image.Source>
+                </Image>
+            </TeachingTip.HeroContent>
+        </TeachingTip>
     </Grid>
 </Page>

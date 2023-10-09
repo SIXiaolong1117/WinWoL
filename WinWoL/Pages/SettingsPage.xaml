@@ -13,18 +13,9 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Vertical">
-            <StackPanel Margin="0,0,0,16" Orientation="Vertical">
-                <TextBlock Text="开发者模式" />
-                <ToggleSwitch
-                    x:Name="DeveloperImpart"
-                    Margin="0,-4,0,-4"
-                    OffContent="关闭"
-                    OnContent="开启"
-                    Toggled="DeveloperImpart_Toggled" />
-            </StackPanel>
             <ComboBox
                 x:Name="backgroundMaterial"
-                Width="268"
+                Width="292"
                 Margin="0,0,0,16"
                 Header="背景材料："
                 ItemsSource="{x:Bind material}"
