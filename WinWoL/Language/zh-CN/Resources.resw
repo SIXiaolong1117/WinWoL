@@ -139,7 +139,7 @@
     <value>☕赞助</value>
   </data>
   <data name="AboutSponsorTips.Text" xml:space="preserve">
-    <value>备注要展示的名称，按时间倒序</value>
+    <value>备注要展示的名称</value>
   </data>
   <data name="AboutVersion.Text" xml:space="preserve">
     <value>🍰版本号:</value>

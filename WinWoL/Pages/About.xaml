@@ -8,6 +8,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
+    <Page.Resources>
+        <!--  定义 ScrollViewer 的样式  -->
+        <Style x:Key="TransparentScrollViewerStyle" TargetType="ScrollViewer">
+            <!--  设置背景为透明  -->
+            <Setter Property="Background" Value="#11FFFFFF" />
+            <!--  设置边框为透明  -->
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <!--  设置边框厚度为0  -->
+            <Setter Property="BorderThickness" Value="0" />
+            <!--  设置圆角  -->
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
+    </Page.Resources>
 
     <Grid>
         <StackPanel
@@ -175,14 +188,16 @@
                         VerticalAlignment="Center"
                         FontSize="12"
                         Foreground="DarkGray" />
-                    <WebView2
-                        Grid.Row="1"
+                    <ScrollViewer
                         Width="210"
                         Height="100"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        DefaultBackgroundColor="Transparent"
-                        Source="https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/List" />
+                        Style="{StaticResource TransparentScrollViewerStyle}">
+                        <TextBlock
+                            x:Name="NameList"
+                            Margin="8,8,8,8"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top" />
+                    </ScrollViewer>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
