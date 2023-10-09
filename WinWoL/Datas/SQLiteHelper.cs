@@ -22,6 +22,15 @@ namespace WinWoL.Datas
             // 初始化数据库连接
             using (SqliteConnection connection = new SqliteConnection(connectionString))
             {
+                CreateTableIfNotExists();
+                UpgradeDatabaseVersion();
+            }
+        }
+        // 建表
+        public void CreateTableIfNotExists()
+        {
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
                 connection.Open();
 
                 // 创建WoL信息表
@@ -33,12 +42,24 @@ namespace WinWoL.Datas
                 var createTableCommand2 = connection.CreateCommand();
                 createTableCommand2.CommandText = "CREATE TABLE IF NOT EXISTS Version (VersionNumber INTEGER)";
                 createTableCommand2.ExecuteNonQuery();
-
-                // 更新数据库版本信息
-                UpgradeDatabaseVersion();
             }
         }
+        // 删表
+        public void DropTable()
+        {
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
 
+                var dropTableCommand = connection.CreateCommand();
+                dropTableCommand.CommandText = $"DROP TABLE IF EXISTS WoLTable;";
+                dropTableCommand.ExecuteNonQuery();
+
+                var dropTableCommand2 = connection.CreateCommand();
+                dropTableCommand2.CommandText = $"DROP TABLE IF EXISTS Version;";
+                dropTableCommand2.ExecuteNonQuery();
+            }
+        }
         // 检查数据库版本
         public int GetDatabaseVersion()
         {

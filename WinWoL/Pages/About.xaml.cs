@@ -55,13 +55,20 @@ namespace WinWoL.Pages
                 using (HttpClient client = new HttpClient())
                 {
                     // 发起GET请求以获取文件内容
-                    HttpResponseMessage response = await client.GetAsync($"https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/List");
-                    if (response.IsSuccessStatusCode)
+                    try
                     {
-                        // 从响应中读取文件内容
-                        nameList = await response.Content.ReadAsStringAsync();
+                        HttpResponseMessage response = await client.GetAsync($"https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/List");
+                        if (response.IsSuccessStatusCode)
+                        {
+                            // 从响应中读取文件内容
+                            nameList = await response.Content.ReadAsStringAsync();
+                        }
+                        else
+                        {
+                            nameList = "Unable to connect to Github";
+                        }
                     }
-                    else
+                    catch
                     {
                         nameList = "Unable to connect to Github";
                     }
