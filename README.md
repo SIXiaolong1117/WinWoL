@@ -1,6 +1,6 @@
 <p align="center">
-  <h1 align="center">网络唤醒（Wake on LAN）</h1>
-  <p align="center">一个基于 WinUI3 的网络唤醒 (Wake on LAN) 客户端。</p>
+  <h1 align="center">远程工具箱 (Remote Toolbox)</h1>
+  <p align="center">一个基于 WinUI3 的远程工具箱 (Remote Toolbox)。</p>
   <p align="center">
     <a href="https://github.com/Direct5dom/WinWoL/blob/master/LICENSE">
       <img src="https://img.shields.io/github/license/Direct5dom/WinWoL"/>
@@ -16,15 +16,14 @@
   </p>
 </p>
 <p align="center">
-    <img src="./README/1.png" width="24%"/>
-    <img src="./README/2.png" width="24%"/>
-    <img src="./README/3.png" width="24%"/>
-    <img src="./README/4.png" width="24%"/>
+    <img src="./README/1.png" width="100%"/>
 </p>
 
 ## ⬇下载/Download
 
 ### 从 Microsoft Store 获取（推荐）
+
+> 以下为旧版应用（网络唤醒），新版应用（远程工具箱）暂未上架应用商店。
 
 [<img src="https://get.microsoft.com/images/zh-cn%20light.svg"  width="30%" height="30%">](https://apps.microsoft.com/store/detail/%E7%BD%91%E7%BB%9C%E5%94%A4%E9%86%92%EF%BC%88wake-on-lan%EF%BC%89/9N0JJ4VHZ6X5)
 

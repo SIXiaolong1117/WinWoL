@@ -82,7 +82,7 @@
                             <HyperlinkButton
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Content="Wake on LAN"
+                                Content="Remote Toolbox"
                                 FontSize="14"
                                 NavigateUri="https://github.com/Direct5dom/WinWoL" />
                         </StackPanel>
