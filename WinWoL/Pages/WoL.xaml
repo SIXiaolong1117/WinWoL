@@ -99,31 +99,29 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource TransparentScrollViewerStyle}">
-                                <Grid>
-                                    <ListView
-                                        x:Name="dataListView"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
-                                        SelectionChanged="dataListView_SelectionChanged">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid DoubleTapped="OnListViewDoubleTapped" RightTapped="OnListViewRightTapped">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="*" />
-                                                    </Grid.RowDefinitions>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock
-                                                        Grid.Row="0"
-                                                        Grid.Column="1"
-                                                        Padding="0,16,0,16"
-                                                        Text="{Binding Name}" />
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
-                                </Grid>
+                                <ListView
+                                    x:Name="dataListView"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    SelectionChanged="dataListView_SelectionChanged">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid DoubleTapped="OnListViewDoubleTapped" RightTapped="OnListViewRightTapped">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    Padding="0,16,0,16"
+                                                    Text="{Binding Name}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
                             </ScrollViewer>
 
                             <StackPanel
@@ -132,7 +130,7 @@
                                 Orientation="Horizontal">
                                 <Button
                                     x:Name="AddConfig"
-                                    x:Uid="WoLAddConfig"
+                                    x:Uid="AddConfig"
                                     Width="142"
                                     Margin="0,0,8,0"
                                     HorizontalAlignment="Center"
@@ -141,7 +139,7 @@
 
                                 <Button
                                     x:Name="ImportConfig"
-                                    x:Uid="WoLImportConfig"
+                                    x:Uid="ImportConfig"
                                     Width="142"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Bottom"

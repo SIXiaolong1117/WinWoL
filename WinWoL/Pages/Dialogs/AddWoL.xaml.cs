@@ -1,6 +1,10 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Newtonsoft.Json;
+using Windows.Storage.Pickers;
+using Windows.Storage;
 using WinWoL.Models;
+using System;
 
 namespace WinWoL.Pages.Dialogs
 {
@@ -147,6 +151,33 @@ namespace WinWoL.Pages.Dialogs
         }
         private async void SelectSSHKeyPath_Click(object sender, RoutedEventArgs e)
         {
+            // 创建一个FileOpenPicker
+            var openPicker = new FileOpenPicker();
+            // 获取当前窗口句柄 (HWND) 
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(App.m_window);
+            // 使用窗口句柄 (HWND) 初始化FileOpenPicker
+            WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
+
+            // 为FilePicker设置选项
+            openPicker.ViewMode = PickerViewMode.Thumbnail;
+            // 建议打开位置 桌面
+            openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
+            // 文件类型过滤器
+            openPicker.FileTypeFilter.Add("*");
+
+            // 打开选择器供用户选择文件
+            var file = await openPicker.PickSingleFileAsync();
+            string filePath = null;
+            if (file != null)
+            {
+                filePath = file.Path;
+            }
+            else
+            {
+                // 未选择JSON文件。
+                filePath = null;
+            }
+            SSHKeyPathTextBox.Text = filePath;
         }
     }
 }

@@ -56,7 +56,7 @@ namespace WinWoL.Pages
             // 将数据列表绑定到ListView
             dataListView.ItemsSource = dataList;
         }
-        // 添加/修改配置按钮点击
+        // 添加配置按钮点击
         private async void AddConfigButton_Click(object sender, RoutedEventArgs e)
         {
             // 创建一个初始的WoLModel对象
