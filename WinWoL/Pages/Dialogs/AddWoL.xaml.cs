@@ -1,20 +1,5 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Storage.Pickers;
-using WinWoL.Datas;
 using WinWoL.Models;
 
 namespace WinWoL.Pages.Dialogs
@@ -43,7 +28,6 @@ namespace WinWoL.Pages.Dialogs
             SSHPortTextBox.Text = wolModel.SSHPort;
             SSHUserTextBox.Text = wolModel.SSHUser;
             PrivateKeyIsOpenToggleSwitch.IsOn = wolModel.SSHKeyIsOpen == "True";
-            //SSHPasswordBox.Password = wolModel.SSHPasswd;
             SSHKeyPathTextBox.Text = wolModel.SSHKeyPath;
 
             refresh();
@@ -51,7 +35,7 @@ namespace WinWoL.Pages.Dialogs
         private void MyDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             // 在"确定"按钮点击事件中保存用户输入的内容
-            WoLData.Name = ConfigNameTextBox.Text;
+            WoLData.Name = string.IsNullOrEmpty(ConfigNameTextBox.Text) ? "<未命名配置>" : ConfigNameTextBox.Text;
             WoLData.IPAddress = IpAddressTextBox.Text;
             WoLData.BroadcastIsOpen = BroadcastCheckBox.IsChecked == true ? "True" : "False";
             WoLData.WoLIsOpen = WoLIsOpenToggleSwitch.IsOn ? "True" : "False";
@@ -64,7 +48,6 @@ namespace WinWoL.Pages.Dialogs
             WoLData.SSHCommand = SSHCommandTextBox.Text;
             WoLData.SSHPort = SSHPortTextBox.Text;
             WoLData.SSHUser = SSHUserTextBox.Text;
-            //WoLData.SSHPasswd = SSHPasswordBox.Password;
             WoLData.SSHKeyPath = SSHKeyPathTextBox.Text;
             WoLData.SSHKeyIsOpen = PrivateKeyIsOpenToggleSwitch.IsOn ? "True" : "False";
         }

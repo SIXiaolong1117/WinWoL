@@ -1,38 +1,24 @@
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Net;
+using System.Threading;
+using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using WinWoL.Datas;
-using WinWoL.Models;
-using System.Net;
-using Newtonsoft.Json;
 using WinWoL.Methods;
-using System.Threading;
-using Microsoft.UI.Dispatching;
+using WinWoL.Models;
 using WinWoL.Pages.Dialogs;
-using System.Security.Principal;
-using Validation;
-using Renci.SshNet;
-using System.Reflection.PortableExecutable;
-using Windows.ApplicationModel.Resources;
 
 namespace WinWoL.Pages
 {
     public sealed partial class WoL : Page
     {
+        // 启用本地设置数据
+        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         ResourceLoader resourceLoader = new ResourceLoader();
         WoLModel selectedWoLModel;
         private DispatcherQueue _dispatcherQueue;
@@ -43,12 +29,23 @@ namespace WinWoL.Pages
             _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             // 加载数据
             LoadData();
-
-            Header.Text = resourceLoader.GetString("WoLHeader");
+            LoadString();
 
             PingRefConfig.IsEnabled = false;
         }
+        private void LoadString()
+        {
+            Header.Text = resourceLoader.GetString("WoLHeader");
 
+            if (localSettings.Values["HideConfigFlag"] == null || localSettings.Values["HideConfigFlag"] as string == "False")
+            {
+                HideConfig.Content = resourceLoader.GetString("HideConfig");
+            }
+            else
+            {
+                HideConfig.Content = resourceLoader.GetString("ShowConfig");
+            }
+        }
         private void LoadData()
         {
             // 实例化SQLiteHelper
@@ -88,6 +85,22 @@ namespace WinWoL.Pages
                 // 重新加载数据
                 LoadData();
             }
+        }
+        // 隐藏地址按钮点击
+        private void HideConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (localSettings.Values["HideConfigFlag"] == null || localSettings.Values["HideConfigFlag"] as string == "False")
+            {
+                localSettings.Values["HideConfigFlag"] = "True";
+                HideConfig.Content = resourceLoader.GetString("ShowConfig");
+            }
+            else
+            {
+                localSettings.Values["HideConfigFlag"] = "False";
+                HideConfig.Content = resourceLoader.GetString("HideConfig");
+            }
+
+            LoadConfigData();
         }
         // 导入配置按钮点击
         private async void ImportConfig_Click(object sender, RoutedEventArgs e)
@@ -265,7 +278,7 @@ namespace WinWoL.Pages
             confirmationFlyout.Hide();
             DelThisConfig(selectedWoLModel);
         }
-        private async void ConfirmShutdown_Click(object sender, RoutedEventArgs e)
+        private void ConfirmShutdown_Click(object sender, RoutedEventArgs e)
         {
             // 关闭二次确认Flyout
             confirmationShutdownFlyout.Hide();
@@ -460,7 +473,7 @@ namespace WinWoL.Pages
                 WoLPC(selectedItem);
             }
         }
-        private void dataListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LoadConfigData()
         {
             if (dataListView.SelectedItem != null)
             {
@@ -470,7 +483,15 @@ namespace WinWoL.Pages
                 // 实例化SQLiteHelper
                 SQLiteHelper dbHelper = new SQLiteHelper();
                 // 查询数据
-                List<WoLModel> dataList = dbHelper.GetDataListById(selectedItem.Id);
+                List<WoLModel> dataList = null;
+                if (localSettings.Values["HideConfigFlag"] == null || localSettings.Values["HideConfigFlag"] as string == "False")
+                {
+                    dataList = dbHelper.GetDataListById(selectedItem.Id);
+                }
+                else
+                {
+                    dataList = dbHelper.GetDataListByIdHideAddress(selectedItem.Id);
+                }
 
                 // 将数据列表绑定到ListView
                 dataListView2.ItemsSource = dataList;
@@ -484,6 +505,10 @@ namespace WinWoL.Pages
                     PingRefConfig.IsEnabled = true;
                 }
             }
+        }
+        private void dataListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LoadConfigData();
         }
     }
 }

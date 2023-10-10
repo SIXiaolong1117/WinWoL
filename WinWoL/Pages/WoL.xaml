@@ -112,14 +112,8 @@
                                                         <RowDefinition Height="*" />
                                                     </Grid.RowDefinitions>
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
-                                                    <TextBlock
-                                                        Grid.Row="0"
-                                                        Grid.Column="0"
-                                                        Padding="0,16,8,16"
-                                                        Text="配置：" />
                                                     <TextBlock
                                                         Grid.Row="0"
                                                         Grid.Column="1"
@@ -258,8 +252,15 @@
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal">
                                 <Button
+                                    x:Name="HideConfig"
+                                    Width="142"
+                                    Margin="0,0,8,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Click="HideConfigButton_Click" />
+                                <Button
                                     x:Name="PingRefConfig"
-                                    Width="292"
+                                    Width="142"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Bottom"
                                     Click="PingRefConfig_Click"

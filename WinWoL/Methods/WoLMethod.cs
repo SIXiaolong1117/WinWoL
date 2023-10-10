@@ -1,19 +1,17 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Renci.SshNet;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
+using System.Diagnostics;
 using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
-using Windows.Storage;
 using WinWoL.Models;
-using Newtonsoft.Json;
-using WinWoL.Datas;
-using System.Diagnostics;
-using Renci.SshNet;
-using System.Net.NetworkInformation;
 
 namespace WinWoL.Methods
 {
