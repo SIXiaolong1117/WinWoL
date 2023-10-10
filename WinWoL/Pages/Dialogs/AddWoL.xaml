@@ -183,6 +183,11 @@
                                 Foreground="Gray"
                                 Text="仅支持 OpenSSH 和 ssh.com 格式的 RSA 和 DSA 私钥。"
                                 TextWrapping="Wrap" />
+                            <TextBlock
+                                FontSize="12"
+                                Foreground="Gray"
+                                Text="此应用仅纪录您的密钥保存位置，并不记录密钥内容。"
+                                TextWrapping="Wrap" />
                             <StackPanel
                                 Width="250"
                                 HorizontalAlignment="Center"

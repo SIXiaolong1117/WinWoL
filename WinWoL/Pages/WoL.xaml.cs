@@ -89,19 +89,6 @@ namespace WinWoL.Pages
                 LoadData();
             }
         }
-        private void ChangeConfigButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataListView.SelectedItem != null)
-            {
-                // 获取WoLModel对象
-                WoLModel selectedModel = (WoLModel)dataListView.SelectedItem;
-                EditThisConfig(selectedModel);
-            }
-            else
-            {
-                NeedSelectedTips.IsOpen = true;
-            }
-        }
         // 导入配置按钮点击
         private async void ImportConfig_Click(object sender, RoutedEventArgs e)
         {
@@ -211,11 +198,39 @@ namespace WinWoL.Pages
             // 重新加载数据
             LoadData();
         }
-        private void ConfirmDelete_Click(object sender, RoutedEventArgs e)
+        private async void SSHShutdownConfig(WoLModel wolModel)
         {
-            // 关闭二次确认Flyout
-            confirmationFlyout.Hide();
-            DelThisConfig(selectedWoLModel);
+            SSHPasswdModel sshPasswdModel = new SSHPasswdModel();
+            // 创建一个新的dialog对象
+            EnterSSHPasswd dialog = new EnterSSHPasswd(sshPasswdModel);
+            // 对此dialog对象进行配置
+            dialog.XamlRoot = this.XamlRoot;
+            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            dialog.PrimaryButtonText = "确认";
+            dialog.CloseButtonText = "关闭";
+            // 默认按钮为PrimaryButton
+            dialog.DefaultButton = ContentDialogButton.Primary;
+
+            // 显示Dialog并等待其关闭
+            ContentDialogResult result = await dialog.ShowAsync();
+
+            // 如果按下了Primary
+            if (result == ContentDialogResult.Primary)
+            {
+                InProgressing.IsActive = true;
+                // 在子线程中执行任务
+                Thread subThread = new Thread(new ThreadStart(() =>
+                {
+                    string res = WoLMethod.SendSSHCommand(wolModel.SSHCommand, wolModel.IPAddress, wolModel.SSHPort, wolModel.SSHUser, sshPasswdModel.SSHPasswd, wolModel.SSHKeyPath, wolModel.SSHKeyIsOpen);
+                    _dispatcherQueue.TryEnqueue(() =>
+                    {
+                        SSHResponse.Subtitle = res;
+                        SSHResponse.IsOpen = true;
+                        InProgressing.IsActive = false;
+                    });
+                }));
+                subThread.Start();
+            }
         }
         private async void ConfirmReplace_Click(object sender, RoutedEventArgs e)
         {
@@ -243,6 +258,20 @@ namespace WinWoL.Pages
             }
             ImportConfig.IsEnabled = true;
         }
+
+        private void ConfirmDelete_Click(object sender, RoutedEventArgs e)
+        {
+            // 关闭二次确认Flyout
+            confirmationFlyout.Hide();
+            DelThisConfig(selectedWoLModel);
+        }
+        private async void ConfirmShutdown_Click(object sender, RoutedEventArgs e)
+        {
+            // 关闭二次确认Flyout
+            confirmationShutdownFlyout.Hide();
+            SSHShutdownConfig(selectedWoLModel);
+
+        }
         private void CancelReplace_Click(object sender, RoutedEventArgs e)
         {
             // 关闭二次确认Flyout
@@ -252,6 +281,11 @@ namespace WinWoL.Pages
         {
             // 关闭二次确认Flyout
             confirmationFlyout.Hide();
+        }
+        private void CancelShutdown_Click(object sender, RoutedEventArgs e)
+        {
+            // 关闭二次确认Flyout
+            confirmationShutdownFlyout.Hide();
         }
         private void AboutAliPay_Click(object sender, RoutedEventArgs e)
         {
@@ -335,27 +369,12 @@ namespace WinWoL.Pages
                     {
                         Text = "远程关机"
                     };
-                    sshShutdownPCMenuItem.Click += async (sender, e) =>
+                    sshShutdownPCMenuItem.Click += (sender, e) =>
                     {
-                        SSHPasswdModel sshPasswdModel = new SSHPasswdModel();
-                        // 创建一个新的dialog对象
-                        EnterSSHPasswd dialog = new EnterSSHPasswd(sshPasswdModel);
-                        // 对此dialog对象进行配置
-                        dialog.XamlRoot = this.XamlRoot;
-                        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-                        dialog.PrimaryButtonText = "确认";
-                        dialog.CloseButtonText = "关闭";
-                        // 默认按钮为PrimaryButton
-                        dialog.DefaultButton = ContentDialogButton.Primary;
-
-                        // 显示Dialog并等待其关闭
-                        ContentDialogResult result = await dialog.ShowAsync();
-
-                        // 如果按下了Primary
-                        if (result == ContentDialogResult.Primary)
-                        {
-                            WoLMethod.SendSSHCommand(selectedItem.SSHCommand, selectedItem.IPAddress, selectedItem.SSHPort, selectedItem.SSHUser, sshPasswdModel.SSHPasswd, selectedItem.SSHKeyPath, selectedItem.SSHKeyIsOpen);
-                        }
+                        // 保存选中的数据对象以便确认后执行
+                        selectedWoLModel = selectedItem;
+                        // 弹出二次确认Flyout
+                        confirmationShutdownFlyout.ShowAt(listViewItem);
                     };
                     menuFlyout.Items.Add(sshShutdownPCMenuItem);
                 }

@@ -45,6 +45,18 @@
                 </StackPanel>
             </StackPanel>
         </Flyout>
+        <Flyout x:Name="confirmationShutdownFlyout" Placement="Right">
+            <StackPanel>
+                <TextBlock Margin="0,0,0,8" Text="确定要关机吗？" />
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        Margin="0,0,8,0"
+                        Click="ConfirmShutdown_Click"
+                        Content="确认" />
+                    <Button Click="CancelShutdown_Click" Content="取消" />
+                </StackPanel>
+            </StackPanel>
+        </Flyout>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -284,12 +296,12 @@
             </StackPanel>
         </StackPanel>
         <TeachingTip
-            x:Name="NeedSelectedTips"
-            Title="需要选中一个配置"
+            x:Name="WoLResultTips"
             CloseButtonContent="确认"
             IsLightDismissEnabled="True" />
         <TeachingTip
-            x:Name="WoLResultTips"
+            x:Name="SSHResponse"
+            x:Uid="SSHResponse"
             CloseButtonContent="确认"
             IsLightDismissEnabled="True" />
 

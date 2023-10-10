@@ -250,27 +250,32 @@ namespace WinWoL.Methods
                 sshClient = new SshClient(sshHost, int.Parse(sshPort), sshUser, sshPasswd);
             }
 
-            sshClient.Connect();
-
-            if (sshClient.IsConnected)
+            try
             {
-                SshCommand SSHCommand = sshClient.RunCommand(sshCommand);
+                sshClient.Connect();
 
-                if (!string.IsNullOrEmpty(SSHCommand.Error))
+                string res = null;
+
+                if (sshClient.IsConnected)
                 {
-                    //SSHResponse.Subtitle = "Error: " + SSHCommand.Error;
-                    //SSHResponse.IsOpen = true;
-                    return "Error: " + SSHCommand.Error;
+                    SshCommand SSHCommand = sshClient.RunCommand(sshCommand);
+
+                    if (!string.IsNullOrEmpty(SSHCommand.Error))
+                    {
+                        res = "Error: " + SSHCommand.Error;
+                    }
+                    else
+                    {
+                        res = SSHCommand.Result;
+                    }
                 }
-                else
-                {
-                    //SSHResponse.Subtitle = SSHCommand.Result;
-                    //SSHResponse.IsOpen = true;
-                    return SSHCommand.Result;
-                }
+                sshClient.Disconnect();
+                return res;
             }
-            sshClient.Disconnect();
-            return "0";
+            catch
+            {
+                return "SSH connect fail.";
+            }
         }
         // Ping测试
         public static string PingTest(string domain)
