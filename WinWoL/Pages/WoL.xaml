@@ -115,7 +115,7 @@
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
                                                     Grid.Row="0"
-                                                    Grid.Column="1"
+                                                    Grid.Column="0"
                                                     Padding="0,16,0,16"
                                                     Text="{Binding Name}" />
                                             </Grid>

@@ -30,6 +30,11 @@ namespace WinWoL.Datas
                 createTableCommand.CommandText = "CREATE TABLE IF NOT EXISTS WoLTable (Id INTEGER PRIMARY KEY, Name TEXT, MacAddress TEXT, IPAddress TEXT, WoLAddress TEXT, WoLPort TEXT, RDPPort TEXT, SSHCommand TEXT, SSHPort TEXT, SSHUser TEXT, SSHKeyPath TEXT, WoLIsOpen TEXT, RDPIsOpen TEXT, SSHIsOpen TEXT, BroadcastIsOpen TEXT, SSHKeyIsOpen TEXT)";
                 createTableCommand.ExecuteNonQuery();
 
+                // 创建SSH信息表
+                var createSSHTableCommand = connection.CreateCommand();
+                createSSHTableCommand.CommandText = "CREATE TABLE IF NOT EXISTS SSHTable (Id INTEGER PRIMARY KEY, Name TEXT, IPAddress TEXT, SSHCommand TEXT, SSHPort TEXT, SSHUser TEXT, SSHKeyPath TEXT, SSHKeyIsOpen TEXT)";
+                createSSHTableCommand.ExecuteNonQuery();
+
                 // 创建版本表
                 var createTableCommand2 = connection.CreateCommand();
                 createTableCommand2.CommandText = "CREATE TABLE IF NOT EXISTS Version (VersionNumber INTEGER)";
@@ -46,6 +51,10 @@ namespace WinWoL.Datas
                 var dropTableCommand = connection.CreateCommand();
                 dropTableCommand.CommandText = $"DROP TABLE IF EXISTS WoLTable;";
                 dropTableCommand.ExecuteNonQuery();
+
+                var dropSSHTableCommand = connection.CreateCommand();
+                dropSSHTableCommand.CommandText = $"DROP TABLE IF EXISTS SSHTable;";
+                dropSSHTableCommand.ExecuteNonQuery();
 
                 var dropTableCommand2 = connection.CreateCommand();
                 dropTableCommand2.CommandText = $"DROP TABLE IF EXISTS Version;";
@@ -129,7 +138,7 @@ namespace WinWoL.Datas
                 UpgradeDatabase();
 
                 var insertCommand = connection.CreateCommand();
-                insertCommand.CommandText = "INSERT INTO WoLTable (Name, MacAddress, IPAddress, WoLAddress, WoLPort, RDPPort, SSHCommand, SSHPort, SSHUser, SSHKeyPath, WoLIsOpen, RDPIsOpen, SSHIsOpen, BroadcastIsOpen,  SSHKeyIsOpen) VALUES (@Name, @MacAddress, @IPAddress, @WoLAddress, @WoLPort, @RDPPort, @SSHCommand, @SSHPort, @SSHUser, @SSHKeyPath, @WoLIsOpen, @RDPIsOpen, @SSHIsOpen, @BroadcastIsOpen, @SSHKeyIsOpen)";
+                insertCommand.CommandText = "INSERT INTO WoLTable (Name, MacAddress, IPAddress, WoLAddress, WoLPort, RDPPort, SSHCommand, SSHPort, SSHUser, SSHKeyPath, WoLIsOpen, RDPIsOpen, SSHIsOpen, BroadcastIsOpen, SSHKeyIsOpen) VALUES (@Name, @MacAddress, @IPAddress, @WoLAddress, @WoLPort, @RDPPort, @SSHCommand, @SSHPort, @SSHUser, @SSHKeyPath, @WoLIsOpen, @RDPIsOpen, @SSHIsOpen, @BroadcastIsOpen, @SSHKeyIsOpen)";
 
                 insertCommand.Parameters.AddWithValue("@Name", model.Name ?? (object)DBNull.Value);
                 insertCommand.Parameters.AddWithValue("@MacAddress", model.MacAddress ?? (object)DBNull.Value);
@@ -150,6 +159,27 @@ namespace WinWoL.Datas
                 insertCommand.ExecuteNonQuery();
             }
         }
+        public void InsertSSHData(SSHModel model)
+        {
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                UpgradeDatabase();
+
+                var insertCommand = connection.CreateCommand();
+                insertCommand.CommandText = "INSERT INTO SSHTable (Name, IPAddress, SSHCommand, SSHPort, SSHUser, SSHKeyPath, SSHKeyIsOpen) VALUES (@Name, @IPAddress, @SSHCommand, @SSHPort, @SSHUser, @SSHKeyPath, @SSHKeyIsOpen)";
+
+                insertCommand.Parameters.AddWithValue("@Name", model.Name ?? (object)DBNull.Value);
+                insertCommand.Parameters.AddWithValue("@IPAddress", model.IPAddress ?? (object)DBNull.Value);
+                insertCommand.Parameters.AddWithValue("@SSHCommand", model.SSHCommand ?? (object)DBNull.Value);
+                insertCommand.Parameters.AddWithValue("@SSHPort", model.SSHPort ?? (object)DBNull.Value);
+                insertCommand.Parameters.AddWithValue("@SSHUser", model.SSHUser ?? (object)DBNull.Value);
+                insertCommand.Parameters.AddWithValue("@SSHKeyPath", model.SSHKeyPath ?? (object)DBNull.Value);
+                insertCommand.Parameters.AddWithValue("@SSHKeyIsOpen", model.SSHKeyIsOpen ?? (object)DBNull.Value);
+
+                insertCommand.ExecuteNonQuery();
+            }
+        }
 
         // 删除数据
         public void DeleteData(WoLModel model)
@@ -161,6 +191,20 @@ namespace WinWoL.Datas
 
                 var deleteCommand = connection.CreateCommand();
                 deleteCommand.CommandText = "DELETE FROM WoLTable WHERE Id = @Id";
+                deleteCommand.Parameters.AddWithValue("@Id", model.Id);
+
+                deleteCommand.ExecuteNonQuery();
+            }
+        }
+        public void DeleteSSHData(SSHModel model)
+        {
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                UpgradeDatabase();
+
+                var deleteCommand = connection.CreateCommand();
+                deleteCommand.CommandText = "DELETE FROM SSHTable WHERE Id = @Id";
                 deleteCommand.Parameters.AddWithValue("@Id", model.Id);
 
                 deleteCommand.ExecuteNonQuery();
@@ -193,6 +237,28 @@ namespace WinWoL.Datas
                 updateCommand.Parameters.AddWithValue("@RDPIsOpen", model.RDPIsOpen ?? (object)DBNull.Value);
                 updateCommand.Parameters.AddWithValue("@SSHIsOpen", model.SSHIsOpen ?? (object)DBNull.Value);
                 updateCommand.Parameters.AddWithValue("@BroadcastIsOpen", model.BroadcastIsOpen ?? (object)DBNull.Value);
+                updateCommand.Parameters.AddWithValue("@SSHKeyIsOpen", model.SSHKeyIsOpen ?? (object)DBNull.Value);
+
+                updateCommand.ExecuteNonQuery();
+            }
+        }
+        public void UpdateSSHData(SSHModel model)
+        {
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                UpgradeDatabase();
+
+                var updateCommand = connection.CreateCommand();
+                updateCommand.CommandText = "UPDATE SSHTable SET Name = @Name, IPAddress = @IPAddress, SSHCommand = @SSHCommand, SSHPort = @SSHPort, SSHUser = @SSHUser, SSHKeyPath = @SSHKeyPath, SSHKeyIsOpen = @SSHKeyIsOpen WHERE Id = @Id";
+
+                updateCommand.Parameters.AddWithValue("@Id", model.Id);
+                updateCommand.Parameters.AddWithValue("@Name", model.Name ?? (object)DBNull.Value);
+                updateCommand.Parameters.AddWithValue("@IPAddress", model.IPAddress ?? (object)DBNull.Value);
+                updateCommand.Parameters.AddWithValue("@SSHCommand", model.SSHCommand ?? (object)DBNull.Value);
+                updateCommand.Parameters.AddWithValue("@SSHPort", model.SSHPort ?? (object)DBNull.Value);
+                updateCommand.Parameters.AddWithValue("@SSHUser", model.SSHUser ?? (object)DBNull.Value);
+                updateCommand.Parameters.AddWithValue("@SSHKeyPath", model.SSHKeyPath ?? (object)DBNull.Value);
                 updateCommand.Parameters.AddWithValue("@SSHKeyIsOpen", model.SSHKeyIsOpen ?? (object)DBNull.Value);
 
                 updateCommand.ExecuteNonQuery();
@@ -242,7 +308,6 @@ namespace WinWoL.Datas
             // 如果未找到匹配的数据，可以返回null或者抛出异常，具体根据需求来决定
             return null;
         }
-
         public List<WoLModel> GetDataListById(int id)
         {
             List<WoLModel> entries = new List<WoLModel>();
@@ -365,6 +430,40 @@ namespace WinWoL.Datas
                             SSHIsOpen = reader.IsDBNull(13) ? "" : reader.GetString(13),
                             BroadcastIsOpen = reader.IsDBNull(14) ? "" : reader.GetString(14),
                             SSHKeyIsOpen = reader.IsDBNull(15) ? "" : reader.GetString(15)
+                        };
+                        entries.Add(entry);
+                    }
+                }
+            }
+
+            return entries;
+        }
+        public List<SSHModel> QuerySSHData()
+        {
+            List<SSHModel> entries = new List<SSHModel>();
+
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                UpgradeDatabase();
+
+                var queryCommand = connection.CreateCommand();
+                queryCommand.CommandText = "SELECT * FROM SSHTable";
+
+                using (SqliteDataReader reader = queryCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        SSHModel entry = new SSHModel
+                        {
+                            Id = reader.GetInt32(0),
+                            Name = reader.IsDBNull(1) ? "" : reader.GetString(1),
+                            IPAddress = reader.IsDBNull(2) ? "" : reader.GetString(2),
+                            SSHCommand = reader.IsDBNull(3) ? "" : reader.GetString(3),
+                            SSHPort = reader.IsDBNull(4) ? "" : reader.GetString(4),
+                            SSHUser = reader.IsDBNull(5) ? "" : reader.GetString(5),
+                            SSHKeyPath = reader.IsDBNull(6) ? "" : reader.GetString(6),
+                            SSHKeyIsOpen = reader.IsDBNull(7) ? "" : reader.GetString(7)
                         };
                         entries.Add(entry);
                     }

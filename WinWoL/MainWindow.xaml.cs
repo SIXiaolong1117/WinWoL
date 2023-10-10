@@ -159,6 +159,10 @@ namespace WinWoL
                 {
                     contentFrame.Navigate(typeof(Pages.WoL));
                 }
+                else if ((string)selectedItem.Tag == "SSH")
+                {
+                    contentFrame.Navigate(typeof(Pages.SSHShortcut));
+                }
                 else if ((string)selectedItem.Tag == "About")
                 {
                     contentFrame.Navigate(typeof(Pages.About));

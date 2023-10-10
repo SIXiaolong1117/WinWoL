@@ -35,9 +35,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Pages\About.xaml" />
+    <None Remove="Pages\Dialogs\AddSSH.xaml" />
     <None Remove="Pages\Dialogs\AddWoL.xaml" />
     <None Remove="Pages\Dialogs\EnterSSHPasswd.xaml" />
     <None Remove="Pages\Dialogs\PingTools.xaml" />
+    <None Remove="Pages\SSHShortcut.xaml" />
     <None Remove="Pages\WoL.xaml" />
     <None Remove="SettingsPage.xaml" />
   </ItemGroup>
@@ -69,6 +71,16 @@
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Dialogs\AddSSH.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\SSHShortcut.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\Dialogs\EnterSSHPasswd.xaml">

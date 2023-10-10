@@ -333,6 +333,43 @@ namespace WinWoL.Pages
                 }
             }
         }
+        private void LoadConfigData()
+        {
+            if (dataListView.SelectedItem != null)
+            {
+                // 获取当前选择的项
+                WoLModel selectedItem = (WoLModel)dataListView.SelectedItem;
+
+                // 实例化SQLiteHelper
+                SQLiteHelper dbHelper = new SQLiteHelper();
+                // 查询数据
+                List<WoLModel> dataList = null;
+                if (localSettings.Values["HideConfigFlag"] == null || localSettings.Values["HideConfigFlag"] as string == "False")
+                {
+                    dataList = dbHelper.GetDataListById(selectedItem.Id);
+                }
+                else
+                {
+                    dataList = dbHelper.GetDataListByIdHideAddress(selectedItem.Id);
+                }
+
+                // 将数据列表绑定到ListView
+                dataListView2.ItemsSource = dataList;
+
+                if (selectedItem.IPAddress == null || selectedItem.IPAddress == "")
+                {
+                    PingRefConfig.IsEnabled = false;
+                }
+                else
+                {
+                    PingRefConfig.IsEnabled = true;
+                }
+            }
+        }
+        private void dataListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LoadConfigData();
+        }
         private void OnListViewRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             // 获取右键点击的ListViewItem
@@ -472,43 +509,6 @@ namespace WinWoL.Pages
                 WoLModel selectedItem = listViewItem?.DataContext as WoLModel;
                 WoLPC(selectedItem);
             }
-        }
-        private void LoadConfigData()
-        {
-            if (dataListView.SelectedItem != null)
-            {
-                // 获取当前选择的项
-                WoLModel selectedItem = (WoLModel)dataListView.SelectedItem;
-
-                // 实例化SQLiteHelper
-                SQLiteHelper dbHelper = new SQLiteHelper();
-                // 查询数据
-                List<WoLModel> dataList = null;
-                if (localSettings.Values["HideConfigFlag"] == null || localSettings.Values["HideConfigFlag"] as string == "False")
-                {
-                    dataList = dbHelper.GetDataListById(selectedItem.Id);
-                }
-                else
-                {
-                    dataList = dbHelper.GetDataListByIdHideAddress(selectedItem.Id);
-                }
-
-                // 将数据列表绑定到ListView
-                dataListView2.ItemsSource = dataList;
-
-                if (selectedItem.IPAddress == null || selectedItem.IPAddress == "")
-                {
-                    PingRefConfig.IsEnabled = false;
-                }
-                else
-                {
-                    PingRefConfig.IsEnabled = true;
-                }
-            }
-        }
-        private void dataListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            LoadConfigData();
         }
     }
 }

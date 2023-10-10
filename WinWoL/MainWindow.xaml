@@ -36,7 +36,12 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem x:Name="RemoteTools" Tag="WoL">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xeda3;" />
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8AF;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem x:Name="SSHShortcut" Tag="SSH">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8F9;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

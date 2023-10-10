@@ -174,7 +174,6 @@ namespace WinWoL.Pages.Dialogs
             }
             else
             {
-                // Î´Ñ¡ÔñJSONÎÄ¼þ¡£
                 filePath = null;
             }
             SSHKeyPathTextBox.Text = filePath;
