@@ -9,34 +9,41 @@
     mc:Ignorable="d">
 
     <Grid>
-        <StackPanel>
+        <StackPanel Width="280">
             <TextBlock Text="Ping 测试" />
             <TextBlock
                 x:Name="PingRef"
                 Margin="0,0,0,8"
-                FontSize="12"
                 Foreground="DarkGray"
                 TextWrapping="Wrap" />
             <TextBlock Text="TCPing 网络唤醒端口" />
             <TextBlock
                 x:Name="WoLPingRef"
                 Margin="0,0,0,8"
-                FontSize="12"
                 Foreground="DarkGray"
                 TextWrapping="Wrap" />
             <TextBlock Text="TCPing 远程桌面端口" />
             <TextBlock
                 x:Name="RDPPingRef"
                 Margin="0,0,0,8"
-                FontSize="12"
                 Foreground="DarkGray"
                 TextWrapping="Wrap" />
             <TextBlock Text="TCPing SSH 端口" />
             <TextBlock
                 x:Name="SSHPingRef"
                 Margin="0,0,0,8"
+                Foreground="DarkGray"
+                TextWrapping="Wrap" />
+
+            <Border
+                Margin="0,0,0,8"
+                BorderBrush="#11FFFFFF"
+                BorderThickness="0,0,0,1" />
+
+            <TextBlock
                 FontSize="12"
                 Foreground="DarkGray"
+                Text="注意：网络唤醒 (Wake on LAN) 的 Magic Packet 通过 UDP 发送，TCP 能联通并不意味着 UDP 同样可达。"
                 TextWrapping="Wrap" />
         </StackPanel>
     </Grid>

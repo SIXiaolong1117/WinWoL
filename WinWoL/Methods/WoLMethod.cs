@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -304,42 +305,33 @@ namespace WinWoL.Methods
             }
         }
         // Tcping测试
-        public static string PingPortTest(string domain, string port)
+        public static long TCPingTest(string domain, string port)
         {
             // 获取IP地址
             // 在这里执行这个操作，可以处理一些非法IP的输入问题（例如：广播地址 255.255.255.255）
             // 非法IP会被返回“主机地址无法联通”，而不会让pingSender报错导致应用崩溃
             IPAddress ipAddress = DomainToIp(domain, "IPv4");
+            int iPort = int.Parse(port);
 
-            // Ping实例对象
-            Ping pingSender = new Ping();
-            // Ping选项
-            PingOptions options = new PingOptions();
-            options.DontFragment = true;
-            string data = "ping";
-            byte[] buf = Encoding.ASCII.GetBytes(data);
-            // 调用同步Send方法发送数据，结果存入reply对象;
-            PingReply reply = pingSender.Send(ipAddress, 4000, buf, options);
+            using (TcpClient client = new TcpClient())
+            {
+                client.ReceiveTimeout = 2000;
+                client.SendTimeout = 2000;
 
-            // 判断replay，是否连通
-            if (reply.Status == IPStatus.Success)
-            {
-                // 如果连通，尝试与指定端口通信
-                var client = new TcpClient();
-                if (!client.ConnectAsync(ipAddress, int.Parse(port)).Wait(4000))
+                Stopwatch stopwatch = new Stopwatch();
+
+                try
                 {
-                    // 与指定端口通信失败
-                    return "端口连接失败";
+                    stopwatch.Start();
+                    client.Connect(ipAddress, iPort);
+                    stopwatch.Stop();
+                    return stopwatch.ElapsedMilliseconds;
                 }
-                else
+                catch (SocketException)
                 {
-                    // 与指定端口通信成功，计算RTT并返回
-                    return $"{reply.RoundtripTime} ms";
+                    // 连接失败
+                    return -1;
                 }
-            }
-            else
-            {
-                return $"{reply.Status}";
             }
         }
     }

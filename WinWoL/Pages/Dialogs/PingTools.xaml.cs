@@ -61,13 +61,13 @@ namespace WinWoL.Pages.Dialogs
                             });
                             while (true)
                             {
-                                if (WoLMethod.PingPortTest(wolModel.IPAddress, wolModel.WoLPort) == "TimedOut")
+                                if (WoLMethod.TCPingTest(wolModel.IPAddress, wolModel.WoLPort) == -1)
                                 {
                                     WoLPingRes = "³¬Ê±";
                                 }
                                 else
                                 {
-                                    WoLPingRes = WoLMethod.PingPortTest(wolModel.IPAddress, wolModel.WoLPort);
+                                    WoLPingRes = $"{WoLMethod.TCPingTest(wolModel.IPAddress, wolModel.WoLPort)} ms";
                                 }
                                 _dispatcherQueue.TryEnqueue(() =>
                                 {
@@ -101,13 +101,13 @@ namespace WinWoL.Pages.Dialogs
                             });
                             while (true)
                             {
-                                if (WoLMethod.PingPortTest(wolModel.IPAddress, wolModel.RDPPort) == "TimedOut")
+                                if (WoLMethod.TCPingTest(wolModel.IPAddress, wolModel.RDPPort) == -1)
                                 {
                                     RDPPingRes = "³¬Ê±";
                                 }
                                 else
                                 {
-                                    RDPPingRes = WoLMethod.PingPortTest(wolModel.IPAddress, wolModel.RDPPort);
+                                    RDPPingRes = $"{WoLMethod.TCPingTest(wolModel.IPAddress, wolModel.WoLPort)} ms";
                                 }
                                 _dispatcherQueue.TryEnqueue(() =>
                                 {
@@ -140,13 +140,13 @@ namespace WinWoL.Pages.Dialogs
                             });
                             while (true)
                             {
-                                if (WoLMethod.PingPortTest(wolModel.IPAddress, wolModel.SSHPort) == "TimedOut")
+                                if (WoLMethod.TCPingTest(wolModel.IPAddress, wolModel.SSHPort) == -1)
                                 {
                                     SSHPingRes = "³¬Ê±";
                                 }
                                 else
                                 {
-                                    SSHPingRes = WoLMethod.PingPortTest(wolModel.IPAddress, wolModel.SSHPort);
+                                    SSHPingRes = $"{WoLMethod.TCPingTest(wolModel.IPAddress, wolModel.WoLPort)} ms";
                                 }
                                 _dispatcherQueue.TryEnqueue(() =>
                                 {
