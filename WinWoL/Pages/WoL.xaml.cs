@@ -194,6 +194,8 @@ namespace WinWoL.Pages
             // 获取WoLModel对象
             WoLModel selectedModel = (WoLModel)dataListView.SelectedItem;
             string result = await WoLMethod.ExportConfig(selectedModel);
+            SaveFileTips.Title = result;
+            SaveFileTips.IsOpen = true;
         }
         private void CopyThisConfig(WoLModel wolModel)
         {
@@ -234,7 +236,7 @@ namespace WinWoL.Pages
                 // 在子线程中执行任务
                 Thread subThread = new Thread(new ThreadStart(() =>
                 {
-                    string res = WoLMethod.SendSSHCommand(wolModel.SSHCommand, wolModel.IPAddress, wolModel.SSHPort, wolModel.SSHUser, sshPasswdModel.SSHPasswd, wolModel.SSHKeyPath, wolModel.SSHKeyIsOpen);
+                    string res = GeneralMethod.SendSSHCommand(wolModel.SSHCommand, wolModel.IPAddress, wolModel.SSHPort, wolModel.SSHUser, sshPasswdModel.SSHPasswd, wolModel.SSHKeyPath, wolModel.SSHKeyIsOpen);
                     _dispatcherQueue.TryEnqueue(() =>
                     {
                         SSHResponse.Subtitle = res;
@@ -375,11 +377,11 @@ namespace WinWoL.Pages
             // 获取右键点击的ListViewItem
             FrameworkElement listViewItem = (sender as FrameworkElement);
 
-            // 获取右键点击的数据对象（WoLModel）
-            WoLModel selectedItem = listViewItem?.DataContext as WoLModel;
-
-            if (selectedItem != null && InProgressing.IsActive == false)
+            if (listViewItem != null && InProgressing.IsActive == false)
             {
+                // 获取右键点击的数据对象（WoLModel）
+                WoLModel selectedItem = listViewItem?.DataContext as WoLModel;
+
                 // 将右键点击的项设置为选中项
                 dataListView.SelectedItem = selectedItem;
 
@@ -496,7 +498,6 @@ namespace WinWoL.Pages
                 // 在指定位置显示ContextMenu
                 menuFlyout.ShowAt(listViewItem, e.GetPosition(listViewItem));
             }
-
         }
         private void OnListViewDoubleTapped(object sender, RoutedEventArgs e)
         {

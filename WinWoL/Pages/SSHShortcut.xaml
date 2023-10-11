@@ -87,7 +87,7 @@
                                     x:Name="dataGridView"
                                     Width="592"
                                     Height="292"
-                                    HorizontalAlignment="Right"
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Top">
                                     <GridView.ItemTemplate>
                                         <DataTemplate>
@@ -107,6 +107,8 @@
                                                 <TextBlock
                                                     Grid.Row="0"
                                                     Grid.Column="0"
+                                                    Width="144"
+                                                    Height="72"
                                                     Padding="8"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
@@ -143,6 +145,11 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
+        <TeachingTip
+            x:Name="SSHResponse"
+            x:Uid="SSHResponse"
+            CloseButtonContent="确认"
+            IsLightDismissEnabled="True" />
         <ProgressRing x:Name="InProgressing" IsActive="False" />
     </Grid>
 </Page>

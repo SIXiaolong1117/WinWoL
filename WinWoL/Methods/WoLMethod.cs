@@ -154,13 +154,13 @@ namespace WinWoL.Methods
                 FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
                 if (status == FileUpdateStatus.Complete)
                 {
-                    // 文件保存成功
-                    return "文件保存成功";
+                    // 保存成功
+                    return "保存成功";
                 }
                 else if (status == FileUpdateStatus.CompleteAndRenamed)
                 {
-                    // 文件重命名并保存成功
-                    return "文件重命名并保存成功";
+                    // 重命名并保存成功
+                    return "重命名并保存成功";
                 }
                 else
                 {
@@ -232,49 +232,6 @@ namespace WinWoL.Methods
             process.WaitForExit();
             // 进程关闭
             process.Close();
-        }
-        // SSH执行命令
-        public static string SendSSHCommand(string sshCommand, string sshHost, string sshPort, string sshUser, string sshPasswd, string sshKey, string privateKeyIsOpen)
-        {
-            SshClient sshClient;
-
-            if (privateKeyIsOpen == "True")
-            {
-                PrivateKeyFile privateKeyFile = new PrivateKeyFile(sshKey);
-                ConnectionInfo connectionInfo = new ConnectionInfo(sshHost, sshUser, new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile[] { privateKeyFile }));
-                sshClient = new SshClient(connectionInfo);
-            }
-            else
-            {
-                sshClient = new SshClient(sshHost, int.Parse(sshPort), sshUser, sshPasswd);
-            }
-
-            try
-            {
-                sshClient.Connect();
-
-                string res = null;
-
-                if (sshClient.IsConnected)
-                {
-                    SshCommand SSHCommand = sshClient.RunCommand(sshCommand);
-
-                    if (!string.IsNullOrEmpty(SSHCommand.Error))
-                    {
-                        res = "Error: " + SSHCommand.Error;
-                    }
-                    else
-                    {
-                        res = SSHCommand.Result;
-                    }
-                }
-                sshClient.Disconnect();
-                return res;
-            }
-            catch
-            {
-                return "SSH connect fail.";
-            }
         }
         // Ping测试
         public static string PingTest(string domain)

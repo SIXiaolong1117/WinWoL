@@ -303,6 +303,10 @@
             x:Uid="SSHResponse"
             CloseButtonContent="确认"
             IsLightDismissEnabled="True" />
+        <TeachingTip
+            x:Name="SaveFileTips"
+            CloseButtonContent="确认"
+            IsLightDismissEnabled="True" />
 
         <TeachingTip x:Name="AboutAliPayTips">
             <TeachingTip.HeroContent>

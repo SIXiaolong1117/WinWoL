@@ -33,6 +33,9 @@ namespace WinWoL.Pages
         {
             this.InitializeComponent();
 
+            // 获取UI线程的DispatcherQueue
+            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
             LoadData();
             LoadString();
         }
@@ -123,16 +126,50 @@ namespace WinWoL.Pages
             // 关闭二次确认Flyout
             confirmationFlyout.Hide();
         }
+        private async void SSHSend(SSHModel sshModel)
+        {
+            SSHPasswdModel sshPasswdModel = new SSHPasswdModel();
+            // 创建一个新的dialog对象
+            EnterSSHPasswd dialog = new EnterSSHPasswd(sshPasswdModel);
+            // 对此dialog对象进行配置
+            dialog.XamlRoot = this.XamlRoot;
+            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            dialog.PrimaryButtonText = "确认";
+            dialog.CloseButtonText = "关闭";
+            // 默认按钮为PrimaryButton
+            dialog.DefaultButton = ContentDialogButton.Primary;
+
+            // 显示Dialog并等待其关闭
+            ContentDialogResult result = await dialog.ShowAsync();
+
+            // 如果按下了Primary
+            if (result == ContentDialogResult.Primary)
+            {
+                InProgressing.IsActive = true;
+                // 在子线程中执行任务
+                Thread subThread = new Thread(new ThreadStart(() =>
+                {
+                    string res = GeneralMethod.SendSSHCommand(sshModel.SSHCommand, sshModel.IPAddress, sshModel.SSHPort, sshModel.SSHUser, sshPasswdModel.SSHPasswd, sshModel.SSHKeyPath, sshModel.SSHKeyIsOpen);
+                    _dispatcherQueue.TryEnqueue(() =>
+                    {
+                        SSHResponse.Subtitle = res;
+                        SSHResponse.IsOpen = true;
+                        InProgressing.IsActive = false;
+                    });
+                }));
+                subThread.Start();
+            }
+        }
         private void OnGridViewRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             // 获取右键点击的Item
             FrameworkElement gridViewItem = (sender as FrameworkElement);
 
-            // 获取右键点击的数据对象（WoLModel）
-            WoLModel selectedItem = gridViewItem?.DataContext as WoLModel;
-
-            if (selectedItem != null && InProgressing.IsActive == false)
+            if (gridViewItem != null && InProgressing.IsActive == false)
             {
+                // 获取右键点击的数据对象（WoLModel）
+                SSHModel selectedItem = gridViewItem?.DataContext as SSHModel;
+
                 // 将右键点击的项设置为选中项
                 dataGridView.SelectedItem = selectedItem;
 
@@ -145,6 +182,7 @@ namespace WinWoL.Pages
                 };
                 sshShutdownPCMenuItem.Click += (sender, e) =>
                 {
+                    SSHSend(selectedItem);
                 };
                 menuFlyout.Items.Add(sshShutdownPCMenuItem);
 
@@ -221,13 +259,13 @@ namespace WinWoL.Pages
         {
             // 处理左键双击事件的代码
             // 获取右键点击的Item
-            //FrameworkElement listViewItem = (sender as FrameworkElement);
-            //if (listViewItem != null && InProgressing.IsActive == false)
-            //{
-            //    // 获取点击的数据对象
-            //    WoLModel selectedItem = listViewItem?.DataContext as WoLModel;
-            //    WoLPC(selectedItem);
-            //}
+            FrameworkElement listViewItem = (sender as FrameworkElement);
+            if (listViewItem != null && InProgressing.IsActive == false)
+            {
+                // 获取点击的数据对象
+                SSHModel selectedItem = listViewItem?.DataContext as SSHModel;
+                SSHSend(selectedItem);
+            }
         }
     }
 }
