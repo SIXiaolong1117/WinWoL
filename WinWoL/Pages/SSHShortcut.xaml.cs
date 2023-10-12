@@ -29,6 +29,7 @@ namespace WinWoL.Pages
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         ResourceLoader resourceLoader = new ResourceLoader();
         private DispatcherQueue _dispatcherQueue;
+        private SSHModel selectedSSHModel;
         public SSHShortcut()
         {
             this.InitializeComponent();
@@ -85,36 +86,39 @@ namespace WinWoL.Pages
         }
         private async void ConfirmReplace_Click(object sender, RoutedEventArgs e)
         {
-            //// 关闭二次确认Flyout
-            //confirmationReplaceFlyout.Hide();
-            //// 获取NSModel对象
-            //WoLModel selectedModel = (WoLModel)dataListView.SelectedItem;
-            //ImportConfig.IsEnabled = false;
-            //// 实例化SQLiteHelper
-            //SQLiteHelper dbHelper = new SQLiteHelper();
+            // 关闭二次确认Flyout
+            confirmationReplaceFlyout.Hide();
+            ImportConfig.IsEnabled = false;
+            // 实例化SQLiteHelper
+            SQLiteHelper dbHelper = new SQLiteHelper();
 
-            //// 获取导入的数据
-            //WoLModel newModel = await WoLMethod.ImportConfig();
+            // 获取导入的数据
+            SSHModel newModel = await SSHMethod.ImportConfig();
 
-            //if (newModel != null)
-            //{
-            //    // 获取当前配置的ID
-            //    int id = selectedModel.Id;
-            //    // 赋给导入的配置
-            //    newModel.Id = id;
-            //    // 插入新数据
-            //    dbHelper.UpdateData(newModel);
-            //    // 重新加载数据
-            //    LoadData();
-            //}
-            //ImportConfig.IsEnabled = true;
+            if (newModel != null)
+            {
+                // 获取当前配置的ID
+                int id = selectedSSHModel.Id;
+                // 赋给导入的配置
+                newModel.Id = id;
+                // 插入新数据
+                dbHelper.UpdateSSHData(newModel);
+                // 重新加载数据
+                LoadData();
+            }
+            ImportConfig.IsEnabled = true;
         }
 
         private void ConfirmDelete_Click(object sender, RoutedEventArgs e)
         {
             // 关闭二次确认Flyout
             confirmationFlyout.Hide();
-            //DelThisConfig(selectedWoLModel);
+            // 实例化SQLiteHelper
+            SQLiteHelper dbHelper = new SQLiteHelper();
+            // 删除数据
+            dbHelper.DeleteSSHData(selectedSSHModel);
+            // 重新加载数据
+            LoadData();
         }
         private void CancelReplace_Click(object sender, RoutedEventArgs e)
         {
@@ -196,6 +200,19 @@ namespace WinWoL.Pages
                 LoadData();
             }
         }
+        private void CopyThisConfig(SSHModel sshModel)
+        {
+            SQLiteHelper dbHelper = new SQLiteHelper();
+            dbHelper.InsertSSHData(sshModel);
+            // 重新加载数据
+            LoadData();
+        }
+        private async void ExportConfigFunction(SSHModel sSHModel)
+        {
+            string result = await SSHMethod.ExportConfig(sSHModel);
+            SaveFileTips.Title = result;
+            SaveFileTips.IsOpen = true;
+        }
         private void OnGridViewRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             // 获取右键点击的Item
@@ -232,7 +249,7 @@ namespace WinWoL.Pages
                 };
                 exportMenuItem.Click += (sender, e) =>
                 {
-                    //ExportConfigFunction();
+                    ExportConfigFunction(selectedItem);
                 };
                 menuFlyout.Items.Add(exportMenuItem);
 
@@ -242,8 +259,10 @@ namespace WinWoL.Pages
                 };
                 replaceMenuItem.Click += (sender, e) =>
                 {
+                    // 保存选中的数据对象以便确认后执行
+                    selectedSSHModel = selectedItem;
                     // 弹出二次确认Flyout
-                    //confirmationReplaceFlyout.ShowAt(listViewItem);
+                    confirmationReplaceFlyout.ShowAt(gridViewItem);
                 };
                 menuFlyout.Items.Add(replaceMenuItem);
 
@@ -267,7 +286,7 @@ namespace WinWoL.Pages
                 };
                 copyMenuItem.Click += (sender, e) =>
                 {
-                    //CopyThisConfig(selectedItem);
+                    CopyThisConfig(selectedItem);
                 };
                 menuFlyout.Items.Add(copyMenuItem);
 
@@ -277,10 +296,10 @@ namespace WinWoL.Pages
                 };
                 deleteMenuItem.Click += (sender, e) =>
                 {
-                    //// 保存选中的数据对象以便确认后执行
-                    //selectedWoLModel = selectedItem;
-                    //// 弹出二次确认Flyout
-                    //confirmationFlyout.ShowAt(listViewItem);
+                    // 保存选中的数据对象以便确认后执行
+                    selectedSSHModel = selectedItem;
+                    // 弹出二次确认Flyout
+                    confirmationFlyout.ShowAt(gridViewItem);
                 };
                 menuFlyout.Items.Add(deleteMenuItem);
 

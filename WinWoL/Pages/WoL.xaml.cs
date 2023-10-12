@@ -189,11 +189,9 @@ namespace WinWoL.Pages
                 LoadData();
             }
         }
-        private async void ExportConfigFunction()
+        private async void ExportConfigFunction(WoLModel wolModel)
         {
-            // 获取WoLModel对象
-            WoLModel selectedModel = (WoLModel)dataListView.SelectedItem;
-            string result = await WoLMethod.ExportConfig(selectedModel);
+            string result = await WoLMethod.ExportConfig(wolModel);
             SaveFileTips.Title = result;
             SaveFileTips.IsOpen = true;
         }
@@ -201,15 +199,6 @@ namespace WinWoL.Pages
         {
             SQLiteHelper dbHelper = new SQLiteHelper();
             dbHelper.InsertData(wolModel);
-            // 重新加载数据
-            LoadData();
-        }
-        private void DelThisConfig(WoLModel wolModel)
-        {
-            // 实例化SQLiteHelper
-            SQLiteHelper dbHelper = new SQLiteHelper();
-            // 删除数据
-            dbHelper.DeleteData(wolModel);
             // 重新加载数据
             LoadData();
         }
@@ -261,8 +250,6 @@ namespace WinWoL.Pages
         {
             // 关闭二次确认Flyout
             confirmationReplaceFlyout.Hide();
-            // 获取NSModel对象
-            WoLModel selectedModel = (WoLModel)dataListView.SelectedItem;
             ImportConfig.IsEnabled = false;
             // 实例化SQLiteHelper
             SQLiteHelper dbHelper = new SQLiteHelper();
@@ -273,7 +260,7 @@ namespace WinWoL.Pages
             if (newModel != null)
             {
                 // 获取当前配置的ID
-                int id = selectedModel.Id;
+                int id = selectedWoLModel.Id;
                 // 赋给导入的配置
                 newModel.Id = id;
                 // 插入新数据
@@ -288,7 +275,12 @@ namespace WinWoL.Pages
         {
             // 关闭二次确认Flyout
             confirmationFlyout.Hide();
-            DelThisConfig(selectedWoLModel);
+            // 实例化SQLiteHelper
+            SQLiteHelper dbHelper = new SQLiteHelper();
+            // 删除数据
+            dbHelper.DeleteData(selectedWoLModel);
+            // 重新加载数据
+            LoadData();
         }
         private void ConfirmShutdown_Click(object sender, RoutedEventArgs e)
         {
@@ -451,7 +443,7 @@ namespace WinWoL.Pages
                 };
                 exportMenuItem.Click += (sender, e) =>
                 {
-                    ExportConfigFunction();
+                    ExportConfigFunction(selectedItem);
                 };
                 menuFlyout.Items.Add(exportMenuItem);
 
@@ -461,6 +453,8 @@ namespace WinWoL.Pages
                 };
                 replaceMenuItem.Click += (sender, e) =>
                 {
+                    // 保存选中的数据对象以便确认后执行
+                    selectedWoLModel = selectedItem;
                     // 弹出二次确认Flyout
                     confirmationReplaceFlyout.ShowAt(listViewItem);
                 };

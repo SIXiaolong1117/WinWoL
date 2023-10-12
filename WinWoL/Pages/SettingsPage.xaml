@@ -23,9 +23,14 @@
             <Button
                 x:Uid="ResetDatabase"
                 Width="292"
+                Margin="0,0,0,8"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Click="ResetDatabaseButton_Click" />
+            <TextBlock
+                FontSize="12"
+                Foreground="DarkGray"
+                Text="在重置数据库前，请做好配置备份。" />
         </StackPanel>
         <TeachingTip
             x:Name="ResetDatabaseTips"

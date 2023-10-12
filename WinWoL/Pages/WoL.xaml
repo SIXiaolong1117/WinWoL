@@ -23,7 +23,7 @@
         </Style>
         <Flyout x:Name="confirmationFlyout" Placement="Right">
             <StackPanel>
-                <TextBlock Margin="0,0,8,0" Text="确定要删除吗？" />
+                <TextBlock Margin="0,0,0,8" Text="确定要删除吗？" />
                 <StackPanel Orientation="Horizontal">
                     <Button
                         Margin="0,0,8,0"
