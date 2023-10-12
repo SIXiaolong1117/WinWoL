@@ -116,12 +116,20 @@ namespace WinWoL
                     a_backdropController = null;
                 }
             }
-            else
+            else if (localSettings.Values["materialStatus"] as string == "Mica")
             {
                 if (m_backdropController != null)
                 {
                     m_backdropController.Dispose();
                     m_backdropController = null;
+                }
+            }
+            else
+            {
+                if (ma_backdropController != null)
+                {
+                    ma_backdropController.Dispose();
+                    ma_backdropController = null;
                 }
             }
             this.Activated -= Window_Activated;

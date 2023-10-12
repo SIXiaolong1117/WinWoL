@@ -215,37 +215,47 @@ namespace WinWoL.Pages
         }
         private async void SSHShutdownConfig(WoLModel wolModel)
         {
-            SSHPasswdModel sshPasswdModel = new SSHPasswdModel();
-            // 创建一个新的dialog对象
-            EnterSSHPasswd dialog = new EnterSSHPasswd(sshPasswdModel);
-            // 对此dialog对象进行配置
-            dialog.XamlRoot = this.XamlRoot;
-            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-            dialog.PrimaryButtonText = "确认";
-            dialog.CloseButtonText = "关闭";
-            // 默认按钮为PrimaryButton
-            dialog.DefaultButton = ContentDialogButton.Primary;
-
-            // 显示Dialog并等待其关闭
-            ContentDialogResult result = await dialog.ShowAsync();
-
-            // 如果按下了Primary
-            if (result == ContentDialogResult.Primary)
+            string sshPasswd = null;
+            // 使用密码登录
+            if (wolModel.SSHKeyIsOpen == "False")
             {
-                InProgressing.IsActive = true;
-                // 在子线程中执行任务
-                Thread subThread = new Thread(new ThreadStart(() =>
+                SSHPasswdModel sshPasswdModel = new SSHPasswdModel();
+                // 创建一个新的dialog对象
+                EnterSSHPasswd dialog = new EnterSSHPasswd(sshPasswdModel);
+                // 对此dialog对象进行配置
+                dialog.XamlRoot = this.XamlRoot;
+                dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+                dialog.PrimaryButtonText = "确认";
+                dialog.CloseButtonText = "关闭";
+                // 默认按钮为PrimaryButton
+                dialog.DefaultButton = ContentDialogButton.Primary;
+
+                // 显示Dialog并等待其关闭
+                ContentDialogResult result = await dialog.ShowAsync();
+
+                // 如果按下了Primary
+                if (result == ContentDialogResult.Primary)
                 {
-                    string res = GeneralMethod.SendSSHCommand(wolModel.SSHCommand, wolModel.IPAddress, wolModel.SSHPort, wolModel.SSHUser, sshPasswdModel.SSHPasswd, wolModel.SSHKeyPath, wolModel.SSHKeyIsOpen);
-                    _dispatcherQueue.TryEnqueue(() =>
-                    {
-                        SSHResponse.Subtitle = res;
-                        SSHResponse.IsOpen = true;
-                        InProgressing.IsActive = false;
-                    });
-                }));
-                subThread.Start();
+                    sshPasswd = sshPasswdModel.SSHPasswd;
+                }
             }
+            else
+            {
+                sshPasswd = null;
+            }
+            InProgressing.IsActive = true;
+            // 在子线程中执行任务
+            Thread subThread = new Thread(new ThreadStart(() =>
+            {
+                string res = GeneralMethod.SendSSHCommand(wolModel.SSHCommand, wolModel.IPAddress, wolModel.SSHPort, wolModel.SSHUser, sshPasswd, wolModel.SSHKeyPath, wolModel.SSHKeyIsOpen);
+                _dispatcherQueue.TryEnqueue(() =>
+                {
+                    SSHResponse.Subtitle = res;
+                    SSHResponse.IsOpen = true;
+                    InProgressing.IsActive = false;
+                });
+            }));
+            subThread.Start();
         }
         private async void ConfirmReplace_Click(object sender, RoutedEventArgs e)
         {

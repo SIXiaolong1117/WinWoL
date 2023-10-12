@@ -128,13 +128,56 @@ namespace WinWoL.Pages
         }
         private async void SSHSend(SSHModel sshModel)
         {
-            SSHPasswdModel sshPasswdModel = new SSHPasswdModel();
+            string sshPasswd = null;
+            // 使用密码登录
+            if (sshModel.SSHKeyIsOpen == "False")
+            {
+                SSHPasswdModel sshPasswdModel = new SSHPasswdModel();
+                // 创建一个新的dialog对象
+                EnterSSHPasswd dialog = new EnterSSHPasswd(sshPasswdModel);
+                // 对此dialog对象进行配置
+                dialog.XamlRoot = this.XamlRoot;
+                dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+                dialog.PrimaryButtonText = "确认";
+                dialog.CloseButtonText = "关闭";
+                // 默认按钮为PrimaryButton
+                dialog.DefaultButton = ContentDialogButton.Primary;
+
+                // 显示Dialog并等待其关闭
+                ContentDialogResult result = await dialog.ShowAsync();
+
+                // 如果按下了Primary
+                if (result == ContentDialogResult.Primary)
+                {
+                    sshPasswd = sshPasswdModel.SSHPasswd;
+                }
+            }
+            else
+            {
+                sshPasswd = null;
+            }
+            InProgressing.IsActive = true;
+            // 在子线程中执行任务
+            Thread subThread = new Thread(new ThreadStart(() =>
+            {
+                string res = GeneralMethod.SendSSHCommand(sshModel.SSHCommand, sshModel.IPAddress, sshModel.SSHPort, sshModel.SSHUser, sshPasswd, sshModel.SSHKeyPath, sshModel.SSHKeyIsOpen);
+                _dispatcherQueue.TryEnqueue(() =>
+                {
+                    SSHResponse.Subtitle = res;
+                    SSHResponse.IsOpen = true;
+                    InProgressing.IsActive = false;
+                });
+            }));
+            subThread.Start();
+        }
+        private async void EditThisConfig(SSHModel sshModel)
+        {
             // 创建一个新的dialog对象
-            EnterSSHPasswd dialog = new EnterSSHPasswd(sshPasswdModel);
+            AddSSH dialog = new AddSSH(sshModel);
             // 对此dialog对象进行配置
             dialog.XamlRoot = this.XamlRoot;
             dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-            dialog.PrimaryButtonText = "确认";
+            dialog.PrimaryButtonText = "修改";
             dialog.CloseButtonText = "关闭";
             // 默认按钮为PrimaryButton
             dialog.DefaultButton = ContentDialogButton.Primary;
@@ -145,19 +188,12 @@ namespace WinWoL.Pages
             // 如果按下了Primary
             if (result == ContentDialogResult.Primary)
             {
-                InProgressing.IsActive = true;
-                // 在子线程中执行任务
-                Thread subThread = new Thread(new ThreadStart(() =>
-                {
-                    string res = GeneralMethod.SendSSHCommand(sshModel.SSHCommand, sshModel.IPAddress, sshModel.SSHPort, sshModel.SSHUser, sshPasswdModel.SSHPasswd, sshModel.SSHKeyPath, sshModel.SSHKeyIsOpen);
-                    _dispatcherQueue.TryEnqueue(() =>
-                    {
-                        SSHResponse.Subtitle = res;
-                        SSHResponse.IsOpen = true;
-                        InProgressing.IsActive = false;
-                    });
-                }));
-                subThread.Start();
+                // 实例化SQLiteHelper
+                SQLiteHelper dbHelper = new SQLiteHelper();
+                // 更新数据
+                dbHelper.UpdateSSHData(sshModel);
+                // 重新加载数据
+                LoadData();
             }
         }
         private void OnGridViewRightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -221,7 +257,7 @@ namespace WinWoL.Pages
                 };
                 editMenuItem.Click += (sender, e) =>
                 {
-                    //EditThisConfig(selectedItem);
+                    EditThisConfig(selectedItem);
                 };
                 menuFlyout.Items.Add(editMenuItem);
 
