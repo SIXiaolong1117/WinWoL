@@ -41,7 +41,7 @@
                 </NavigationViewItem>
                 <NavigationViewItem x:Name="SSHShortcut" Tag="SSH">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8F9;" />
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE952;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

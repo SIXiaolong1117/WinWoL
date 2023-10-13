@@ -9,7 +9,22 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollViewer Width="280">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Margin="0,0,0,8"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="24"
+            FontWeight="Bold"
+            Text="添加配置" />
+        <ScrollViewer Grid.Row="1" Width="280">
             <StackPanel
                 Width="250"
                 HorizontalAlignment="Center"
@@ -33,24 +48,28 @@
                         Width="250"
                         Margin="0,0,0,8"
                         Header="配置别名："
-                        PlaceholderText="eg: 晓龙的电脑" />
+                        PlaceholderText="eg: 晓龙家的康娜" />
                     <TextBox
                         x:Name="IpAddressTextBox"
                         Width="250"
-                        Header="主机 IP 地址："
-                        PlaceholderText="eg: 192.168.1.2" />
+                        Header="远程主机 IP 地址 或 DDNS域名："
+                        Paste="IPAddressTextPaste"
+                        PlaceholderText="eg: 192.168.1.2 或 eg.ddns.com"
+                        TextChanged="IPAddressTextChanged" />
                     <TextBox
                         x:Name="SSHCommandTextBox"
                         Width="250"
                         Margin="0,0,0,8"
                         Header="SSH 命令："
-                        PlaceholderText="" />
+                        PlaceholderText="eg: ls -a" />
                     <TextBox
                         x:Name="SSHPortTextBox"
                         Width="250"
                         Margin="0,0,0,8"
                         Header="SSH 端口："
-                        PlaceholderText="eg: 22" />
+                        Paste="PortTextPaste"
+                        PlaceholderText="eg: 22"
+                        TextChanged="PortTextChanged" />
                     <TextBox
                         x:Name="SSHUserTextBox"
                         Width="250"

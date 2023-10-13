@@ -9,7 +9,22 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollViewer Width="280">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Margin="0,0,0,8"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="24"
+            FontWeight="Bold"
+            Text="添加配置" />
+        <ScrollViewer Grid.Row="1" Width="280">
             <StackPanel
                 Width="250"
                 HorizontalAlignment="Center"
@@ -33,14 +48,15 @@
                         Width="250"
                         Margin="0,0,0,8"
                         Header="配置别名："
-                        PlaceholderText="eg: 晓龙的电脑"
+                        PlaceholderText="eg: 晓龙家里的托尔"
                         TextChanged="TextChanged" />
                     <TextBox
                         x:Name="IpAddressTextBox"
                         Width="250"
-                        Header="主机 IP 地址："
-                        PlaceholderText="eg: 192.168.1.2"
-                        TextChanged="TextChanged" />
+                        Header="远程主机 IP 地址 或 DDNS域名："
+                        Paste="IPAddressTextPaste"
+                        PlaceholderText="eg: 192.168.1.2 或 eg.ddns.com"
+                        TextChanged="IPAddressTextChanged" />
                 </StackPanel>
 
                 <!--  WoL 相关设置  -->
@@ -65,21 +81,24 @@
                             x:Name="BroadcastCheckBox"
                             Margin="0,0,0,8"
                             Checked="Broadcast_Checked"
-                            Content="WoL 向 LAN 网络广播"
+                            Content="向 LAN 网络广播"
                             Unchecked="Broadcast_Unchecked" />
                         <TextBox
                             x:Name="MacAddressTextBox"
                             Width="250"
                             Margin="0,0,0,8"
                             Header="目标设备 Mac 地址："
+                            MaxLength="17"
+                            Paste="MacAddressTextPaste"
                             PlaceholderText="eg: AA:BB:CC:DD:EE:FF"
-                            TextChanged="TextChanged" />
+                            TextChanged="MacAddressTextChanged" />
                         <TextBox
                             x:Name="WoLPortTextBox"
                             Width="250"
                             Header="WoL 端口："
-                            PlaceholderText="eg: 7, 9 或其他自定义端口"
-                            TextChanged="TextChanged" />
+                            Paste="PortTextPaste"
+                            PlaceholderText="eg: 9"
+                            TextChanged="PortTextChanged" />
                     </StackPanel>
                 </StackPanel>
 
@@ -105,8 +124,9 @@
                             x:Name="RDPIPPortTextBox"
                             Width="250"
                             Header="RDP 端口："
+                            Paste="PortTextPaste"
                             PlaceholderText="eg: 3389"
-                            TextChanged="TextChanged" />
+                            TextChanged="PortTextChanged" />
                     </StackPanel>
                 </StackPanel>
 
@@ -133,15 +153,16 @@
                             Width="250"
                             Margin="0,0,0,8"
                             Header="SSH 命令："
-                            PlaceholderText="关机命令 详见 GitHub Wiki"
+                            PlaceholderText="eg: shutdown /s /t 0"
                             TextChanged="TextChanged" />
                         <TextBox
                             x:Name="SSHPortTextBox"
                             Width="250"
                             Margin="0,0,0,8"
                             Header="SSH 端口："
+                            Paste="PortTextPaste"
                             PlaceholderText="eg: 22"
-                            TextChanged="TextChanged" />
+                            TextChanged="PortTextChanged" />
                         <TextBox
                             x:Name="SSHUserTextBox"
                             Width="250"

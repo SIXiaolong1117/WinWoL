@@ -5,6 +5,8 @@ using Windows.Storage.Pickers;
 using Windows.Storage;
 using WinWoL.Models;
 using System;
+using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WinWoL.Pages.Dialogs
 {
@@ -114,10 +116,95 @@ namespace WinWoL.Pages.Dialogs
                 SSHPasswordBox.Visibility = Visibility.Visible;
             }
         }
-
         private void TextChanged(object sender, TextChangedEventArgs e)
         {
-            refresh();
+        }
+        private void MacAddressTextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            MacAddressTextClean(textBox);
+        }
+        private void MacAddressTextPaste(object sender, TextControlPasteEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            MacAddressTextClean(textBox);
+        }
+        private void MacAddressTextClean(TextBox textBox)
+        {
+            string input = textBox.Text;
+
+            // 使用正则表达式来匹配合法的格式
+            string pattern = @"^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$";
+            if (Regex.IsMatch(input, pattern))
+            {
+                // 输入合法，保持文本不变
+                textBox.Text = input;
+            }
+            else
+            {
+                // 输入非法，移除不匹配的字符
+                textBox.Text = Regex.Replace(input, "[^0-9A-Fa-f:]", "");
+                // 光标移动至末尾
+                textBox.SelectionStart = textBox.Text.Length;
+            }
+        }
+        private void IPAddressTextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            IPAddressTextClean(textBox);
+        }
+        private void IPAddressTextPaste(object sender, TextControlPasteEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            IPAddressTextClean(textBox);
+        }
+        private void IPAddressTextClean(TextBox textBox)
+        {
+            string input = textBox.Text;
+
+            // 使用正则表达式来匹配合法的格式
+            string pattern = @"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$";
+            if (Regex.IsMatch(input, pattern))
+            {
+                // 输入合法，保持文本不变
+                textBox.Text = input;
+            }
+            else
+            {
+                // 输入非法，移除不匹配的字符
+                textBox.Text = Regex.Replace(input, @"[^A-Za-z0-9:.]", "");
+                // 光标移动至末尾
+                textBox.SelectionStart = textBox.Text.Length;
+            }
+        }
+        private void PortTextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            PortTextClean(textBox);
+        }
+        private void PortTextPaste(object sender, TextControlPasteEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            PortTextClean(textBox);
+        }
+        private void PortTextClean(TextBox textBox)
+        {
+            string input = textBox.Text;
+
+            // 使用正则表达式来匹配合法的格式
+            string pattern = "^[0-9]*$";
+            if (Regex.IsMatch(input, pattern))
+            {
+                // 输入合法，保持文本不变
+                textBox.Text = input;
+            }
+            else
+            {
+                // 输入非法，移除不匹配的字符
+                textBox.Text = Regex.Replace(input, "[^0-9]", "");
+                // 光标移动至末尾
+                textBox.SelectionStart = textBox.Text.Length;
+            }
         }
         private void PasswordChanged(object sender, RoutedEventArgs e)
         {
