@@ -196,7 +196,8 @@
                             x:Name="NameList"
                             Margin="8,8,8,8"
                             HorizontalAlignment="Left"
-                            VerticalAlignment="Top" />
+                            VerticalAlignment="Top"
+                            TextWrapping="Wrap" />
                     </ScrollViewer>
                 </StackPanel>
             </StackPanel>

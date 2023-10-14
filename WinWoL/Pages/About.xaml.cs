@@ -40,26 +40,49 @@ namespace WinWoL.Pages
             // 在子线程中执行任务
             Thread subThread = new Thread(new ThreadStart(async () =>
             {
-                string nameList;
+                string nameList = null;
                 using (HttpClient client = new HttpClient())
                 {
                     // 发起GET请求以获取文件内容
+                    // 首先尝试从GitHub获取数据
                     try
                     {
                         HttpResponseMessage response = await client.GetAsync($"https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/List");
                         if (response.IsSuccessStatusCode)
                         {
-                            // 从响应中读取文件内容
+                            // 从GitHub的响应中读取文件内容
                             nameList = await response.Content.ReadAsStringAsync();
                         }
                         else
                         {
-                            nameList = "Unable to connect to Github";
+                            nameList = "Try Gitee";
                         }
                     }
                     catch
                     {
-                        nameList = "Unable to connect to Github";
+                        nameList = "Try Gitee";
+                    }
+
+                    // 如果GitHub通信失败，尝试从Gitee获取数据
+                    if (nameList == "Try Gitee")
+                    {
+                        try
+                        {
+                            HttpResponseMessage response = await client.GetAsync($"https://gitee.com/XiaolongSI/Direct5dom/raw/main/README/Sponsor/List");
+                            if (response.IsSuccessStatusCode)
+                            {
+                                // 从Gitee的响应中读取文件内容
+                                nameList = await response.Content.ReadAsStringAsync();
+                            }
+                            else
+                            {
+                                nameList = "无法连接至 Github 或 Gitee 获取赞助者名单。(0)";
+                            }
+                        }
+                        catch
+                        {
+                            nameList = "无法连接至 Github 或 Gitee 获取赞助者名单。(1)";
+                        }
                     }
                 }
                 _dispatcherQueue.TryEnqueue(() =>
