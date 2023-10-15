@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using PInvoke;
 using System;
 using System.Collections.Generic;
 using WinWoL.Models;
@@ -265,7 +266,7 @@ namespace WinWoL.Datas
             }
         }
         // 根据ID获得数据
-        public WoLModel GetDataById(WoLModel model)
+        public WoLModel GetDataById(int id)
         {
             using (SqliteConnection connection = new SqliteConnection(connectionString))
             {
@@ -274,7 +275,7 @@ namespace WinWoL.Datas
 
                 var selectCommand = connection.CreateCommand();
                 selectCommand.CommandText = "SELECT * FROM WoLTable WHERE Id = @Id";
-                selectCommand.Parameters.AddWithValue("@Id", model.Id);
+                selectCommand.Parameters.AddWithValue("@Id", id);
 
                 using (SqliteDataReader reader = selectCommand.ExecuteReader())
                 {
@@ -283,21 +284,21 @@ namespace WinWoL.Datas
                         WoLModel entry = new WoLModel
                         {
                             Id = reader.GetInt32(0),
-                            Name = reader.IsDBNull(1) ? null : reader.GetString(1),
-                            MacAddress = reader.IsDBNull(2) ? null : reader.GetString(2),
-                            IPAddress = reader.IsDBNull(3) ? null : reader.GetString(3),
-                            WoLAddress = reader.IsDBNull(4) ? null : reader.GetString(4),
-                            WoLPort = reader.IsDBNull(5) ? null : reader.GetString(5),
-                            RDPPort = reader.IsDBNull(6) ? null : reader.GetString(6),
-                            SSHCommand = reader.IsDBNull(7) ? null : reader.GetString(7),
-                            SSHPort = reader.IsDBNull(8) ? null : reader.GetString(8),
-                            SSHUser = reader.IsDBNull(9) ? null : reader.GetString(9),
-                            SSHKeyPath = reader.IsDBNull(11) ? null : reader.GetString(11),
-                            WoLIsOpen = reader.IsDBNull(12) ? null : reader.GetString(12),
-                            RDPIsOpen = reader.IsDBNull(13) ? null : reader.GetString(13),
-                            SSHIsOpen = reader.IsDBNull(14) ? null : reader.GetString(14),
-                            BroadcastIsOpen = reader.IsDBNull(15) ? null : reader.GetString(15),
-                            SSHKeyIsOpen = reader.IsDBNull(16) ? null : reader.GetString(16)
+                            Name = reader.IsDBNull(1) ? "" : reader.GetString(1),
+                            MacAddress = reader.IsDBNull(2) ? "" : reader.GetString(2),
+                            IPAddress = reader.IsDBNull(3) ? "" : reader.GetString(3),
+                            WoLAddress = reader.IsDBNull(4) ? "" : reader.GetString(4),
+                            WoLPort = reader.IsDBNull(5) ? "" : reader.GetString(5),
+                            RDPPort = reader.IsDBNull(6) ? "" : reader.GetString(6),
+                            SSHCommand = reader.IsDBNull(7) ? "" : reader.GetString(7),
+                            SSHPort = reader.IsDBNull(8) ? "" : reader.GetString(8),
+                            SSHUser = reader.IsDBNull(9) ? "" : reader.GetString(9),
+                            SSHKeyPath = reader.IsDBNull(10) ? "" : reader.GetString(10),
+                            WoLIsOpen = reader.IsDBNull(11) ? "" : reader.GetString(11),
+                            RDPIsOpen = reader.IsDBNull(12) ? "" : reader.GetString(12),
+                            SSHIsOpen = reader.IsDBNull(13) ? "" : reader.GetString(13),
+                            BroadcastIsOpen = reader.IsDBNull(14) ? "" : reader.GetString(14),
+                            SSHKeyIsOpen = reader.IsDBNull(15) ? "" : reader.GetString(15)
                         };
 
                         return entry;
@@ -471,6 +472,96 @@ namespace WinWoL.Datas
             }
 
             return entries;
+        }
+        // 获取上一行的ID
+        public int GetPreRowsId(WoLModel wolModel)
+        {
+            int srcId = wolModel.Id;
+            int preId = -1; // 默认值，表示未找到上一行的ID
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    // 获取上一行的ID
+                    command.CommandText = "SELECT MAX(Id) FROM WoLTable WHERE Id < @srcId";
+                    command.Parameters.AddWithValue("@srcId", srcId);
+
+                    var result = command.ExecuteScalar();
+                    if (result != DBNull.Value)
+                    {
+                        preId = Convert.ToInt32(result);
+                    }
+                }
+            }
+            return preId;
+        }
+        // 向上移动项
+        public bool UpSwapRows(WoLModel wolModel)
+        {
+            int srcId = wolModel.Id;
+            int preId = GetPreRowsId(wolModel);
+            if (preId >= 0)
+            {
+                // 新建两个对象，分别获取两行数据
+                WoLModel srcModel = GetDataById(srcId);
+                WoLModel preModel = GetDataById(preId);
+
+                // 重新指定ID，交换
+                srcModel.Id = preId;
+                preModel.Id = srcId;
+
+                // 交换写入对方的位置
+                UpdateData(srcModel);
+                UpdateData(preModel);
+                return true;
+            }
+            return false;
+        }
+        // 获取下一行的ID
+        public int GetPosRowsId(WoLModel wolModel)
+        {
+            int srcId = wolModel.Id;
+            int posId = -1; // 默认值，表示未找到上一行的ID
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    // 获取上一行的ID
+                    command.CommandText = "SELECT MIN(Id) FROM WoLTable WHERE Id > @srcId";
+                    command.Parameters.AddWithValue("@srcId", srcId);
+
+                    var result = command.ExecuteScalar();
+                    if (result != DBNull.Value)
+                    {
+                        posId = Convert.ToInt32(result);
+                    }
+                }
+            }
+            return posId;
+        }
+        // 向下移动项
+        public bool DownSwapRows(WoLModel wolModel)
+        {
+            int srcId = wolModel.Id;
+            int posId = GetPosRowsId(wolModel);
+            if (posId >= 0)
+            {
+                // 新建两个对象，分别获取两行数据
+                WoLModel srcModel = GetDataById(srcId);
+                WoLModel preModel = GetDataById(posId);
+
+                // 重新指定ID，交换
+                srcModel.Id = posId;
+                preModel.Id = srcId;
+
+                // 交换写入对方的位置
+                UpdateData(srcModel);
+                UpdateData(preModel);
+                return true;
+            }
+            return false;
         }
     }
 
