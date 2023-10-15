@@ -142,6 +142,31 @@
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Text="赞助我："
+                            TextWrapping="Wrap" />
+                        <HyperlinkButton
+                            x:Name="AboutAliPay"
+                            x:Uid="AboutAliPay"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Click="AboutAliPay_Click"
+                            FontSize="12" />
+                        <HyperlinkButton
+                            x:Name="AboutWePay"
+                            x:Uid="AboutWePay"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Click="AboutWePay_Click"
+                            FontSize="12" />
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
@@ -154,6 +179,25 @@
             x:Name="SaveFileTips"
             CloseButtonContent="确认"
             IsLightDismissEnabled="True" />
+
+        <TeachingTip x:Name="AboutAliPayTips">
+            <TeachingTip.HeroContent>
+                <Image Height="400">
+                    <Image.Source>
+                        <BitmapImage UriSource="/Assets/AliPay.jpg" />
+                    </Image.Source>
+                </Image>
+            </TeachingTip.HeroContent>
+        </TeachingTip>
+        <TeachingTip x:Name="AboutWePayTips">
+            <TeachingTip.HeroContent>
+                <Image Height="400">
+                    <Image.Source>
+                        <BitmapImage UriSource="/Assets/WePay.png" />
+                    </Image.Source>
+                </Image>
+            </TeachingTip.HeroContent>
+        </TeachingTip>
         <ProgressRing x:Name="InProgressing" IsActive="False" />
     </Grid>
 </Page>

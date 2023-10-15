@@ -213,6 +213,14 @@ namespace WinWoL.Pages
             SaveFileTips.Title = result;
             SaveFileTips.IsOpen = true;
         }
+        private void AboutAliPay_Click(object sender, RoutedEventArgs e)
+        {
+            AboutAliPayTips.IsOpen = true;
+        }
+        private void AboutWePay_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWePayTips.IsOpen = true;
+        }
         private void OnGridViewRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             // 获取右键点击的Item
@@ -222,6 +230,9 @@ namespace WinWoL.Pages
             {
                 // 获取右键点击的数据对象（WoLModel）
                 SSHModel selectedItem = gridViewItem?.DataContext as SSHModel;
+
+                // 实例化SQLiteHelper
+                SQLiteHelper dbHelper = new SQLiteHelper();
 
                 // 将右键点击的项设置为选中项
                 dataGridView.SelectedItem = selectedItem;
@@ -269,6 +280,49 @@ namespace WinWoL.Pages
                 // 添加分割线
                 MenuFlyoutSeparator separator2 = new MenuFlyoutSeparator();
                 menuFlyout.Items.Add(separator2);
+
+                if (dbHelper.GetSSHPreRowsId(selectedItem) != -1)
+                {
+                    MenuFlyoutItem upSwapMenuItem = new MenuFlyoutItem
+                    {
+                        Text = "向前移动"
+                    };
+                    upSwapMenuItem.Click += (sender, e) =>
+                    {
+                        // 向上移动
+                        if (dbHelper.UpSwapSSHRows(selectedItem))
+                        {
+                            // 重新加载数据
+                            LoadData();
+                        }
+                    };
+                    menuFlyout.Items.Add(upSwapMenuItem);
+                }
+
+                if (dbHelper.GetSSHPosRowsId(selectedItem) != -1)
+                {
+                    MenuFlyoutItem downSwapMenuItem = new MenuFlyoutItem
+                    {
+                        Text = "向后移动"
+                    };
+                    downSwapMenuItem.Click += (sender, e) =>
+                    {
+                        // 向上移动
+                        if (dbHelper.DownSwapSSHRows(selectedItem))
+                        {
+                            // 重新加载数据
+                            LoadData();
+                        }
+                    };
+                    menuFlyout.Items.Add(downSwapMenuItem);
+                }
+
+                if (dbHelper.GetSSHPreRowsId(selectedItem) != -1 || dbHelper.GetSSHPosRowsId(selectedItem) != -1)
+                {
+                    // 添加分割线
+                    MenuFlyoutSeparator separator3 = new MenuFlyoutSeparator();
+                    menuFlyout.Items.Add(separator3);
+                }
 
                 MenuFlyoutItem editMenuItem = new MenuFlyoutItem
                 {

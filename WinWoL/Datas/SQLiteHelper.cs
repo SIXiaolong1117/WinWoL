@@ -309,6 +309,41 @@ namespace WinWoL.Datas
             // 如果未找到匹配的数据，可以返回null或者抛出异常，具体根据需求来决定
             return null;
         }
+        public SSHModel GetSSHDataById(int id)
+        {
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                UpgradeDatabase();
+
+                var selectCommand = connection.CreateCommand();
+                selectCommand.CommandText = "SELECT * FROM SSHTable WHERE Id = @Id";
+                selectCommand.Parameters.AddWithValue("@Id", id);
+
+                using (SqliteDataReader reader = selectCommand.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        SSHModel entry = new SSHModel
+                        {
+                            Id = reader.GetInt32(0),
+                            Name = reader.IsDBNull(1) ? "" : reader.GetString(1),
+                            IPAddress = reader.IsDBNull(2) ? "" : reader.GetString(2),
+                            SSHCommand = reader.IsDBNull(3) ? "" : reader.GetString(3),
+                            SSHPort = reader.IsDBNull(4) ? "" : reader.GetString(4),
+                            SSHUser = reader.IsDBNull(5) ? "" : reader.GetString(5),
+                            SSHKeyPath = reader.IsDBNull(6) ? "" : reader.GetString(6),
+                            SSHKeyIsOpen = reader.IsDBNull(7) ? "" : reader.GetString(7)
+                        };
+
+                        return entry;
+                    }
+                }
+            }
+
+            // 如果未找到匹配的数据，可以返回null或者抛出异常，具体根据需求来决定
+            return null;
+        }
         public List<WoLModel> GetDataListById(int id)
         {
             List<WoLModel> entries = new List<WoLModel>();
@@ -496,6 +531,28 @@ namespace WinWoL.Datas
             }
             return preId;
         }
+        public int GetSSHPreRowsId(SSHModel sshModel)
+        {
+            int srcId = sshModel.Id;
+            int preId = -1; // 默认值，表示未找到上一行的ID
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    // 获取上一行的ID
+                    command.CommandText = "SELECT MAX(Id) FROM SSHTable WHERE Id < @srcId";
+                    command.Parameters.AddWithValue("@srcId", srcId);
+
+                    var result = command.ExecuteScalar();
+                    if (result != DBNull.Value)
+                    {
+                        preId = Convert.ToInt32(result);
+                    }
+                }
+            }
+            return preId;
+        }
         // 向上移动项
         public bool UpSwapRows(WoLModel wolModel)
         {
@@ -518,6 +575,27 @@ namespace WinWoL.Datas
             }
             return false;
         }
+        public bool UpSwapSSHRows(SSHModel sshModel)
+        {
+            int srcId = sshModel.Id;
+            int preId = GetSSHPreRowsId(sshModel);
+            if (preId >= 0)
+            {
+                // 新建两个对象，分别获取两行数据
+                SSHModel srcModel = GetSSHDataById(srcId);
+                SSHModel preModel = GetSSHDataById(preId);
+
+                // 重新指定ID，交换
+                srcModel.Id = preId;
+                preModel.Id = srcId;
+
+                // 交换写入对方的位置
+                UpdateSSHData(srcModel);
+                UpdateSSHData(preModel);
+                return true;
+            }
+            return false;
+        }
         // 获取下一行的ID
         public int GetPosRowsId(WoLModel wolModel)
         {
@@ -530,6 +608,28 @@ namespace WinWoL.Datas
                 {
                     // 获取上一行的ID
                     command.CommandText = "SELECT MIN(Id) FROM WoLTable WHERE Id > @srcId";
+                    command.Parameters.AddWithValue("@srcId", srcId);
+
+                    var result = command.ExecuteScalar();
+                    if (result != DBNull.Value)
+                    {
+                        posId = Convert.ToInt32(result);
+                    }
+                }
+            }
+            return posId;
+        }
+        public int GetSSHPosRowsId(SSHModel sshModel)
+        {
+            int srcId = sshModel.Id;
+            int posId = -1; // 默认值，表示未找到上一行的ID
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    // 获取上一行的ID
+                    command.CommandText = "SELECT MIN(Id) FROM SSHTable WHERE Id > @srcId";
                     command.Parameters.AddWithValue("@srcId", srcId);
 
                     var result = command.ExecuteScalar();
@@ -559,6 +659,27 @@ namespace WinWoL.Datas
                 // 交换写入对方的位置
                 UpdateData(srcModel);
                 UpdateData(preModel);
+                return true;
+            }
+            return false;
+        }
+        public bool DownSwapSSHRows(SSHModel sshModel)
+        {
+            int srcId = sshModel.Id;
+            int posId = GetSSHPosRowsId(sshModel);
+            if (posId >= 0)
+            {
+                // 新建两个对象，分别获取两行数据
+                SSHModel srcModel = GetSSHDataById(srcId);
+                SSHModel preModel = GetSSHDataById(posId);
+
+                // 重新指定ID，交换
+                srcModel.Id = posId;
+                preModel.Id = srcId;
+
+                // 交换写入对方的位置
+                UpdateSSHData(srcModel);
+                UpdateSSHData(preModel);
                 return true;
             }
             return false;
