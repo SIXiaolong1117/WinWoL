@@ -8,7 +8,7 @@
   IgnorableNamespaces="uap rescap mp">
 
 	<Identity
-	  Name="53093SIXiaolong.WakeonLAN"
+	  Name="53093SIXiaolong.RemoteToolbox"
 	  Publisher="CN=SI Xiaolong"
 	  Version="2.1.1.0" />
 
