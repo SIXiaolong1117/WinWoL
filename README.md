@@ -22,13 +22,11 @@
 
 ## ⬇下载/Download
 
-<!-- ### 从 Microsoft Store 获取（推荐）
+### 从 Microsoft Store 获取（推荐）
 
-> 以下为旧版应用（网络唤醒），新版应用（远程工具箱）暂未上架应用商店。
+[<img src="https://get.microsoft.com/images/zh-cn%20light.svg"  width="30%" height="30%">](https://www.microsoft.com/store/apps/9N0JJ4VHZ6X5)
 
-[<img src="https://get.microsoft.com/images/zh-cn%20light.svg"  width="30%" height="30%">](https://apps.microsoft.com/store/detail/%E7%BD%91%E7%BB%9C%E5%94%A4%E9%86%92%EF%BC%88wake-on-lan%EF%BC%89/9N0JJ4VHZ6X5)
-
-### 从 Releases 获取自签名版（不推荐） -->
+### 从 Releases 获取自签名版（不推荐）
 
 您可以直接到 [Releases · Direct5dom/WinWoL](https://github.com/Direct5dom/WinWoL/releases) 下载我已经打包好的安装包。
 
