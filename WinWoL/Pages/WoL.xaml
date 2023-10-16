@@ -21,6 +21,17 @@
             <!--  设置圆角  -->
             <Setter Property="CornerRadius" Value="4" />
         </Style>
+        <!--  定义 Item 的样式  -->
+        <Style x:Key="TransparentItemStyle" TargetType="Grid">
+            <!--  设置背景  -->
+            <Setter Property="Background" Value="#11FFFFFF" />
+            <!--  设置边框  -->
+            <Setter Property="BorderBrush" Value="#11FFFFFF" />
+            <!--  设置边框厚度  -->
+            <Setter Property="BorderThickness" Value="0" />
+            <!--  设置圆角  -->
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
         <Flyout x:Name="confirmationFlyout" Placement="Right">
             <StackPanel>
                 <TextBlock Margin="0,0,0,8" Text="确定要删除吗？" />
@@ -116,7 +127,7 @@
                                                 <TextBlock
                                                     Grid.Row="0"
                                                     Grid.Column="0"
-                                                    Padding="0,16,0,16"
+                                                    Padding="0,4,0,4"
                                                     Text="{Binding Name}" />
                                             </Grid>
                                         </DataTemplate>

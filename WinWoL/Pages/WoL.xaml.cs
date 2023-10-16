@@ -226,12 +226,17 @@ namespace WinWoL.Pages
                 if (result == ContentDialogResult.Primary)
                 {
                     sshPasswd = sshPasswdModel.SSHPasswd;
+                    SSHSendThread(wolModel, sshPasswd);
                 }
             }
             else
             {
                 sshPasswd = null;
+                SSHSendThread(wolModel, sshPasswd);
             }
+        }
+        private void SSHSendThread(WoLModel wolModel, string sshPasswd)
+        {
             InProgressing.IsActive = true;
             // 在子线程中执行任务
             Thread subThread = new Thread(new ThreadStart(() =>

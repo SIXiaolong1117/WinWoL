@@ -35,6 +35,7 @@ namespace WinWoL
 
             AppTitleTextBlock.Text = resourceLoader.GetString("AppTitle");
             RemoteTools.Content = resourceLoader.GetString("WoLHeader");
+            SSHShortcut.Content = resourceLoader.GetString("SSHHeader");
         }
 
         bool TrySetSystemBackdrop()

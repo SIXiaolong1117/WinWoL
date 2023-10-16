@@ -14,15 +14,22 @@ namespace WinWoL.Methods
         {
             SshClient sshClient;
 
-            if (privateKeyIsOpen == "True")
+            try
             {
-                PrivateKeyFile privateKeyFile = new PrivateKeyFile(sshKey);
-                ConnectionInfo connectionInfo = new ConnectionInfo(sshHost, sshUser, new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile[] { privateKeyFile }));
-                sshClient = new SshClient(connectionInfo);
+                if (privateKeyIsOpen == "True")
+                {
+                    PrivateKeyFile privateKeyFile = new PrivateKeyFile(sshKey);
+                    ConnectionInfo connectionInfo = new ConnectionInfo(sshHost, sshUser, new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile[] { privateKeyFile }));
+                    sshClient = new SshClient(connectionInfo);
+                }
+                else
+                {
+                    sshClient = new SshClient(sshHost, int.Parse(sshPort), sshUser, sshPasswd);
+                }
             }
-            else
+            catch
             {
-                sshClient = new SshClient(sshHost, int.Parse(sshPort), sshUser, sshPasswd);
+                return "SSH connect fail.";
             }
 
             try

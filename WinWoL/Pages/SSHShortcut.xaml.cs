@@ -154,12 +154,17 @@ namespace WinWoL.Pages
                 if (result == ContentDialogResult.Primary)
                 {
                     sshPasswd = sshPasswdModel.SSHPasswd;
+                    SSHSendThread(sshModel, sshPasswd);
                 }
             }
             else
             {
                 sshPasswd = null;
+                SSHSendThread(sshModel, sshPasswd);
             }
+        }
+        private void SSHSendThread(SSHModel sshModel, string sshPasswd)
+        {
             InProgressing.IsActive = true;
             // 在子线程中执行任务
             Thread subThread = new Thread(new ThreadStart(() =>
