@@ -9,34 +9,55 @@ namespace WinWoL.Methods
 {
     public class GeneralMethod
     {
-        // SSH执行命令
+        // SSH执行
         public static string SendSSHCommand(string sshCommand, string sshHost, string sshPort, string sshUser, string sshPasswd, string sshKey, string privateKeyIsOpen)
         {
-            SshClient sshClient;
-
             try
             {
-                if (privateKeyIsOpen == "True")
+                bool usePrivateKey = string.Equals(privateKeyIsOpen, "True", StringComparison.OrdinalIgnoreCase);
+                SshClient sshClient = InitializeSshClient(sshHost, int.Parse(sshPort), sshUser, sshPasswd, sshKey, usePrivateKey);
+
+                if (sshClient != null)
                 {
-                    PrivateKeyFile privateKeyFile = new PrivateKeyFile(sshKey);
-                    ConnectionInfo connectionInfo = new ConnectionInfo(sshHost, sshUser, new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile[] { privateKeyFile }));
-                    sshClient = new SshClient(connectionInfo);
+                    return ExecuteSshCommand(sshClient, sshCommand);
                 }
                 else
                 {
-                    sshClient = new SshClient(sshHost, int.Parse(sshPort), sshUser, sshPasswd);
+                    return "SSH 客户端初始化失败。";
+                }
+            }
+            catch (Exception ex)
+            {
+                return "SSH 操作失败：" + ex.Message;
+            }
+        }
+        // SSH初始化
+        private static SshClient InitializeSshClient(string sshHost, int sshPort, string sshUser, string sshPasswd, string sshKey, bool usePrivateKey)
+        {
+            try
+            {
+                if (usePrivateKey)
+                {
+                    PrivateKeyFile privateKeyFile = new PrivateKeyFile(sshKey);
+                    ConnectionInfo connectionInfo = new ConnectionInfo(sshHost, sshPort, sshUser, new PrivateKeyAuthenticationMethod(sshUser, new PrivateKeyFile[] { privateKeyFile }));
+                    return new SshClient(connectionInfo);
+                }
+                else
+                {
+                    return new SshClient(sshHost, sshPort, sshUser, sshPasswd);
                 }
             }
             catch
             {
-                return "SSH connect fail.";
+                return null;
             }
-
+        }
+        // SSH返回
+        private static string ExecuteSshCommand(SshClient sshClient, string sshCommand)
+        {
             try
             {
                 sshClient.Connect();
-
-                string res = null;
 
                 if (sshClient.IsConnected)
                 {
@@ -44,19 +65,19 @@ namespace WinWoL.Methods
 
                     if (!string.IsNullOrEmpty(SSHCommand.Error))
                     {
-                        res = "Error: " + SSHCommand.Error;
+                        return "错误：" + SSHCommand.Error;
                     }
                     else
                     {
-                        res = SSHCommand.Result;
+                        return SSHCommand.Result;
                     }
                 }
-                sshClient.Disconnect();
-                return res;
+                return "SSH 命令执行失败。";
             }
-            catch
+            finally
             {
-                return "SSH connect fail.";
+                sshClient.Disconnect();
+                sshClient.Dispose();
             }
         }
     }
