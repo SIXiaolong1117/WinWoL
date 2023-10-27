@@ -51,123 +51,113 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Vertical">
-            <StackPanel
+
+            <TextBlock
+                x:Name="Header"
+                Margin="0,0,0,8"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
+                FontSize="24" />
+            <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
                 <StackPanel
+                    Margin="0,0,8,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Vertical">
-
                     <TextBlock
-                        x:Name="Header"
                         Margin="0,0,0,8"
                         HorizontalAlignment="Center"
-                        FontSize="24" />
-                    <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
-                        <StackPanel
-                            Margin="0,0,8,0"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Foreground="DarkGray"
+                        Text="双击左键执行命令 右键配置打开菜单" />
+                    <ScrollViewer
+                        Width="592"
+                        Height="292"
+                        Margin="0,0,0,8"
+                        Style="{StaticResource TransparentScrollViewerStyle}">
+                        <GridView
+                            x:Name="dataGridView"
+                            Width="592"
+                            Height="292"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Orientation="Vertical">
-                            <TextBlock
-                                Margin="0,0,0,8"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                Foreground="DarkGray"
-                                Text="双击左键执行命令 右键配置打开菜单" />
-                            <ScrollViewer
-                                Width="592"
-                                Height="292"
-                                Margin="0,0,0,8"
-                                Style="{StaticResource TransparentScrollViewerStyle}">
-                                <GridView
-                                    x:Name="dataGridView"
-                                    Width="592"
-                                    Height="292"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Top">
-                                    <GridView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid
-                                                Width="144"
-                                                Height="72"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                DoubleTapped="OnGridViewDoubleTapped"
-                                                RightTapped="OnGridViewRightTapped">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="*" />
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock
-                                                    Grid.Row="0"
-                                                    Grid.Column="0"
-                                                    Width="144"
-                                                    Height="72"
-                                                    Padding="8"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Text="{Binding Name}"
-                                                    TextWrapping="Wrap" />
-                                            </Grid>
-                                        </DataTemplate>
-                                    </GridView.ItemTemplate>
-                                </GridView>
-                            </ScrollViewer>
+                            VerticalAlignment="Top">
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid
+                                        Width="144"
+                                        Height="72"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        DoubleTapped="OnGridViewDoubleTapped"
+                                        RightTapped="OnGridViewRightTapped">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Width="144"
+                                            Height="72"
+                                            Padding="8"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Name}"
+                                            TextWrapping="Wrap" />
+                                    </Grid>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </ScrollViewer>
 
-                            <StackPanel
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal">
-                                <Button
-                                    x:Name="AddConfig"
-                                    x:Uid="AddConfig"
-                                    Width="292"
-                                    Margin="0,0,8,0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Bottom"
-                                    Click="AddConfigButton_Click" />
-
-                                <Button
-                                    x:Name="ImportConfig"
-                                    x:Uid="ImportConfig"
-                                    Width="292"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Bottom" />
-                            </StackPanel>
-                        </StackPanel>
-                    </StackPanel>
                     <StackPanel
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
-                        <TextBlock
+                        <Button
+                            x:Name="AddConfig"
+                            x:Uid="AddConfig"
+                            Width="292"
+                            Margin="0,0,8,0"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="12"
-                            Text="赞助我："
-                            TextWrapping="Wrap" />
-                        <HyperlinkButton
-                            x:Name="AboutAliPay"
-                            x:Uid="AboutAliPay"
+                            VerticalAlignment="Bottom"
+                            Click="AddConfigButton_Click" />
+
+                        <Button
+                            x:Name="ImportConfig"
+                            x:Uid="ImportConfig"
+                            Width="292"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Click="AboutAliPay_Click"
-                            FontSize="12" />
-                        <HyperlinkButton
-                            x:Name="AboutWePay"
-                            x:Uid="AboutWePay"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Click="AboutWePay_Click"
-                            FontSize="12" />
+                            VerticalAlignment="Bottom" />
                     </StackPanel>
                 </StackPanel>
+            </StackPanel>
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Text="赞助我："
+                    TextWrapping="Wrap" />
+                <HyperlinkButton
+                    x:Name="AboutAliPay"
+                    x:Uid="AboutAliPay"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="AboutAliPay_Click"
+                    FontSize="12" />
+                <HyperlinkButton
+                    x:Name="AboutWePay"
+                    x:Uid="AboutWePay"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="AboutWePay_Click"
+                    FontSize="12" />
             </StackPanel>
         </StackPanel>
         <TeachingTip
