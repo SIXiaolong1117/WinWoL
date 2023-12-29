@@ -23,7 +23,7 @@ namespace WinWoL.Pages.Dialogs
             WoLData = wolModel;
             ConfigNameTextBox.Text = wolModel.Name;
             IpAddressTextBox.Text = wolModel.IPAddress;
-            BroadcastCheckBox.IsChecked = wolModel.BroadcastIsOpen == "True";
+            IndependentAddressCheckBox.IsChecked = wolModel.BroadcastIsOpen == "True";
             WoLIsOpenToggleSwitch.IsOn = wolModel.WoLIsOpen == "True";
             MacAddressTextBox.Text = wolModel.MacAddress;
             WoLPortTextBox.Text = wolModel.WoLPort;
@@ -36,6 +36,13 @@ namespace WinWoL.Pages.Dialogs
             PrivateKeyIsOpenToggleSwitch.IsOn = wolModel.SSHKeyIsOpen == "True";
             SSHKeyPathTextBox.Text = wolModel.SSHKeyPath;
 
+            // 根据是否开启独立的WoL地址
+            if (IndependentAddressCheckBox.IsChecked == true)
+            {
+                // 开启，写入独立的WoL地址
+                IndependentAddressTextBox.Text = wolModel.WoLAddress;
+            }
+
             refresh();
         }
         private void MyDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -43,9 +50,8 @@ namespace WinWoL.Pages.Dialogs
             // 在"确定"按钮点击事件中保存用户输入的内容
             WoLData.Name = string.IsNullOrEmpty(ConfigNameTextBox.Text) ? "<未命名配置>" : ConfigNameTextBox.Text;
             WoLData.IPAddress = IpAddressTextBox.Text;
-            WoLData.BroadcastIsOpen = BroadcastCheckBox.IsChecked == true ? "True" : "False";
+            WoLData.BroadcastIsOpen = IndependentAddressCheckBox.IsChecked == true ? "True" : "False";
             WoLData.WoLIsOpen = WoLIsOpenToggleSwitch.IsOn ? "True" : "False";
-            WoLData.WoLAddress = IpAddressTextBox.Text;
             WoLData.MacAddress = MacAddressTextBox.Text;
             WoLData.WoLPort = WoLPortTextBox.Text;
             WoLData.RDPIsOpen = RDPIsOpenToggleSwitch.IsOn ? "True" : "False";
@@ -56,6 +62,18 @@ namespace WinWoL.Pages.Dialogs
             WoLData.SSHUser = SSHUserTextBox.Text;
             WoLData.SSHKeyPath = SSHKeyPathTextBox.Text;
             WoLData.SSHKeyIsOpen = PrivateKeyIsOpenToggleSwitch.IsOn ? "True" : "False";
+
+            // 根据是否开启独立的WoL地址
+            if (IndependentAddressCheckBox.IsChecked == true)
+            {
+                // 开启，写入独立的WoL地址
+                WoLData.WoLAddress = IndependentAddressTextBox.Text;
+            }
+            else
+            {
+                // 关闭，写入IP地址
+                WoLData.WoLAddress = IpAddressTextBox.Text;
+            }
         }
 
         private void MyDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -69,6 +87,18 @@ namespace WinWoL.Pages.Dialogs
             RDPIsOpen();
             ShutdownIsOpen();
             PrivateKeyIsOpen();
+            IndependentAddressIsChecked();
+        }
+        private void IndependentAddressIsChecked()
+        {
+            if (IndependentAddressCheckBox.IsChecked == true)
+            {
+                IndependentAddressTextBox.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                IndependentAddressTextBox.Visibility = Visibility.Collapsed;
+            }
         }
         private void WoLIsOpen()
         {
@@ -119,10 +149,16 @@ namespace WinWoL.Pages.Dialogs
         private void TextChanged(object sender, TextChangedEventArgs e)
         {
         }
+        private void IndependentAddressTextChanged(object sender, TextChangedEventArgs e)
+        {
+        }
         private void MacAddressTextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
             MacAddressTextClean(textBox);
+        }
+        private void IndependentAddressTextPaste(object sender, TextControlPasteEventArgs e)
+        {
         }
         private void MacAddressTextPaste(object sender, TextControlPasteEventArgs e)
         {
@@ -210,14 +246,18 @@ namespace WinWoL.Pages.Dialogs
         {
             refresh();
         }
-        private void Broadcast_Checked(object sender, RoutedEventArgs e)
+        // 启用独立的WoL地址
+        private void IndependentAddress_Checked(object sender, RoutedEventArgs e)
         {
-            WoLData.WoLAddress = "255.255.255.255";
+            // WoL地址单独配置
+            IndependentAddressTextBox.Visibility = Visibility.Visible;
             refresh();
         }
-        private void Broadcast_Unchecked(object sender, RoutedEventArgs e)
+        // 关闭独立的WoL地址
+        private void IndependentAddress_Unchecked(object sender, RoutedEventArgs e)
         {
-            WoLData.WoLAddress = IpAddressTextBox.Text;
+            // WoL地址与IP地址相同
+            IndependentAddressTextBox.Visibility = Visibility.Collapsed;
             refresh();
         }
         private void rdpIsOpen_Toggled(object sender, RoutedEventArgs e)

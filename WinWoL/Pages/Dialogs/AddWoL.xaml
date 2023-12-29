@@ -78,11 +78,25 @@
                         Toggled="wolIsOpen_Toggled" />
                     <StackPanel x:Name="WoLConfig">
                         <CheckBox
-                            x:Name="BroadcastCheckBox"
+                            x:Name="IndependentAddressCheckBox"
+                            Checked="IndependentAddress_Checked"
+                            Content="开启独立的 WoL 地址"
+                            Unchecked="IndependentAddress_Unchecked" />
+                        <TextBlock
+                            Margin="0,-6,0,8"
+                            FontSize="12"
+                            Foreground="Gray"
+                            Text="独立的 WoL 地址可以填写广播地址。"
+                            TextWrapping="Wrap" />
+                        <TextBox
+                            x:Name="IndependentAddressTextBox"
+                            Width="250"
                             Margin="0,0,0,8"
-                            Checked="Broadcast_Checked"
-                            Content="向 LAN 网络广播"
-                            Unchecked="Broadcast_Unchecked" />
+                            Header="独立的 WoL 地址："
+                            MaxLength="17"
+                            Paste="IndependentAddressTextPaste"
+                            PlaceholderText="eg: 192.168.1.255"
+                            TextChanged="IndependentAddressTextChanged" />
                         <TextBox
                             x:Name="MacAddressTextBox"
                             Width="250"
