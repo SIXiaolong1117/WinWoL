@@ -212,9 +212,25 @@ namespace WinWoL.Pages
             // 重新加载数据
             LoadData();
         }
-        private async void ExportConfigFunction(SSHModel sSHModel)
+        private async void ImportConfig_Click(object sender, RoutedEventArgs e)
         {
-            string result = await SSHMethod.ExportConfig(sSHModel);
+            ImportConfig.IsEnabled = false;
+            // 实例化SQLiteHelper
+            SQLiteHelper dbHelper = new SQLiteHelper();
+            // 获取导入的数据
+            SSHModel sshModel = await SSHMethod.ImportConfig();
+            if (sshModel != null)
+            {
+                // 插入新数据
+                dbHelper.InsertSSHData(sshModel);
+                // 重新加载数据
+                LoadData();
+            }
+            ImportConfig.IsEnabled = true;
+        }
+        private async void ExportConfigFunction(SSHModel sshModel)
+        {
+            string result = await SSHMethod.ExportConfig(sshModel);
             SaveFileTips.Title = result;
             SaveFileTips.IsOpen = true;
         }

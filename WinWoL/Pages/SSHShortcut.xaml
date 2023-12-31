@@ -147,13 +147,13 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Bottom"
                             Click="AddConfigButton_Click" />
-
                         <Button
                             x:Name="ImportConfig"
                             x:Uid="ImportConfig"
                             Width="292"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom" />
+                            VerticalAlignment="Bottom"
+                            Click="ImportConfig_Click" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
