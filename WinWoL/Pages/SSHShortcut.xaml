@@ -91,7 +91,9 @@
                                         DoubleTapped="OnGridViewDoubleTapped"
                                         RightTapped="OnGridViewRightTapped">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
@@ -100,11 +102,32 @@
                                             Grid.Row="0"
                                             Grid.Column="0"
                                             Width="144"
-                                            Height="72"
-                                            Padding="8"
+                                            Padding="8,8,0,0"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             Text="{Binding Name}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Width="144"
+                                            Padding="8,0,0,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="12"
+                                            Foreground="Gray"
+                                            Text="{Binding IPAddress}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            Width="144"
+                                            Padding="8,0,0,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="12"
+                                            Foreground="Gray"
+                                            Text="{Binding SSHCommand}"
                                             TextWrapping="Wrap" />
                                     </Grid>
                                 </DataTemplate>
