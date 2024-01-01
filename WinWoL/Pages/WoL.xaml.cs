@@ -373,6 +373,12 @@ namespace WinWoL.Pages
                 {
                     PingRefConfig.IsEnabled = true;
                 }
+
+            }
+            else
+            {
+                List<WoLModel> dataList = null;
+                dataListView2.ItemsSource = dataList;
             }
         }
         private void dataListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
