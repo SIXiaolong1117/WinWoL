@@ -24,19 +24,19 @@
 
 ### 从 Microsoft Store 获取（推荐）
 
-[<img src="https://get.microsoft.com/images/zh-cn%20light.svg"  width="30%" height="30%">](https://www.microsoft.com/store/apps/9N0JJ4VHZ6X5)
+[<img src="https://get.microsoft.com/images/zh-cn%20light.svg"  width="30%" height="30%">](  https://www.microsoft.com/store/apps/9P5ZTP14LQBR)
+
+> 旧版下载：
+>
+> [<img src="https://get.microsoft.com/images/zh-cn%20light.svg"  width="30%" height="30%">](https://www.microsoft.com/store/apps/9N0JJ4VHZ6X5)
 
 ### 从 Releases 获取自签名版（不推荐）
 
-您可以直接到 [Releases · Direct5dom/WinWoL](https://github.com/Direct5dom/WinWoL/releases) 下载我已经打包好的安装包。
-
-> 需要注意的是，因为本项目使用自签名旁加载，需要您打开Windows的开发者模式，右键“使用PowrShell”运行`Install.ps1`，而不是直接双击`WinWoL.msix`。
-
-> 自签名版需要打开开发者模式并安装一个证书，这并不是安全的应用安装方式。
+*我已不再继续更新自签名版本*
 
 ## ✋使用教程/Wiki
 
-参考本项目[Wiki](https://github.com/Direct5dom/WinWoL/wiki)。
+参考本项目[Wiki](https://about.sixiaolong.win/Remote-Toolbox.html)。
 
 ## 🛠️获取源码/Source Code
 
