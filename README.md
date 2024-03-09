@@ -36,7 +36,7 @@
 
 ## ✋使用教程/Wiki
 
-参考本项目[Wiki](https://about.sixiaolong.win/Remote-Toolbox.html)。
+参考本项目[Wiki](https://about.sixiaolong.win/Project/Remote-Toolbox.html)。
 
 ## 🛠️获取源码/Source Code
 
