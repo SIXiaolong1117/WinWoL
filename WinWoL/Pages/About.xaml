@@ -130,9 +130,9 @@
                             <HyperlinkButton
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Content="Github Wiki"
+                                Content="Wiki"
                                 FontSize="14"
-                                NavigateUri="https://github.com/Direct5dom/WinWoL/wiki" />
+                                NavigateUri="https://about.sixiaolong.win/Project/Remote-Toolbox.html" />
                         </StackPanel>
                         <StackPanel
                             HorizontalAlignment="Left"

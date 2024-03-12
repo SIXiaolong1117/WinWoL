@@ -22,7 +22,8 @@ namespace WinWoL.Pages
             _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
             APPVersion.Content = $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
-            APPVersion.NavigateUri = new System.Uri($"https://github.com/Direct5dom/WinWoL/releases/tag/{version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
+            //APPVersion.NavigateUri = new System.Uri($"https://github.com/Direct5dom/WinWoL/releases/tag/{version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
+            APPVersion.NavigateUri = new System.Uri($"https://www.microsoft.com/store/apps/9P5ZTP14LQBR");
 
             GetSponsorList();
         }

@@ -52,7 +52,7 @@
                     <TextBox
                         x:Name="IpAddressTextBox"
                         Width="250"
-                        Header="远程主机 IP 地址 或 DDNS域名："
+                        Header="远程主机 IP 地址 或 DDNS 域名："
                         Paste="IPAddressTextPaste"
                         PlaceholderText="eg: 192.168.1.2 或 eg.ddns.com"
                         TextChanged="IPAddressTextChanged" />
