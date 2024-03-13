@@ -26,10 +26,6 @@
 
 [<img src="https://get.microsoft.com/images/zh-cn%20light.svg"  width="30%" height="30%">](  https://www.microsoft.com/store/apps/9P5ZTP14LQBR)
 
-> 旧版下载：
->
-> [<img src="https://get.microsoft.com/images/zh-cn%20light.svg"  width="30%" height="30%">](https://www.microsoft.com/store/apps/9N0JJ4VHZ6X5)
-
 ### 从 Releases 获取自签名版（不推荐）
 
 *我已不再继续更新自签名版本*
