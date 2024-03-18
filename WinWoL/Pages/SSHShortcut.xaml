@@ -92,9 +92,9 @@
                             DoubleTapped="OnGridViewDoubleTapped"
                             RightTapped="OnGridViewRightTapped">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -102,7 +102,7 @@
                             <TextBlock
                                 Grid.Row="0"
                                 Grid.Column="0"
-                                Width="144"
+                                Width="140"
                                 Padding="8,8,0,0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -111,7 +111,7 @@
                             <TextBlock
                                 Grid.Row="1"
                                 Grid.Column="0"
-                                Width="144"
+                                Width="140"
                                 Padding="8,0,0,0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -122,8 +122,8 @@
                             <TextBlock
                                 Grid.Row="2"
                                 Grid.Column="0"
-                                Width="144"
-                                Padding="8,0,0,0"
+                                Width="140"
+                                Padding="8,0,0,8"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 FontSize="12"
@@ -136,7 +136,36 @@
             </GridView>
         </ScrollViewer>
 
-        <Grid Grid.Row="3" Grid.Column="0">
+        <Grid
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="0,0,28,8"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <AppBarButton
+                x:Name="AddConfig"
+                Grid.Row="0"
+                Grid.Column="0"
+                Click="AddConfigButton_Click"
+                Icon="Add"
+                Label="添加配置" />
+            <AppBarButton
+                x:Name="ImportConfig"
+                Grid.Row="0"
+                Grid.Column="1"
+                Click="ImportConfig_Click"
+                Icon="Import"
+                Label="导入配置" />
+        </Grid>
+
+        <!--<Grid Grid.Row="3" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -160,10 +189,10 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Click="ImportConfig_Click" />
-        </Grid>
+        </Grid>-->
 
         <StackPanel
-            Grid.Row="4"
+            Grid.Row="3"
             Grid.Column="0"
             Margin="0,0,0,24"
             HorizontalAlignment="Center"

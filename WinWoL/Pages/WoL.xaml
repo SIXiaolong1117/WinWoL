@@ -157,6 +157,56 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </ScrollViewer>
+            <Grid
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="0,0,8,8"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <AppBarButton
+                    x:Name="AddConfig"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Click="AddConfigButton_Click"
+                    Icon="Add"
+                    Label="添加配置" />
+                <AppBarButton
+                    x:Name="ImportConfig"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Click="ImportConfig_Click"
+                    Icon="Import"
+                    Label="导入配置" />
+                <AppBarToggleButton
+                    x:Name="HideConfig"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Click="HideConfigButton_Click"
+                    Label="显示/隐藏">
+                    <AppBarToggleButton.Icon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xED1A;" />
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+                <AppBarButton
+                    x:Name="PingRefConfig"
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Click="PingRefConfig_Click"
+                    Label="Ping 工具">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE704;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </Grid>
 
 
             <ScrollViewer
@@ -247,7 +297,7 @@
             </ScrollViewer>
         </Grid>
 
-        <Grid
+        <!--<Grid
             Grid.Row="3"
             Grid.Column="0"
             Margin="24,0,24,8"
@@ -285,10 +335,10 @@
                 Grid.Column="3"
                 Click="PingRefConfig_Click"
                 Content="Ping 工具" />
-        </Grid>
+        </Grid>-->
 
         <StackPanel
-            Grid.Row="4"
+            Grid.Row="3"
             Grid.Column="0"
             Margin="0,0,0,24"
             HorizontalAlignment="Center"

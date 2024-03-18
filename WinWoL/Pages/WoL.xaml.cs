@@ -39,11 +39,13 @@ namespace WinWoL.Pages
 
             if (localSettings.Values["HideConfigFlag"] == null || localSettings.Values["HideConfigFlag"] as string == "False")
             {
-                HideConfig.Content = resourceLoader.GetString("HideConfig");
+                HideConfig.Icon = new FontIcon { FontFamily = new Microsoft.UI.Xaml.Media.FontFamily("Segoe Fluent Icons"), Glyph = "\uE7B3" };
+                HideConfig.IsChecked = true;
             }
             else
             {
-                HideConfig.Content = resourceLoader.GetString("ShowConfig");
+                HideConfig.Icon = new FontIcon { FontFamily = new Microsoft.UI.Xaml.Media.FontFamily("Segoe Fluent Icons"), Glyph = "\uED1A" };
+                HideConfig.IsChecked = false;
             }
         }
         private void LoadData()
@@ -92,12 +94,14 @@ namespace WinWoL.Pages
             if (localSettings.Values["HideConfigFlag"] == null || localSettings.Values["HideConfigFlag"] as string == "False")
             {
                 localSettings.Values["HideConfigFlag"] = "True";
-                HideConfig.Content = resourceLoader.GetString("ShowConfig");
+                HideConfig.Icon = new FontIcon { FontFamily = new Microsoft.UI.Xaml.Media.FontFamily("Segoe Fluent Icons"), Glyph = "\uED1A" };
+                HideConfig.IsChecked = false;
             }
             else
             {
                 localSettings.Values["HideConfigFlag"] = "False";
-                HideConfig.Content = resourceLoader.GetString("HideConfig");
+                HideConfig.Icon = new FontIcon { FontFamily = new Microsoft.UI.Xaml.Media.FontFamily("Segoe Fluent Icons"), Glyph = "\uE7B3" };
+                HideConfig.IsChecked = true;
             }
 
             LoadConfigData();

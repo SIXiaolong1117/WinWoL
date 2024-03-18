@@ -159,9 +159,6 @@
   <data name="Confirm" xml:space="preserve">
     <value>确认</value>
   </data>
-  <data name="HideConfig" xml:space="preserve">
-    <value>隐藏地址</value>
-  </data>
   <data name="ImportConfig.Content" xml:space="preserve">
     <value>导入配置</value>
   </data>
@@ -173,9 +170,6 @@
   </data>
   <data name="ResetDatabaseTips.Title" xml:space="preserve">
     <value>您确定要重置数据库吗？</value>
-  </data>
-  <data name="ShowConfig" xml:space="preserve">
-    <value>显示地址</value>
   </data>
   <data name="SSHHeader" xml:space="preserve">
     <value>SSH 脚本</value>
