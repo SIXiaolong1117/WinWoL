@@ -47,141 +47,148 @@
     </Page.Resources>
 
     <Grid>
-        <StackPanel
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+            x:Name="Header"
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="0,24,0,8"
+            HorizontalAlignment="Center"
+            FontSize="24" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="0,0,0,8"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Orientation="Vertical">
+            FontSize="12"
+            Foreground="DarkGray"
+            Text="双击左键执行命令 右键配置打开菜单" />
 
-            <TextBlock
-                x:Name="Header"
-                Margin="0,0,0,8"
+        <ScrollViewer
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="24,0,24,8"
+            Style="{StaticResource TransparentScrollViewerStyle}">
+            <GridView
+                x:Name="dataGridView"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            DoubleTapped="OnGridViewDoubleTapped"
+                            RightTapped="OnGridViewRightTapped">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Width="144"
+                                Padding="8,8,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{Binding Name}"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Width="144"
+                                Padding="8,0,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="Gray"
+                                Text="{Binding IPAddress}"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Width="144"
+                                Padding="8,0,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="Gray"
+                                Text="{Binding SSHCommand}"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </ScrollViewer>
+
+        <Grid Grid.Row="3" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="AddConfig"
+                x:Uid="AddConfig"
+                Grid.Row="0"
+                Grid.Column="0"
                 HorizontalAlignment="Center"
-                FontSize="24" />
-            <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
-                <StackPanel
-                    Margin="0,0,8,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Vertical">
-                    <TextBlock
-                        Margin="0,0,0,8"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="12"
-                        Foreground="DarkGray"
-                        Text="双击左键执行命令 右键配置打开菜单" />
-                    <ScrollViewer
-                        Width="592"
-                        Height="292"
-                        Margin="0,0,0,8"
-                        Style="{StaticResource TransparentScrollViewerStyle}">
-                        <GridView
-                            x:Name="dataGridView"
-                            Width="592"
-                            Height="292"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Top">
-                            <GridView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid
-                                        Width="144"
-                                        Height="72"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        DoubleTapped="OnGridViewDoubleTapped"
-                                        RightTapped="OnGridViewRightTapped">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock
-                                            Grid.Row="0"
-                                            Grid.Column="0"
-                                            Width="144"
-                                            Padding="8,8,0,0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Name}"
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            Width="144"
-                                            Padding="8,0,0,0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            FontSize="12"
-                                            Foreground="Gray"
-                                            Text="{Binding IPAddress}"
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Grid.Row="2"
-                                            Grid.Column="0"
-                                            Width="144"
-                                            Padding="8,0,0,0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            FontSize="12"
-                                            Foreground="Gray"
-                                            Text="{Binding SSHCommand}"
-                                            TextWrapping="Wrap" />
-                                    </Grid>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
-                    </ScrollViewer>
+                VerticalAlignment="Bottom"
+                Click="AddConfigButton_Click" />
+            <Button
+                x:Name="ImportConfig"
+                x:Uid="ImportConfig"
+                Grid.Row="0"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Click="ImportConfig_Click" />
+        </Grid>
 
-                    <StackPanel
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <Button
-                            x:Name="AddConfig"
-                            x:Uid="AddConfig"
-                            Width="292"
-                            Margin="0,0,8,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Click="AddConfigButton_Click" />
-                        <Button
-                            x:Name="ImportConfig"
-                            x:Uid="ImportConfig"
-                            Width="292"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Click="ImportConfig_Click" />
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
-            <StackPanel
+        <StackPanel
+            Grid.Row="4"
+            Grid.Column="0"
+            Margin="0,0,0,24"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <TextBlock
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Orientation="Horizontal">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="12"
-                    Text="赞助我："
-                    TextWrapping="Wrap" />
-                <HyperlinkButton
-                    x:Name="AboutAliPay"
-                    x:Uid="AboutAliPay"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Click="AboutAliPay_Click"
-                    FontSize="12" />
-                <HyperlinkButton
-                    x:Name="AboutWePay"
-                    x:Uid="AboutWePay"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Click="AboutWePay_Click"
-                    FontSize="12" />
-            </StackPanel>
+                FontSize="12"
+                Text="赞助我："
+                TextWrapping="Wrap" />
+            <HyperlinkButton
+                x:Name="AboutAliPay"
+                x:Uid="AboutAliPay"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Click="AboutAliPay_Click"
+                FontSize="12" />
+            <HyperlinkButton
+                x:Name="AboutWePay"
+                x:Uid="AboutWePay"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Click="AboutWePay_Click"
+                FontSize="12" />
         </StackPanel>
         <TeachingTip
             x:Name="SSHResponse"
