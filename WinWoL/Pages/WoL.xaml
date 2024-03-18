@@ -71,229 +71,249 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Orientation="Vertical">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
+        <TextBlock
+            x:Name="Header"
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="0,24,0,8"
+            HorizontalAlignment="Center"
+            FontSize="24" />
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
             <TextBlock
-                x:Name="Header"
+                Grid.Row="0"
+                Grid.Column="0"
                 Margin="0,0,0,8"
                 HorizontalAlignment="Center"
-                FontSize="24" />
+                VerticalAlignment="Center"
+                FontSize="12"
+                Foreground="DarkGray"
+                Text="双击左键唤醒电脑 右键配置打开菜单" />
 
-            <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
-                <StackPanel
-                    Margin="0,0,8,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Vertical">
-                    <TextBlock
-                        Margin="0,0,0,8"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="12"
-                        Foreground="DarkGray"
-                        Text="双击左键唤醒电脑 右键配置打开菜单" />
-                    <ScrollViewer
-                        Width="293"
-                        Height="292"
-                        Margin="0,0,0,8"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource TransparentScrollViewerStyle}">
-                        <ListView
-                            x:Name="dataListView"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            SelectionChanged="dataListView_SelectionChanged">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid DoubleTapped="OnListViewDoubleTapped" RightTapped="OnListViewRightTapped">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock
-                                            Grid.Row="0"
-                                            Grid.Column="0"
-                                            Padding="0,4,0,4"
-                                            Text="{Binding Name}" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </ScrollViewer>
 
-                    <StackPanel
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <Button
-                            x:Name="AddConfig"
-                            x:Uid="AddConfig"
-                            Width="142"
-                            Margin="0,0,8,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Click="AddConfigButton_Click" />
-
-                        <Button
-                            x:Name="ImportConfig"
-                            x:Uid="ImportConfig"
-                            Width="142"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Click="ImportConfig_Click" />
-                    </StackPanel>
-                </StackPanel>
-
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Vertical">
-                    <TextBlock
-                        Margin="0,0,0,8"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="12"
-                        Foreground="DarkGray"
-                        Text="选中配置的详情" />
-                    <ScrollViewer
-                        Width="292"
-                        Height="292"
-                        Margin="0,0,0,8"
-                        Style="{StaticResource TransparentScrollViewerStyle}">
-                        <ListView
-                            x:Name="dataListView2"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Stretch"
-                            SelectionMode="None">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel
-                                        Width="292"
-                                        Margin="0,16,0,16"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Orientation="Vertical">
-                                        <TextBlock
-                                            Margin="0,0,0,8"
-                                            Text="配置别名："
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Margin="0,0,0,8"
-                                            Foreground="DarkGray"
-                                            Text="{Binding Name}"
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Margin="0,0,0,8"
-                                            Text="IP 地址："
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Margin="0,0,0,8"
-                                            Foreground="DarkGray"
-                                            Text="{Binding IPAddress}"
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Margin="0,0,0,8"
-                                            Text="网络唤醒地址："
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Margin="0,0,0,8"
-                                            Foreground="DarkGray"
-                                            Text="{Binding WoLAddress}"
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Margin="0,0,0,8"
-                                            Text="网络唤醒端口："
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Margin="0,0,0,8"
-                                            Foreground="DarkGray"
-                                            Text="{Binding WoLPort}"
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Margin="0,0,0,8"
-                                            Text="远程桌面端口："
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Margin="0,0,0,8"
-                                            Foreground="DarkGray"
-                                            Text="{Binding RDPPort}"
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Margin="0,0,0,8"
-                                            Text="SSH关机端口："
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Margin="0,0,0,8"
-                                            Foreground="DarkGray"
-                                            Text="{Binding SSHPort}"
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Margin="0,0,0,8"
-                                            Text="SSH关机命令："
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Margin="0,0,0,8"
-                                            Foreground="DarkGray"
-                                            Text="{Binding SSHCommand}"
-                                            TextWrapping="Wrap" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </ScrollViewer>
-                    <StackPanel
-                        Width="292"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <Button
-                            x:Name="HideConfig"
-                            Width="142"
-                            Margin="0,0,8,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Click="HideConfigButton_Click" />
-                        <Button
-                            x:Name="PingRefConfig"
-                            Width="142"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Click="PingRefConfig_Click"
-                            Content="Ping 工具" />
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
-            <StackPanel
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="0,0,0,8"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Orientation="Horizontal">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="12"
-                    Text="赞助我："
-                    TextWrapping="Wrap" />
-                <HyperlinkButton
-                    x:Name="AboutAliPay"
-                    x:Uid="AboutAliPay"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Click="AboutAliPay_Click"
-                    FontSize="12" />
-                <HyperlinkButton
-                    x:Name="AboutWePay"
-                    x:Uid="AboutWePay"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Click="AboutWePay_Click"
-                    FontSize="12" />
-            </StackPanel>
+                FontSize="12"
+                Foreground="DarkGray"
+                Text="选中配置的详情" />
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ScrollViewer
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="24,0,4,8"
+                Style="{StaticResource TransparentScrollViewerStyle}">
+                <ListView
+                    x:Name="dataListView"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    SelectionChanged="dataListView_SelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid DoubleTapped="OnListViewDoubleTapped" RightTapped="OnListViewRightTapped">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Padding="0,4,0,4"
+                                    Text="{Binding Name}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollViewer>
+
+
+            <ScrollViewer
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="4,0,24,8"
+                Style="{StaticResource TransparentScrollViewerStyle}">
+                <ListView
+                    x:Name="dataListView2"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Stretch"
+                    SelectionMode="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel
+                                Width="292"
+                                Margin="0,16,0,16"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Orientation="Vertical">
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    Text="配置别名："
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    Foreground="DarkGray"
+                                    Text="{Binding Name}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    Text="IP 地址："
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    Foreground="DarkGray"
+                                    Text="{Binding IPAddress}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    Text="网络唤醒地址："
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    Foreground="DarkGray"
+                                    Text="{Binding WoLAddress}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    Text="网络唤醒端口："
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    Foreground="DarkGray"
+                                    Text="{Binding WoLPort}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    Text="远程桌面端口："
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    Foreground="DarkGray"
+                                    Text="{Binding RDPPort}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    Text="SSH关机端口："
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    Foreground="DarkGray"
+                                    Text="{Binding SSHPort}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    Text="SSH关机命令："
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    Foreground="DarkGray"
+                                    Text="{Binding SSHCommand}"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollViewer>
+        </Grid>
+
+        <Grid
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="24,0,24,8"
+            HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="AddConfig"
+                x:Uid="AddConfig"
+                Grid.Row="0"
+                Grid.Column="0"
+                Click="AddConfigButton_Click" />
+
+            <Button
+                x:Name="ImportConfig"
+                x:Uid="ImportConfig"
+                Grid.Row="0"
+                Grid.Column="1"
+                Click="ImportConfig_Click" />
+            <Button
+                x:Name="HideConfig"
+                Grid.Row="0"
+                Grid.Column="2"
+                Click="HideConfigButton_Click" />
+            <Button
+                x:Name="PingRefConfig"
+                Grid.Row="0"
+                Grid.Column="3"
+                Click="PingRefConfig_Click"
+                Content="Ping 工具" />
+        </Grid>
+
+        <StackPanel
+            Grid.Row="4"
+            Grid.Column="0"
+            Margin="0,0,0,24"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="12"
+                Text="赞助我："
+                TextWrapping="Wrap" />
+            <HyperlinkButton
+                x:Name="AboutAliPay"
+                x:Uid="AboutAliPay"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Click="AboutAliPay_Click"
+                FontSize="12" />
+            <HyperlinkButton
+                x:Name="AboutWePay"
+                x:Uid="AboutWePay"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Click="AboutWePay_Click"
+                FontSize="12" />
         </StackPanel>
         <TeachingTip
             x:Name="WoLResultTips"
