@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+ï»¿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Text.RegularExpressions;
@@ -16,7 +16,7 @@ namespace WinWoL.Pages.Dialogs
             PrimaryButtonClick += MyDialog_PrimaryButtonClick;
             SecondaryButtonClick += MyDialog_SecondaryButtonClick;
 
-            // ³õÊ¼»¯DialogÖĞµÄ×Ö¶Î£¬Ê¹ÓÃ´«ÈëµÄWoLModel¶ÔÏóµÄÊôĞÔ
+            // åˆå§‹åŒ–Dialogä¸­çš„å­—æ®µï¼Œä½¿ç”¨ä¼ å…¥çš„WoLModelå¯¹è±¡çš„å±æ€§
             SSHData = sshModel;
             ConfigNameTextBox.Text = sshModel.Name;
             IpAddressTextBox.Text = sshModel.IPAddress;
@@ -30,8 +30,8 @@ namespace WinWoL.Pages.Dialogs
         }
         private void MyDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            // ÔÚ"È·¶¨"°´Å¥µã»÷ÊÂ¼şÖĞ±£´æÓÃ»§ÊäÈëµÄÄÚÈİ
-            SSHData.Name = string.IsNullOrEmpty(ConfigNameTextBox.Text) ? "<Î´ÃüÃûÅäÖÃ>" : ConfigNameTextBox.Text;
+            // åœ¨"ç¡®å®š"æŒ‰é’®ç‚¹å‡»äº‹ä»¶ä¸­ä¿å­˜ç”¨æˆ·è¾“å…¥çš„å†…å®¹
+            SSHData.Name = string.IsNullOrEmpty(ConfigNameTextBox.Text) ? "<æœªå‘½åé…ç½®>" : ConfigNameTextBox.Text;
             SSHData.IPAddress = IpAddressTextBox.Text;
             SSHData.SSHCommand = SSHCommandTextBox.Text;
             SSHData.SSHPort = SSHPortTextBox.Text;
@@ -42,11 +42,11 @@ namespace WinWoL.Pages.Dialogs
 
         private void MyDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            // ÔÚ"È¡Ïû"°´Å¥µã»÷ÊÂ¼şÖĞ²»×öÈÎºÎ²Ù×÷
+            // åœ¨"å–æ¶ˆ"æŒ‰é’®ç‚¹å‡»äº‹ä»¶ä¸­ä¸åšä»»ä½•æ“ä½œ
         }
         private void refresh()
         {
-            // ÊÇ·ñÆôÓÃ¹¦ÄÜ
+            // æ˜¯å¦å¯ç”¨åŠŸèƒ½
             PrivateKeyIsOpen();
         }
         private void PrivateKeyIsOpen()
@@ -68,21 +68,21 @@ namespace WinWoL.Pages.Dialogs
         }
         private async void SelectSSHKeyPath_Click(object sender, RoutedEventArgs e)
         {
-            // ´´½¨Ò»¸öFileOpenPicker
+            // åˆ›å»ºä¸€ä¸ªFileOpenPicker
             var openPicker = new FileOpenPicker();
-            // »ñÈ¡µ±Ç°´°¿Ú¾ä±ú (HWND) 
+            // è·å–å½“å‰çª—å£å¥æŸ„ (HWND) 
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(App.m_window);
-            // Ê¹ÓÃ´°¿Ú¾ä±ú (HWND) ³õÊ¼»¯FileOpenPicker
+            // ä½¿ç”¨çª—å£å¥æŸ„ (HWND) åˆå§‹åŒ–FileOpenPicker
             WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
 
-            // ÎªFilePickerÉèÖÃÑ¡Ïî
+            // ä¸ºFilePickerè®¾ç½®é€‰é¡¹
             openPicker.ViewMode = PickerViewMode.Thumbnail;
-            // ½¨Òé´ò¿ªÎ»ÖÃ ×ÀÃæ
+            // å»ºè®®æ‰“å¼€ä½ç½® æ¡Œé¢
             openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
-            // ÎÄ¼şÀàĞÍ¹ıÂËÆ÷
+            // æ–‡ä»¶ç±»å‹è¿‡æ»¤å™¨
             openPicker.FileTypeFilter.Add("*");
 
-            // ´ò¿ªÑ¡ÔñÆ÷¹©ÓÃ»§Ñ¡ÔñÎÄ¼ş
+            // æ‰“å¼€é€‰æ‹©å™¨ä¾›ç”¨æˆ·é€‰æ‹©æ–‡ä»¶
             var file = await openPicker.PickSingleFileAsync();
             string filePath = null;
             if (file != null)
@@ -109,18 +109,18 @@ namespace WinWoL.Pages.Dialogs
         {
             string input = textBox.Text;
 
-            // Ê¹ÓÃÕıÔò±í´ïÊ½À´Æ¥ÅäºÏ·¨µÄ¸ñÊ½
+            // ä½¿ç”¨æ­£åˆ™è¡¨è¾¾å¼æ¥åŒ¹é…åˆæ³•çš„æ ¼å¼
             string pattern = @"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$";
             if (Regex.IsMatch(input, pattern))
             {
-                // ÊäÈëºÏ·¨£¬±£³ÖÎÄ±¾²»±ä
+                // è¾“å…¥åˆæ³•ï¼Œä¿æŒæ–‡æœ¬ä¸å˜
                 textBox.Text = input;
             }
             else
             {
-                // ÊäÈë·Ç·¨£¬ÒÆ³ı²»Æ¥ÅäµÄ×Ö·û
+                // è¾“å…¥éæ³•ï¼Œç§»é™¤ä¸åŒ¹é…çš„å­—ç¬¦
                 textBox.Text = Regex.Replace(input, @"[^A-Za-z0-9:.]", "");
-                // ¹â±êÒÆ¶¯ÖÁÄ©Î²
+                // å…‰æ ‡ç§»åŠ¨è‡³æœ«å°¾
                 textBox.SelectionStart = textBox.Text.Length;
             }
         }
@@ -138,18 +138,18 @@ namespace WinWoL.Pages.Dialogs
         {
             string input = textBox.Text;
 
-            // Ê¹ÓÃÕıÔò±í´ïÊ½À´Æ¥ÅäºÏ·¨µÄ¸ñÊ½
+            // ä½¿ç”¨æ­£åˆ™è¡¨è¾¾å¼æ¥åŒ¹é…åˆæ³•çš„æ ¼å¼
             string pattern = "^[0-9]*$";
             if (Regex.IsMatch(input, pattern))
             {
-                // ÊäÈëºÏ·¨£¬±£³ÖÎÄ±¾²»±ä
+                // è¾“å…¥åˆæ³•ï¼Œä¿æŒæ–‡æœ¬ä¸å˜
                 textBox.Text = input;
             }
             else
             {
-                // ÊäÈë·Ç·¨£¬ÒÆ³ı²»Æ¥ÅäµÄ×Ö·û
+                // è¾“å…¥éæ³•ï¼Œç§»é™¤ä¸åŒ¹é…çš„å­—ç¬¦
                 textBox.Text = Regex.Replace(input, "[^0-9]", "");
-                // ¹â±êÒÆ¶¯ÖÁÄ©Î²
+                // å…‰æ ‡ç§»åŠ¨è‡³æœ«å°¾
                 textBox.SelectionStart = textBox.Text.Length;
             }
         }

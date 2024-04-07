@@ -10,29 +10,29 @@
 
     <Grid>
         <StackPanel Width="280">
-            <TextBlock Text="Ping 测试" />
+            <TextBlock x:Uid="PingRefHeader" />
             <TextBlock
                 x:Name="PingRef"
                 Margin="0,0,0,8"
-                Foreground="DarkGray"
+                Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
                 TextWrapping="Wrap" />
-            <TextBlock Text="TCPing 网络唤醒端口" />
+            <TextBlock x:Uid="TCPingWoLHeader" />
             <TextBlock
                 x:Name="WoLPingRef"
                 Margin="0,0,0,8"
-                Foreground="DarkGray"
+                Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
                 TextWrapping="Wrap" />
-            <TextBlock Text="TCPing 远程桌面端口" />
+            <TextBlock x:Uid="TCPingRDPHeader" />
             <TextBlock
                 x:Name="RDPPingRef"
                 Margin="0,0,0,8"
-                Foreground="DarkGray"
+                Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
                 TextWrapping="Wrap" />
-            <TextBlock Text="TCPing SSH 端口" />
+            <TextBlock x:Uid="TCPingSSHHeader" />
             <TextBlock
                 x:Name="SSHPingRef"
                 Margin="0,0,0,8"
-                Foreground="DarkGray"
+                Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
                 TextWrapping="Wrap" />
 
             <Border
@@ -41,9 +41,9 @@
                 BorderThickness="0,0,0,1" />
 
             <TextBlock
+                x:Name="PingTips"
                 FontSize="12"
-                Foreground="DarkGray"
-                Text="注意：网络唤醒 (Wake on LAN) 的 Magic Packet 通过 UDP 发送，TCP 能联通并不意味着 UDP 同样可达。"
+                Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
                 TextWrapping="Wrap" />
         </StackPanel>
     </Grid>

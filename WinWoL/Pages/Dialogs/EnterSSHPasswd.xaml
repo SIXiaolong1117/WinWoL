@@ -11,7 +11,7 @@
     <Grid>
         <PasswordBox
             x:Name="SSHPasswordBox"
-            Width="250"
-            Header="SSH 密码：" />
+            x:Uid="SSHPasswordBox"
+            Width="250" />
     </Grid>
 </ContentDialog>

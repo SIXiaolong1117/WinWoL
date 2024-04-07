@@ -118,240 +118,240 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutAliPay.Content" xml:space="preserve">
-    <value>支付宝</value>
+    <value>Alipay</value>
   </data>
   <data name="AboutAuthor.Text" xml:space="preserve">
-    <value>作者</value>
+    <value>Author</value>
   </data>
   <data name="AboutHeader.Text" xml:space="preserve">
-    <value>关于</value>
+    <value>About</value>
   </data>
   <data name="AboutMITLicense.Content" xml:space="preserve">
     <value>MIT License</value>
   </data>
   <data name="AboutNSRightTip.Text" xml:space="preserve">
-    <value>© 2024 司晓龙. 使用 MIT License.</value>
+    <value>© 2024 SI Xiaolong. Under MIT License.</value>
   </data>
   <data name="AboutReference.Text" xml:space="preserve">
-    <value>依赖</value>
+    <value>Dependencies</value>
   </data>
   <data name="AboutRepo.Content" xml:space="preserve">
-    <value>开源仓库</value>
+    <value>Repository</value>
   </data>
   <data name="AboutSponsor.Text" xml:space="preserve">
-    <value>赞助者</value>
+    <value>Sponsor</value>
   </data>
   <data name="AboutWePay.Content" xml:space="preserve">
-    <value>微信</value>
+    <value>WeChat</value>
   </data>
   <data name="AboutWiki.Content" xml:space="preserve">
-    <value>使用教程</value>
+    <value>Wiki</value>
   </data>
   <data name="AboutWoL.Text" xml:space="preserve">
-    <value>关于</value>
+    <value>About</value>
   </data>
   <data name="AboutWoLRight.Text" xml:space="preserve">
-    <value>远程工具箱</value>
+    <value>Remote Toolbox</value>
   </data>
   <data name="AddConfig.Content" xml:space="preserve">
-    <value>添加配置</value>
+    <value>Add</value>
   </data>
   <data name="AddConfig.Label" xml:space="preserve">
-    <value>添加</value>
+    <value>Add</value>
   </data>
   <data name="AddConfigDialogTitle.Text" xml:space="preserve">
-    <value>添加配置</value>
+    <value>Add configuration</value>
   </data>
   <data name="AppearanceSetting.Text" xml:space="preserve">
-    <value>设置</value>
+    <value>Settings</value>
   </data>
   <data name="AppTitle" xml:space="preserve">
-    <value>远程工具箱</value>
+    <value>Remote Toolbox</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>取消</value>
+    <value>Cancel</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>确认</value>
+    <value>Confirm</value>
   </data>
   <data name="DatabaseSetting.Text" xml:space="preserve">
-    <value>数据库</value>
+    <value>Database</value>
   </data>
   <data name="DialogConfigNameTextBox.Header" xml:space="preserve">
-    <value>名称</value>
+    <value>Name</value>
   </data>
   <data name="DialogConfigNameTextBox.PlaceholderText" xml:space="preserve">
-    <value>显示名称</value>
+    <value>Display name</value>
   </data>
   <data name="DialogGeneral.Text" xml:space="preserve">
-    <value>常规</value>
+    <value>General</value>
   </data>
   <data name="DialogIpAddressTextBox.Header" xml:space="preserve">
-    <value>主机</value>
+    <value>Host</value>
   </data>
   <data name="DialogIpAddressTextBox.PlaceholderText" xml:space="preserve">
-    <value>域名或 IP</value>
+    <value>Domain or IP</value>
   </data>
   <data name="DialogRDPHeader.Text" xml:space="preserve">
-    <value>RDP 配置</value>
+    <value>RDP configuration</value>
   </data>
   <data name="DialogSSHCommandTextBox.Header" xml:space="preserve">
-    <value>SSH 命令</value>
+    <value>SSH command</value>
   </data>
   <data name="DialogSSHPortTextBox.Header" xml:space="preserve">
-    <value>SSH 端口</value>
+    <value>SSH port</value>
   </data>
   <data name="DialogSSHShutdownHeader.Text" xml:space="preserve">
-    <value>SSH 关机</value>
+    <value>SSH shutdown</value>
   </data>
   <data name="DialogSSHUserTextBox.Header" xml:space="preserve">
-    <value>SSH 用户</value>
+    <value>SSH user</value>
   </data>
   <data name="DialogUsingSSHKeyTextBox.Text" xml:space="preserve">
-    <value>密钥认证</value>
+    <value>Key Auth</value>
   </data>
   <data name="DialogWoLHeader.Text" xml:space="preserve">
-    <value>WoL 配置</value>
+    <value>WoL configuration</value>
   </data>
   <data name="FeedbackBugs.Content" xml:space="preserve">
-    <value>反馈问题</value>
+    <value>Feedback bugs</value>
   </data>
   <data name="HideConfig.Label" xml:space="preserve">
-    <value>显示/隐藏</value>
+    <value>Show/Hide</value>
   </data>
   <data name="ImportConfig.Content" xml:space="preserve">
-    <value>导入配置</value>
+    <value>Import</value>
   </data>
   <data name="ImportConfig.Label" xml:space="preserve">
-    <value>导入</value>
+    <value>Import</value>
   </data>
   <data name="IndependentAddressCheckBox.Content" xml:space="preserve">
-    <value>独立 WoL 地址</value>
+    <value>Independent WoL address</value>
   </data>
   <data name="IndependentAddressCheckBoxTips.Text" xml:space="preserve">
-    <value>独立的 WoL 地址可以用广播地址。</value>
+    <value>Independent WoL addresses can be filled with the broadcast address.</value>
   </data>
   <data name="IndependentAddressTextBox.Header" xml:space="preserve">
-    <value>WoL 地址</value>
+    <value>WoL address</value>
   </data>
   <data name="IPAddress.Text" xml:space="preserve">
-    <value>IP 地址</value>
+    <value>IP address</value>
   </data>
   <data name="LanguageSetting.Text" xml:space="preserve">
-    <value>语言设置</value>
+    <value>Language</value>
   </data>
   <data name="MacAddressTextBox.Header" xml:space="preserve">
-    <value>Mac 地址</value>
+    <value>Mac address</value>
   </data>
   <data name="PingRefHeader.Text" xml:space="preserve">
-    <value>Ping 测试</value>
+    <value>Ping Test</value>
   </data>
   <data name="PingTips.Text" xml:space="preserve">
-    <value>注意：WoL 的魔术包通过 UDP 发送。TCP 连接成功并不意味着 UDP 可达。</value>
+    <value>Note: The Magic Packet for Wake on LAN is sent via UDP. TCP connectivity does not imply UDP reachability.</value>
   </data>
   <data name="PRIVACYLink.Content" xml:space="preserve">
-    <value>隐私策略</value>
+    <value>PRIVACY</value>
   </data>
   <data name="RDPIPPortTextBox.Header" xml:space="preserve">
-    <value>RDP 端口</value>
+    <value>RDP port</value>
   </data>
   <data name="RDPPort.Text" xml:space="preserve">
-    <value>RDP 端口</value>
+    <value>RDP port</value>
   </data>
   <data name="ResetDatabase.Content" xml:space="preserve">
-    <value>重置数据库</value>
+    <value>Reset database</value>
   </data>
   <data name="ResetDatabaseSetting.Text" xml:space="preserve">
-    <value>重置数据库</value>
+    <value>Reset database</value>
   </data>
   <data name="ResetDatabaseTips.Subtitle" xml:space="preserve">
-    <value>这会使您丢失所有的配置数据，且无法找回！</value>
+    <value>This will cause you to lose all configuration data and it will be impossible to get it back!</value>
   </data>
   <data name="ResetDatabaseTips.Title" xml:space="preserve">
-    <value>您确定要重置数据库吗？</value>
+    <value>Reset database?</value>
   </data>
   <data name="SelectSSHKeyPath.Content" xml:space="preserve">
-    <value>选择…</value>
+    <value>Select…</value>
   </data>
   <data name="SettingsHeader.Text" xml:space="preserve">
-    <value>设置</value>
+    <value>Settings</value>
   </data>
   <data name="SponsorMe.Text" xml:space="preserve">
-    <value>赞助我:</value>
+    <value>Sponsor Me:</value>
   </data>
   <data name="SSHCommandTextBox.Header" xml:space="preserve">
-    <value>SSH 关机命令</value>
+    <value>SSH shutdown command</value>
   </data>
   <data name="SSHHeader" xml:space="preserve">
-    <value>SSH 脚本</value>
+    <value>SSH shortcut</value>
   </data>
   <data name="SSHKeyPathTextBox.Header" xml:space="preserve">
-    <value>SSH Key 路径</value>
+    <value>SSH Key path</value>
   </data>
   <data name="SSHKeyTips1.Text" xml:space="preserve">
-    <value>仅支持 OpenSSH 和 ssh.com 格式的 RSA 和 DSA 私钥。</value>
+    <value>Only RSA and DSA private keys in OpenSSH and ssh.com formats are supported.</value>
   </data>
   <data name="SSHKeyTips2.Text" xml:space="preserve">
-    <value>此应用程序仅记录您的密钥路径，并不存储其内容。</value>
+    <value>This app only records the location of your keys and does not store their content.</value>
   </data>
   <data name="SSHPasswordBox.Header" xml:space="preserve">
-    <value>SSH 密码</value>
+    <value>SSH Password</value>
   </data>
   <data name="SSHPasswordTips1.Text" xml:space="preserve">
-    <value>在发送任何 SSH 请求之前，都会要求您提供 SSH 密码，并且本应用程序不会以任何形式记录您的密码。</value>
+    <value>SSH passwords will be requested before sending any requests, and this application will not record your password in any form.</value>
   </data>
   <data name="SSHPasswordTips2.Text" xml:space="preserve">
-    <value>注意：SSH 密码登录不是一个安全选项。 我们建议改用基于密钥的身份验证。</value>
+    <value>Note: SSH password login is not a secure option. We recommend using key-based authentication instead.</value>
   </data>
   <data name="SSHPort.Text" xml:space="preserve">
-    <value>SSH 端口</value>
+    <value>SSH port</value>
   </data>
   <data name="SSHPortTextBox.Header" xml:space="preserve">
-    <value>SSH 端口</value>
+    <value>SSH port</value>
   </data>
   <data name="SSHResponse.Title" xml:space="preserve">
-    <value>SSH 结果：</value>
+    <value>SSH results:</value>
   </data>
   <data name="SSHShortcutTips.Text" xml:space="preserve">
-    <value>双击执行命令，右键打开菜单</value>
+    <value>Double-click to execute, right-click to open the menu</value>
   </data>
   <data name="SSHShutdownCMD.Text" xml:space="preserve">
-    <value>SSH 关机命令</value>
+    <value>SSH shutdown command</value>
   </data>
   <data name="SSHShutdownPort.Text" xml:space="preserve">
-    <value>SSH 端口</value>
+    <value>SSH port</value>
   </data>
   <data name="SSHUserTextBox.Header" xml:space="preserve">
-    <value>SSH 用户</value>
+    <value>SSH user</value>
   </data>
   <data name="TCPingRDPHeader.Text" xml:space="preserve">
-    <value>TCPing RDP 端口</value>
+    <value>TCPing RDP port</value>
   </data>
   <data name="TCPingSSHHeader.Text" xml:space="preserve">
-    <value>TCPing SSH 端口</value>
+    <value>TCPing SSH port</value>
   </data>
   <data name="TCPingWoLHeader.Text" xml:space="preserve">
-    <value>TCPing WoL 端口</value>
+    <value>TCPing WoL port</value>
   </data>
   <data name="ThemeSetting.Text" xml:space="preserve">
-    <value>应用主题</value>
+    <value>App theme</value>
   </data>
   <data name="WoLAddress.Text" xml:space="preserve">
-    <value>WoL 地址</value>
+    <value>WoL address</value>
   </data>
   <data name="WoLHeader" xml:space="preserve">
-    <value>远程工具</value>
+    <value>Remote Tools</value>
   </data>
   <data name="WoLPort.Text" xml:space="preserve">
-    <value>WoL 端口</value>
+    <value>WoL port</value>
   </data>
   <data name="WoLPortTextBox.Header" xml:space="preserve">
-    <value>WoL 端口</value>
+    <value>WoL port</value>
   </data>
   <data name="WoLTips1.Text" xml:space="preserve">
-    <value>双击唤醒设备，右键打开菜单</value>
+    <value>Double-click to wake, Right-click to open the menu</value>
   </data>
   <data name="WoLTips2.Text" xml:space="preserve">
-    <value>选中配置的详细信息</value>
+    <value>Selected configuration details</value>
   </data>
 </root>

@@ -7,201 +7,348 @@
     xmlns:local="using:WinWoL.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
-    <Page.Resources>
-        <!--  定义 ScrollViewer 的样式  -->
-        <Style x:Key="TransparentScrollViewerStyle" TargetType="ScrollViewer">
-            <!--  设置背景为透明  -->
-            <Setter Property="Background" Value="#11FFFFFF" />
-            <!--  设置边框为透明  -->
-            <Setter Property="BorderBrush" Value="Transparent" />
-            <!--  设置边框厚度为0  -->
-            <Setter Property="BorderThickness" Value="0" />
-            <!--  设置圆角  -->
-            <Setter Property="CornerRadius" Value="4" />
-        </Style>
-    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-    <Grid>
-        <StackPanel
+        <TextBlock
+            x:Name="Header"
+            x:Uid="AboutHeader"
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="0,24,0,8"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Orientation="Vertical">
-            <TextBlock
-                x:Name="Header"
-                x:Uid="AboutHeader"
-                Margin="0,0,0,8"
-                HorizontalAlignment="Center"
-                FontSize="24" />
-            <StackPanel
-                Margin="0,0,0,8"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Vertical">
-                <PersonPicture DisplayName="SI Xiaolong" ProfilePicture="https://avatars.githubusercontent.com/u/59590732?v=4" />
-            </StackPanel>
-            <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
-                <Border
-                    Margin="0,0,8,0"
-                    BorderBrush="#11FFFFFF"
-                    BorderThickness="0,0,1,0">
-                    <StackPanel
-                        Width="210"
-                        Margin="0,0,8,0"
+            FontSize="24" />
+
+        <ScrollViewer Grid.Row="1" Padding="0,0,0,24">
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Uid="AboutWoL"
+                    Grid.Row="0"
+                    Margin="24,18,0,8" />
+
+                <Grid
+                    Grid.Row="1"
+                    Margin="24,0,24,0"
+                    Padding="28,16,28,16"
+                    Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"
+                    BorderThickness="0"
+                    CornerRadius="4,4,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Uid="AboutWoLRight" Grid.Row="0" />
+                        <TextBlock
+                            x:Uid="AboutNSRightTip"
+                            Grid.Row="1"
+                            FontSize="12"
+                            Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
+                    </Grid>
+                    <TextBlock
+                        x:Name="APPVersion"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
+                </Grid>
+
+                <Grid
+                    Grid.Row="2"
+                    Margin="24,1,24,0"
+                    Padding="16"
+                    Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"
+                    BorderThickness="0"
+                    CornerRadius="0,0,4,4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <HyperlinkButton
+                        x:Uid="PRIVACYLink"
+                        Grid.Row="0"
+                        Grid.Column="0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Orientation="Vertical">
-                        <StackPanel
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                            <TextBlock
-                                x:Uid="AboutAuthor"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="14" />
-                            <HyperlinkButton
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Content="司晓龙 (SI Xiaolong)"
-                                FontSize="14"
-                                NavigateUri="https://github.com/Direct5dom" />
-                        </StackPanel>
-                        <StackPanel
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="14"
-                                Text="💽Repo:" />
-                            <HyperlinkButton
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Content="Remote Toolbox"
-                                FontSize="14"
-                                NavigateUri="https://github.com/Direct5dom/WinWoL" />
-                        </StackPanel>
-                        <StackPanel
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                            <TextBlock
-                                x:Uid="AboutLicense"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="14" />
-                            <HyperlinkButton
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Content="MIT License"
-                                FontSize="14"
-                                NavigateUri="https://raw.githubusercontent.com/Direct5dom/WinWoL/master/LICENSE" />
-                        </StackPanel>
-                        <StackPanel
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                            <TextBlock
-                                x:Uid="AboutPrivacy"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="14" />
-                            <HyperlinkButton
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Content="PRIVACY"
-                                FontSize="14"
-                                NavigateUri="https://raw.githubusercontent.com/Direct5dom/WinWoL/master/PRIVACY" />
-                        </StackPanel>
-                        <StackPanel
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                            <TextBlock
-                                x:Uid="AboutHelp"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="14" />
-                            <HyperlinkButton
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Content="Wiki"
-                                FontSize="14"
-                                NavigateUri="https://about.sixiaolong.win/Project/Remote-Toolbox.html" />
-                        </StackPanel>
-                        <StackPanel
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                            <TextBlock
-                                x:Uid="AboutVersion"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="14" />
-                            <HyperlinkButton
-                                x:Name="APPVersion"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="14" />
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-                <StackPanel
-                    Width="210"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Vertical">
-                    <TextBlock
-                        x:Uid="AboutSponsor"
-                        Margin="0,0,0,8"
-                        HorizontalAlignment="Center"
+                        NavigateUri="https://raw.githubusercontent.com/Direct5dom/WinWoL/master/PRIVACY" />
+                    <HyperlinkButton
+                        x:Uid="FeedbackBugs"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        FontSize="18" />
-                    <StackPanel
-                        HorizontalAlignment="Center"
+                        NavigateUri="https://github.com/Direct5dom/WinWoL/issues" />
+                    <HyperlinkButton
+                        x:Uid="AboutWiki"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Orientation="Horizontal">
+                        NavigateUri="https://about.sixiaolong.win/Project/Remote-Toolbox.html" />
+                    <HyperlinkButton
+                        x:Uid="AboutRepo"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        NavigateUri="https://github.com/Direct5dom/WinWoL" />
+                    <HyperlinkButton
+                        x:Uid="AboutMITLicense"
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        NavigateUri="https://raw.githubusercontent.com/Direct5dom/WinWoL/master/LICENSE" />
+                </Grid>
+
+                <TextBlock
+                    x:Uid="AboutSponsor"
+                    Grid.Row="3"
+                    Margin="24,18,0,8" />
+
+                <Grid
+                    Grid.Row="4"
+                    Margin="24,1,24,0"
+                    Padding="16"
+                    Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"
+                    BorderThickness="0"
+                    CornerRadius="4,4,4,4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="150" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"
+                        CornerRadius="4">
+                        <TextBlock
+                            x:Name="NameList"
+                            Margin="8,8,8,8"
+                            TextWrapping="Wrap" />
+                    </ScrollViewer>
+                    <Grid Grid.Column="1" Margin="8,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
                         <HyperlinkButton
                             x:Name="AboutAliPay"
                             x:Uid="AboutAliPay"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
+                            Grid.Row="0"
+                            HorizontalAlignment="Left"
                             Click="AboutAliPay_Click"
                             FontSize="12" />
                         <HyperlinkButton
                             x:Name="AboutWePay"
                             x:Uid="AboutWePay"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
+                            Grid.Row="1"
+                            HorizontalAlignment="Left"
                             Click="AboutWePay_Click"
                             FontSize="12" />
-                    </StackPanel>
-                    <TextBlock
-                        x:Uid="AboutSponsorTips"
-                        Margin="0,0,0,8"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="12"
-                        Foreground="DarkGray" />
-                    <ScrollViewer
-                        Width="210"
-                        Height="100"
-                        Style="{StaticResource TransparentScrollViewerStyle}">
-                        <TextBlock
-                            x:Name="NameList"
-                            Margin="8,8,8,8"
+                    </Grid>
+                </Grid>
+
+                <TextBlock
+                    x:Uid="AboutAuthor"
+                    Grid.Row="5"
+                    Margin="24,18,0,8" />
+
+                <Grid
+                    Grid.Row="6"
+                    Margin="24,1,24,0"
+                    Padding="16"
+                    Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"
+                    BorderThickness="0"
+                    CornerRadius="4,4,4,4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <PersonPicture
+                        Grid.Row="0"
+                        Margin="0,0,8,0"
+                        HorizontalAlignment="Right"
+                        DisplayName="SI Xiaolong"
+                        ProfilePicture="https://avatars.githubusercontent.com/u/59590732?v=4" />
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <HyperlinkButton
+                            Grid.Row="0"
+                            Grid.Column="0"
                             HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            TextWrapping="Wrap" />
-                    </ScrollViewer>
-                </StackPanel>
-            </StackPanel>
-        </StackPanel>
+                            VerticalAlignment="Center"
+                            Content="司晓龙 (SI Xiaolong)"
+                            NavigateUri="https://about.sixiaolong.win/" />
+                        <HyperlinkButton
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="Github"
+                            NavigateUri="https://github.sixiaolong.win/" />
+                        <HyperlinkButton
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="Twitter"
+                            NavigateUri="https://twitter.sixiaolong.win/" />
+                    </Grid>
+                </Grid>
+
+                <TextBlock
+                    x:Uid="AboutReference"
+                    Grid.Row="7"
+                    Margin="24,18,0,8" />
+
+                <Grid
+                    Grid.Row="8"
+                    Margin="24,1,24,0"
+                    Padding="16"
+                    Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"
+                    BorderThickness="0"
+                    CornerRadius="4,4,4,4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <HyperlinkButton
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="WindowsAppSDK"
+                        NavigateUri="https://aka.ms/windowsappsdk" />
+                    <HyperlinkButton
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Windows Community Toolkit"
+                        NavigateUri="https://github.com/CommunityToolkit/Windows" />
+                    <HyperlinkButton
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Microsoft.Windows.SDK.BuildTools"
+                        NavigateUri="https://www.nuget.org/packages/Microsoft.Windows.SDK.BuildTools/" />
+                    <HyperlinkButton
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="SSH.NET"
+                        NavigateUri="https://github.com/sshnet/SSH.NET" />
+                    <HyperlinkButton
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Microsoft.Data.Sqlite"
+                        NavigateUri="https://www.nuget.org/packages/Microsoft.Data.Sqlite/" />
+                    <HyperlinkButton
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Newtonsoft.Json"
+                        NavigateUri="https://www.nuget.org/packages/Newtonsoft.Json/" />
+                    <HyperlinkButton
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="PInvoke.User32"
+                        NavigateUri="https://www.nuget.org/packages/PInvoke.User32/" />
+                </Grid>
+                <TextBlock
+                    x:Name="TipsTips"
+                    Grid.Row="9"
+                    Grid.Column="0"
+                    Margin="24,8,24,0"
+                    HorizontalAlignment="Center"
+                    Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
+            </Grid>
+        </ScrollViewer>
         <TeachingTip x:Name="AboutAliPayTips">
             <TeachingTip.HeroContent>
                 <Image Height="400">

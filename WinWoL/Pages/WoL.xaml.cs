@@ -1,4 +1,4 @@
-using Microsoft.UI.Dispatching;
+ï»¿using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -17,7 +17,7 @@ namespace WinWoL.Pages
 {
     public sealed partial class WoL : Page
     {
-        // ÆôÓÃ±¾µØÉèÖÃÊı¾İ
+        // å¯ç”¨æœ¬åœ°è®¾ç½®æ•°æ®
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         ResourceLoader resourceLoader = new ResourceLoader();
         WoLModel selectedWoLModel;
@@ -25,9 +25,9 @@ namespace WinWoL.Pages
         public WoL()
         {
             this.InitializeComponent();
-            // »ñÈ¡UIÏß³ÌµÄDispatcherQueue
+            // è·å–UIçº¿ç¨‹çš„DispatcherQueue
             _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-            // ¼ÓÔØÊı¾İ
+            // åŠ è½½æ•°æ®
             LoadData();
             LoadString();
 
@@ -36,6 +36,9 @@ namespace WinWoL.Pages
         private void LoadString()
         {
             Header.Text = resourceLoader.GetString("WoLHeader");
+            WoLResultTips.CloseButtonContent = resourceLoader.GetString("Confirm");
+            SSHResponse.CloseButtonContent = resourceLoader.GetString("Confirm");
+            SaveFileTips.CloseButtonContent = resourceLoader.GetString("Confirm");
 
             if (localSettings.Values["HideConfigFlag"] == null || localSettings.Values["HideConfigFlag"] as string == "False")
             {
@@ -50,45 +53,45 @@ namespace WinWoL.Pages
         }
         private void LoadData()
         {
-            // ÊµÀı»¯SQLiteHelper
+            // å®ä¾‹åŒ–SQLiteHelper
             SQLiteHelper dbHelper = new SQLiteHelper();
-            // ²éÑ¯Êı¾İ
+            // æŸ¥è¯¢æ•°æ®
             List<WoLModel> dataList = dbHelper.QueryData();
 
-            // ½«Êı¾İÁĞ±í°ó¶¨µ½ListView
+            // å°†æ•°æ®åˆ—è¡¨ç»‘å®šåˆ°ListView
             dataListView.ItemsSource = dataList;
         }
-        // Ìí¼ÓÅäÖÃ°´Å¥µã»÷
+        // æ·»åŠ é…ç½®æŒ‰é’®ç‚¹å‡»
         private async void AddConfigButton_Click(object sender, RoutedEventArgs e)
         {
-            // ´´½¨Ò»¸ö³õÊ¼µÄWoLModel¶ÔÏó
+            // åˆ›å»ºä¸€ä¸ªåˆå§‹çš„WoLModelå¯¹è±¡
             WoLModel initialWoLData = new WoLModel();
 
-            // ´´½¨Ò»¸öĞÂµÄdialog¶ÔÏó
+            // åˆ›å»ºä¸€ä¸ªæ–°çš„dialogå¯¹è±¡
             AddWoL dialog = new AddWoL(initialWoLData);
-            // ¶Ô´Ëdialog¶ÔÏó½øĞĞÅäÖÃ
+            // å¯¹æ­¤dialogå¯¹è±¡è¿›è¡Œé…ç½®
             dialog.XamlRoot = this.XamlRoot;
             dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-            dialog.PrimaryButtonText = "Ìí¼Ó";
-            dialog.CloseButtonText = "¹Ø±Õ";
-            // Ä¬ÈÏ°´Å¥ÎªPrimaryButton
+            dialog.PrimaryButtonText = "æ·»åŠ ";
+            dialog.CloseButtonText = "å…³é—­";
+            // é»˜è®¤æŒ‰é’®ä¸ºPrimaryButton
             dialog.DefaultButton = ContentDialogButton.Primary;
 
-            // ÏÔÊ¾Dialog²¢µÈ´ıÆä¹Ø±Õ
+            // æ˜¾ç¤ºDialogå¹¶ç­‰å¾…å…¶å…³é—­
             ContentDialogResult result = await dialog.ShowAsync();
 
-            // Èç¹û°´ÏÂÁËPrimary
+            // å¦‚æœæŒ‰ä¸‹äº†Primary
             if (result == ContentDialogResult.Primary)
             {
-                // ÊµÀı»¯SQLiteHelper
+                // å®ä¾‹åŒ–SQLiteHelper
                 SQLiteHelper dbHelper = new SQLiteHelper();
-                // ²åÈëĞÂÊı¾İ
+                // æ’å…¥æ–°æ•°æ®
                 dbHelper.InsertData(initialWoLData);
-                // ÖØĞÂ¼ÓÔØÊı¾İ
+                // é‡æ–°åŠ è½½æ•°æ®
                 LoadData();
             }
         }
-        // Òş²ØµØÖ·°´Å¥µã»÷
+        // éšè—åœ°å€æŒ‰é’®ç‚¹å‡»
         private void HideConfigButton_Click(object sender, RoutedEventArgs e)
         {
             if (localSettings.Values["HideConfigFlag"] == null || localSettings.Values["HideConfigFlag"] as string == "False")
@@ -106,19 +109,19 @@ namespace WinWoL.Pages
 
             LoadConfigData();
         }
-        // µ¼ÈëÅäÖÃ°´Å¥µã»÷
+        // å¯¼å…¥é…ç½®æŒ‰é’®ç‚¹å‡»
         private async void ImportConfig_Click(object sender, RoutedEventArgs e)
         {
             ImportConfig.IsEnabled = false;
-            // ÊµÀı»¯SQLiteHelper
+            // å®ä¾‹åŒ–SQLiteHelper
             SQLiteHelper dbHelper = new SQLiteHelper();
-            // »ñÈ¡µ¼ÈëµÄÊı¾İ
+            // è·å–å¯¼å…¥çš„æ•°æ®
             WoLModel woLModel = await WoLMethod.ImportConfig();
             if (woLModel != null)
             {
-                // ²åÈëĞÂÊı¾İ
+                // æ’å…¥æ–°æ•°æ®
                 dbHelper.InsertData(woLModel);
-                // ÖØĞÂ¼ÓÔØÊı¾İ
+                // é‡æ–°åŠ è½½æ•°æ®
                 LoadData();
             }
             ImportConfig.IsEnabled = true;
@@ -126,18 +129,18 @@ namespace WinWoL.Pages
         private void WoLPC(WoLModel woLModel)
         {
             InProgressing.IsActive = true;
-            // ÔÚ×ÓÏß³ÌÖĞÖ´ĞĞÈÎÎñ
+            // åœ¨å­çº¿ç¨‹ä¸­æ‰§è¡Œä»»åŠ¡
             Thread subThread = new Thread(new ThreadStart(() =>
             {
                 string SuccessFlag = "0";
-                // ³¢ÊÔ·¢ËÍMagic Packet£¬³É¹¦´ò¿ªÒÑ·¢ËÍµ¯´°
+                // å°è¯•å‘é€Magic Packetï¼ŒæˆåŠŸæ‰“å¼€å·²å‘é€å¼¹çª—
                 try
                 {
                     IPAddress wolAddress = WoLMethod.DomainToIp(woLModel.WoLAddress, "IPv4");
                     WoLMethod.sendMagicPacket(woLModel.MacAddress, wolAddress, int.Parse(woLModel.WoLPort));
                     SuccessFlag = "1";
                 }
-                // Ê§°Ü´ò¿ª·¢ËÍÊ§°Üµ¯´°
+                // å¤±è´¥æ‰“å¼€å‘é€å¤±è´¥å¼¹çª—
                 catch
                 {
                     SuccessFlag = "0";
@@ -147,8 +150,8 @@ namespace WinWoL.Pages
                     _dispatcherQueue.TryEnqueue(() =>
                     {
                         WoLResultTips.IsOpen = true;
-                        WoLResultTips.Title = "Magic Packet ·¢ËÍ³É¹¦£¡";
-                        WoLResultTips.Subtitle = "Magic Packet ÒÑ¾­Í¨¹ı UDP ³É¹¦·¢ËÍ";
+                        WoLResultTips.Title = "Magic Packet å‘é€æˆåŠŸï¼";
+                        WoLResultTips.Subtitle = "Magic Packet å·²ç»é€šè¿‡ UDP æˆåŠŸå‘é€";
                     });
                 }
                 else
@@ -156,8 +159,8 @@ namespace WinWoL.Pages
                     _dispatcherQueue.TryEnqueue(() =>
                     {
                         WoLResultTips.IsOpen = true;
-                        WoLResultTips.Title = "Magic Packet ·¢ËÍÊ§°Ü£¡";
-                        WoLResultTips.Subtitle = "Çë¼ì²éÄúÌîĞ´µÄÅäÖÃÄÚÈİ";
+                        WoLResultTips.Title = "Magic Packet å‘é€å¤±è´¥ï¼";
+                        WoLResultTips.Subtitle = "è¯·æ£€æŸ¥æ‚¨å¡«å†™çš„é…ç½®å†…å®¹";
                     });
                 }
                 _dispatcherQueue.TryEnqueue(() =>
@@ -169,27 +172,27 @@ namespace WinWoL.Pages
         }
         private async void EditThisConfig(WoLModel woLModel)
         {
-            // ´´½¨Ò»¸öĞÂµÄdialog¶ÔÏó
+            // åˆ›å»ºä¸€ä¸ªæ–°çš„dialogå¯¹è±¡
             AddWoL dialog = new AddWoL(woLModel);
-            // ¶Ô´Ëdialog¶ÔÏó½øĞĞÅäÖÃ
+            // å¯¹æ­¤dialogå¯¹è±¡è¿›è¡Œé…ç½®
             dialog.XamlRoot = this.XamlRoot;
             dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-            dialog.PrimaryButtonText = "ĞŞ¸Ä";
-            dialog.CloseButtonText = "¹Ø±Õ";
-            // Ä¬ÈÏ°´Å¥ÎªPrimaryButton
+            dialog.PrimaryButtonText = "ä¿®æ”¹";
+            dialog.CloseButtonText = "å…³é—­";
+            // é»˜è®¤æŒ‰é’®ä¸ºPrimaryButton
             dialog.DefaultButton = ContentDialogButton.Primary;
 
-            // ÏÔÊ¾Dialog²¢µÈ´ıÆä¹Ø±Õ
+            // æ˜¾ç¤ºDialogå¹¶ç­‰å¾…å…¶å…³é—­
             ContentDialogResult result = await dialog.ShowAsync();
 
-            // Èç¹û°´ÏÂÁËPrimary
+            // å¦‚æœæŒ‰ä¸‹äº†Primary
             if (result == ContentDialogResult.Primary)
             {
-                // ÊµÀı»¯SQLiteHelper
+                // å®ä¾‹åŒ–SQLiteHelper
                 SQLiteHelper dbHelper = new SQLiteHelper();
-                // ¸üĞÂÊı¾İ
+                // æ›´æ–°æ•°æ®
                 dbHelper.UpdateData(woLModel);
-                // ÖØĞÂ¼ÓÔØÊı¾İ
+                // é‡æ–°åŠ è½½æ•°æ®
                 LoadData();
             }
         }
@@ -203,30 +206,30 @@ namespace WinWoL.Pages
         {
             SQLiteHelper dbHelper = new SQLiteHelper();
             dbHelper.InsertData(wolModel);
-            // ÖØĞÂ¼ÓÔØÊı¾İ
+            // é‡æ–°åŠ è½½æ•°æ®
             LoadData();
         }
         private async void SSHShutdownConfig(WoLModel wolModel)
         {
             string sshPasswd = null;
-            // Ê¹ÓÃÃÜÂëµÇÂ¼
+            // ä½¿ç”¨å¯†ç ç™»å½•
             if (wolModel.SSHKeyIsOpen == "False")
             {
                 SSHPasswdModel sshPasswdModel = new SSHPasswdModel();
-                // ´´½¨Ò»¸öĞÂµÄdialog¶ÔÏó
+                // åˆ›å»ºä¸€ä¸ªæ–°çš„dialogå¯¹è±¡
                 EnterSSHPasswd dialog = new EnterSSHPasswd(sshPasswdModel);
-                // ¶Ô´Ëdialog¶ÔÏó½øĞĞÅäÖÃ
+                // å¯¹æ­¤dialogå¯¹è±¡è¿›è¡Œé…ç½®
                 dialog.XamlRoot = this.XamlRoot;
                 dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-                dialog.PrimaryButtonText = "È·ÈÏ";
-                dialog.CloseButtonText = "¹Ø±Õ";
-                // Ä¬ÈÏ°´Å¥ÎªPrimaryButton
+                dialog.PrimaryButtonText = "ç¡®è®¤";
+                dialog.CloseButtonText = "å…³é—­";
+                // é»˜è®¤æŒ‰é’®ä¸ºPrimaryButton
                 dialog.DefaultButton = ContentDialogButton.Primary;
 
-                // ÏÔÊ¾Dialog²¢µÈ´ıÆä¹Ø±Õ
+                // æ˜¾ç¤ºDialogå¹¶ç­‰å¾…å…¶å…³é—­
                 ContentDialogResult result = await dialog.ShowAsync();
 
-                // Èç¹û°´ÏÂÁËPrimary
+                // å¦‚æœæŒ‰ä¸‹äº†Primary
                 if (result == ContentDialogResult.Primary)
                 {
                     sshPasswd = sshPasswdModel.SSHPasswd;
@@ -242,7 +245,7 @@ namespace WinWoL.Pages
         private void SSHSendThread(WoLModel wolModel, string sshPasswd)
         {
             InProgressing.IsActive = true;
-            // ÔÚ×ÓÏß³ÌÖĞÖ´ĞĞÈÎÎñ
+            // åœ¨å­çº¿ç¨‹ä¸­æ‰§è¡Œä»»åŠ¡
             Thread subThread = new Thread(new ThreadStart(() =>
             {
                 string res = GeneralMethod.SendSSHCommand(wolModel.SSHCommand, wolModel.IPAddress, wolModel.SSHPort, wolModel.SSHUser, sshPasswd, wolModel.SSHKeyPath, wolModel.SSHKeyIsOpen);
@@ -257,24 +260,24 @@ namespace WinWoL.Pages
         }
         private async void ConfirmReplace_Click(object sender, RoutedEventArgs e)
         {
-            // ¹Ø±Õ¶ş´ÎÈ·ÈÏFlyout
+            // å…³é—­äºŒæ¬¡ç¡®è®¤Flyout
             confirmationReplaceFlyout.Hide();
             ImportConfig.IsEnabled = false;
-            // ÊµÀı»¯SQLiteHelper
+            // å®ä¾‹åŒ–SQLiteHelper
             SQLiteHelper dbHelper = new SQLiteHelper();
 
-            // »ñÈ¡µ¼ÈëµÄÊı¾İ
+            // è·å–å¯¼å…¥çš„æ•°æ®
             WoLModel newModel = await WoLMethod.ImportConfig();
 
             if (newModel != null)
             {
-                // »ñÈ¡µ±Ç°ÅäÖÃµÄID
+                // è·å–å½“å‰é…ç½®çš„ID
                 int id = selectedWoLModel.Id;
-                // ¸³¸øµ¼ÈëµÄÅäÖÃ
+                // èµ‹ç»™å¯¼å…¥çš„é…ç½®
                 newModel.Id = id;
-                // ²åÈëĞÂÊı¾İ
+                // æ’å…¥æ–°æ•°æ®
                 dbHelper.UpdateData(newModel);
-                // ÖØĞÂ¼ÓÔØÊı¾İ
+                // é‡æ–°åŠ è½½æ•°æ®
                 LoadData();
             }
             ImportConfig.IsEnabled = true;
@@ -282,35 +285,35 @@ namespace WinWoL.Pages
 
         private void ConfirmDelete_Click(object sender, RoutedEventArgs e)
         {
-            // ¹Ø±Õ¶ş´ÎÈ·ÈÏFlyout
+            // å…³é—­äºŒæ¬¡ç¡®è®¤Flyout
             confirmationFlyout.Hide();
-            // ÊµÀı»¯SQLiteHelper
+            // å®ä¾‹åŒ–SQLiteHelper
             SQLiteHelper dbHelper = new SQLiteHelper();
-            // É¾³ıÊı¾İ
+            // åˆ é™¤æ•°æ®
             dbHelper.DeleteData(selectedWoLModel);
-            // ÖØĞÂ¼ÓÔØÊı¾İ
+            // é‡æ–°åŠ è½½æ•°æ®
             LoadData();
         }
         private void ConfirmShutdown_Click(object sender, RoutedEventArgs e)
         {
-            // ¹Ø±Õ¶ş´ÎÈ·ÈÏFlyout
+            // å…³é—­äºŒæ¬¡ç¡®è®¤Flyout
             confirmationShutdownFlyout.Hide();
             SSHShutdownConfig(selectedWoLModel);
 
         }
         private void CancelReplace_Click(object sender, RoutedEventArgs e)
         {
-            // ¹Ø±Õ¶ş´ÎÈ·ÈÏFlyout
+            // å…³é—­äºŒæ¬¡ç¡®è®¤Flyout
             confirmationReplaceFlyout.Hide();
         }
         private void CancelDelete_Click(object sender, RoutedEventArgs e)
         {
-            // ¹Ø±Õ¶ş´ÎÈ·ÈÏFlyout
+            // å…³é—­äºŒæ¬¡ç¡®è®¤Flyout
             confirmationFlyout.Hide();
         }
         private void CancelShutdown_Click(object sender, RoutedEventArgs e)
         {
-            // ¹Ø±Õ¶ş´ÎÈ·ÈÏFlyout
+            // å…³é—­äºŒæ¬¡ç¡®è®¤Flyout
             confirmationShutdownFlyout.Hide();
         }
         private void AboutAliPay_Click(object sender, RoutedEventArgs e)
@@ -323,23 +326,23 @@ namespace WinWoL.Pages
         }
         private async void PingRefConfig_Click(object sender, RoutedEventArgs e)
         {
-            // »ñÈ¡µ±Ç°Ñ¡ÔñµÄÏî
+            // è·å–å½“å‰é€‰æ‹©çš„é¡¹
             WoLModel wolModel = (WoLModel)dataListView.SelectedItem;
             if (wolModel != null)
             {
-                // ´´½¨Ò»¸öĞÂµÄdialog¶ÔÏó
+                // åˆ›å»ºä¸€ä¸ªæ–°çš„dialogå¯¹è±¡
                 PingTools dialog = new PingTools(wolModel);
-                // ¶Ô´Ëdialog¶ÔÏó½øĞĞÅäÖÃ
+                // å¯¹æ­¤dialogå¯¹è±¡è¿›è¡Œé…ç½®
                 dialog.XamlRoot = this.XamlRoot;
                 dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-                dialog.CloseButtonText = "¹Ø±Õ";
-                // Ä¬ÈÏ°´Å¥ÎªPrimaryButton
+                dialog.CloseButtonText = "å…³é—­";
+                // é»˜è®¤æŒ‰é’®ä¸ºPrimaryButton
                 dialog.DefaultButton = ContentDialogButton.Primary;
 
-                // ÏÔÊ¾Dialog²¢µÈ´ıÆä¹Ø±Õ
+                // æ˜¾ç¤ºDialogå¹¶ç­‰å¾…å…¶å…³é—­
                 ContentDialogResult result = await dialog.ShowAsync();
 
-                // Èç¹û°´ÏÂÁËPrimary
+                // å¦‚æœæŒ‰ä¸‹äº†Primary
                 if (result == ContentDialogResult.Primary)
                 {
 
@@ -350,12 +353,12 @@ namespace WinWoL.Pages
         {
             if (dataListView.SelectedItem != null)
             {
-                // »ñÈ¡µ±Ç°Ñ¡ÔñµÄÏî
+                // è·å–å½“å‰é€‰æ‹©çš„é¡¹
                 WoLModel selectedItem = (WoLModel)dataListView.SelectedItem;
 
-                // ÊµÀı»¯SQLiteHelper
+                // å®ä¾‹åŒ–SQLiteHelper
                 SQLiteHelper dbHelper = new SQLiteHelper();
-                // ²éÑ¯Êı¾İ
+                // æŸ¥è¯¢æ•°æ®
                 List<WoLModel> dataList = null;
                 if (localSettings.Values["HideConfigFlag"] == null || localSettings.Values["HideConfigFlag"] as string == "False")
                 {
@@ -366,7 +369,7 @@ namespace WinWoL.Pages
                     dataList = dbHelper.GetDataListByIdHideAddress(selectedItem.Id);
                 }
 
-                // ½«Êı¾İÁĞ±í°ó¶¨µ½ListView
+                // å°†æ•°æ®åˆ—è¡¨ç»‘å®šåˆ°ListView
                 dataListView2.ItemsSource = dataList;
 
                 if (selectedItem.IPAddress == null || selectedItem.IPAddress == "")
@@ -385,28 +388,28 @@ namespace WinWoL.Pages
         }
         private void OnListViewRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            // »ñÈ¡ÓÒ¼üµã»÷µÄListViewItem
+            // è·å–å³é”®ç‚¹å‡»çš„ListViewItem
             FrameworkElement listViewItem = (sender as FrameworkElement);
 
             if (listViewItem != null && InProgressing.IsActive == false)
             {
-                // »ñÈ¡ÓÒ¼üµã»÷µÄÊı¾İ¶ÔÏó£¨WoLModel£©
+                // è·å–å³é”®ç‚¹å‡»çš„æ•°æ®å¯¹è±¡ï¼ˆWoLModelï¼‰
                 WoLModel selectedItem = listViewItem?.DataContext as WoLModel;
 
-                // ÊµÀı»¯SQLiteHelper
+                // å®ä¾‹åŒ–SQLiteHelper
                 SQLiteHelper dbHelper = new SQLiteHelper();
 
-                // ½«ÓÒ¼üµã»÷µÄÏîÉèÖÃÎªÑ¡ÖĞÏî
+                // å°†å³é”®ç‚¹å‡»çš„é¡¹è®¾ç½®ä¸ºé€‰ä¸­é¡¹
                 dataListView.SelectedItem = selectedItem;
 
-                // ´´½¨ContextMenu
+                // åˆ›å»ºContextMenu
                 MenuFlyout menuFlyout = new MenuFlyout();
 
                 if (selectedItem.WoLIsOpen == "True")
                 {
                     MenuFlyoutItem wolPCMenuItem = new MenuFlyoutItem
                     {
-                        Text = "ÍøÂç»½ĞÑ"
+                        Text = "ç½‘ç»œå”¤é†’"
                     };
                     wolPCMenuItem.Click += (sender, e) =>
                     {
@@ -419,7 +422,7 @@ namespace WinWoL.Pages
                 {
                     MenuFlyoutItem rdpPCMenuItem = new MenuFlyoutItem
                     {
-                        Text = "Ô¶³Ì×ÀÃæ"
+                        Text = "è¿œç¨‹æ¡Œé¢"
                     };
                     rdpPCMenuItem.Click += (sender, e) =>
                     {
@@ -433,13 +436,13 @@ namespace WinWoL.Pages
                 {
                     MenuFlyoutItem sshShutdownPCMenuItem = new MenuFlyoutItem
                     {
-                        Text = "Ô¶³Ì¹Ø»ú"
+                        Text = "è¿œç¨‹å…³æœº"
                     };
                     sshShutdownPCMenuItem.Click += (sender, e) =>
                     {
-                        // ±£´æÑ¡ÖĞµÄÊı¾İ¶ÔÏóÒÔ±ãÈ·ÈÏºóÖ´ĞĞ
+                        // ä¿å­˜é€‰ä¸­çš„æ•°æ®å¯¹è±¡ä»¥ä¾¿ç¡®è®¤åæ‰§è¡Œ
                         selectedWoLModel = selectedItem;
-                        // µ¯³ö¶ş´ÎÈ·ÈÏFlyout
+                        // å¼¹å‡ºäºŒæ¬¡ç¡®è®¤Flyout
                         confirmationShutdownFlyout.ShowAt(listViewItem);
                     };
                     menuFlyout.Items.Add(sshShutdownPCMenuItem);
@@ -447,14 +450,14 @@ namespace WinWoL.Pages
 
                 if (selectedItem.WoLIsOpen == "True" || selectedItem.RDPIsOpen == "True" || selectedItem.SSHIsOpen == "True")
                 {
-                    // Ìí¼Ó·Ö¸îÏß
+                    // æ·»åŠ åˆ†å‰²çº¿
                     MenuFlyoutSeparator separator = new MenuFlyoutSeparator();
                     menuFlyout.Items.Add(separator);
                 }
 
                 MenuFlyoutItem exportMenuItem = new MenuFlyoutItem
                 {
-                    Text = "µ¼³öÅäÖÃ"
+                    Text = "å¯¼å‡ºé…ç½®"
                 };
                 exportMenuItem.Click += (sender, e) =>
                 {
@@ -464,18 +467,18 @@ namespace WinWoL.Pages
 
                 MenuFlyoutItem replaceMenuItem = new MenuFlyoutItem
                 {
-                    Text = "¸²¸ÇÅäÖÃ"
+                    Text = "è¦†ç›–é…ç½®"
                 };
                 replaceMenuItem.Click += (sender, e) =>
                 {
-                    // ±£´æÑ¡ÖĞµÄÊı¾İ¶ÔÏóÒÔ±ãÈ·ÈÏºóÖ´ĞĞ
+                    // ä¿å­˜é€‰ä¸­çš„æ•°æ®å¯¹è±¡ä»¥ä¾¿ç¡®è®¤åæ‰§è¡Œ
                     selectedWoLModel = selectedItem;
-                    // µ¯³ö¶ş´ÎÈ·ÈÏFlyout
+                    // å¼¹å‡ºäºŒæ¬¡ç¡®è®¤Flyout
                     confirmationReplaceFlyout.ShowAt(listViewItem);
                 };
                 menuFlyout.Items.Add(replaceMenuItem);
 
-                // Ìí¼Ó·Ö¸îÏß
+                // æ·»åŠ åˆ†å‰²çº¿
                 MenuFlyoutSeparator separator2 = new MenuFlyoutSeparator();
                 menuFlyout.Items.Add(separator2);
 
@@ -483,14 +486,14 @@ namespace WinWoL.Pages
                 {
                     MenuFlyoutItem upSwapMenuItem = new MenuFlyoutItem
                     {
-                        Text = "ÏòÉÏÒÆ¶¯"
+                        Text = "å‘ä¸Šç§»åŠ¨"
                     };
                     upSwapMenuItem.Click += (sender, e) =>
                     {
-                        // ÏòÉÏÒÆ¶¯
+                        // å‘ä¸Šç§»åŠ¨
                         if (dbHelper.UpSwapRows(selectedItem))
                         {
-                            // ÖØĞÂ¼ÓÔØÊı¾İ
+                            // é‡æ–°åŠ è½½æ•°æ®
                             LoadData();
                         }
                     };
@@ -501,14 +504,14 @@ namespace WinWoL.Pages
                 {
                     MenuFlyoutItem downSwapMenuItem = new MenuFlyoutItem
                     {
-                        Text = "ÏòÏÂÒÆ¶¯"
+                        Text = "å‘ä¸‹ç§»åŠ¨"
                     };
                     downSwapMenuItem.Click += (sender, e) =>
                     {
-                        // ÏòÉÏÒÆ¶¯
+                        // å‘ä¸Šç§»åŠ¨
                         if (dbHelper.DownSwapRows(selectedItem))
                         {
-                            // ÖØĞÂ¼ÓÔØÊı¾İ
+                            // é‡æ–°åŠ è½½æ•°æ®
                             LoadData();
                         }
                     };
@@ -517,14 +520,14 @@ namespace WinWoL.Pages
 
                 if (dbHelper.GetPreRowsId(selectedItem) != -1 || dbHelper.GetPosRowsId(selectedItem) != -1)
                 {
-                    // Ìí¼Ó·Ö¸îÏß
+                    // æ·»åŠ åˆ†å‰²çº¿
                     MenuFlyoutSeparator separator3 = new MenuFlyoutSeparator();
                     menuFlyout.Items.Add(separator3);
                 }
 
                 MenuFlyoutItem editMenuItem = new MenuFlyoutItem
                 {
-                    Text = "±à¼­ÅäÖÃ"
+                    Text = "ç¼–è¾‘é…ç½®"
                 };
                 editMenuItem.Click += (sender, e) =>
                 {
@@ -534,7 +537,7 @@ namespace WinWoL.Pages
 
                 MenuFlyoutItem copyMenuItem = new MenuFlyoutItem
                 {
-                    Text = "¸´ÖÆÅäÖÃ"
+                    Text = "å¤åˆ¶é…ç½®"
                 };
                 copyMenuItem.Click += (sender, e) =>
                 {
@@ -544,31 +547,31 @@ namespace WinWoL.Pages
 
                 MenuFlyoutItem deleteMenuItem = new MenuFlyoutItem
                 {
-                    Text = "É¾³ıÅäÖÃ"
+                    Text = "åˆ é™¤é…ç½®"
                 };
                 deleteMenuItem.Click += (sender, e) =>
                 {
-                    // ±£´æÑ¡ÖĞµÄÊı¾İ¶ÔÏóÒÔ±ãÈ·ÈÏºóÖ´ĞĞ
+                    // ä¿å­˜é€‰ä¸­çš„æ•°æ®å¯¹è±¡ä»¥ä¾¿ç¡®è®¤åæ‰§è¡Œ
                     selectedWoLModel = selectedItem;
-                    // µ¯³ö¶ş´ÎÈ·ÈÏFlyout
+                    // å¼¹å‡ºäºŒæ¬¡ç¡®è®¤Flyout
                     confirmationFlyout.ShowAt(listViewItem);
                 };
                 menuFlyout.Items.Add(deleteMenuItem);
 
                 Thread.Sleep(10);
 
-                // ÔÚÖ¸¶¨Î»ÖÃÏÔÊ¾ContextMenu
+                // åœ¨æŒ‡å®šä½ç½®æ˜¾ç¤ºContextMenu
                 menuFlyout.ShowAt(listViewItem, e.GetPosition(listViewItem));
             }
         }
         private void OnListViewDoubleTapped(object sender, RoutedEventArgs e)
         {
-            // ´¦Àí×ó¼üË«»÷ÊÂ¼şµÄ´úÂë
-            // »ñÈ¡ÓÒ¼üµã»÷µÄListViewItem
+            // å¤„ç†å·¦é”®åŒå‡»äº‹ä»¶çš„ä»£ç 
+            // è·å–å³é”®ç‚¹å‡»çš„ListViewItem
             FrameworkElement listViewItem = (sender as FrameworkElement);
             if (listViewItem != null && InProgressing.IsActive == false)
             {
-                // »ñÈ¡µã»÷µÄÊı¾İ¶ÔÏó
+                // è·å–ç‚¹å‡»çš„æ•°æ®å¯¹è±¡
                 WoLModel selectedItem = listViewItem?.DataContext as WoLModel;
                 WoLPC(selectedItem);
             }

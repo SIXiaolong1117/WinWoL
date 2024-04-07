@@ -10,106 +10,111 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <TextBlock
+            x:Uid="AddConfigDialogTitle"
             Grid.Row="0"
             Margin="0,0,0,8"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            FontSize="24"
-            FontWeight="Bold"
-            Text="添加配置" />
+            FontSize="24" />
         <ScrollViewer Grid.Row="1" Width="280">
-            <StackPanel
-                Width="250"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Vertical">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
                 <!--  配置别名  -->
                 <StackPanel
+                    Grid.Row="0"
                     Width="250"
                     Margin="0,8,0,16"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Vertical">
                     <TextBlock
+                        x:Uid="DialogGeneral"
                         Margin="0,0,0,8"
                         FontSize="20"
-                        FontWeight="Bold"
-                        Text="常规" />
+                        FontWeight="Bold" />
                     <TextBox
                         x:Name="ConfigNameTextBox"
+                        x:Uid="DialogConfigNameTextBox"
                         Width="250"
                         Margin="0,0,0,8"
-                        Header="配置别名："
-                        PlaceholderText="eg: 晓龙家里的托尔"
                         TextChanged="TextChanged" />
                     <TextBox
                         x:Name="IpAddressTextBox"
+                        x:Uid="DialogIpAddressTextBox"
                         Width="250"
-                        Header="远程主机 IP 地址 或 DDNS 域名："
                         Paste="IPAddressTextPaste"
-                        PlaceholderText="eg: 192.168.1.2 或 eg.ddns.com"
                         TextChanged="IPAddressTextChanged" />
                 </StackPanel>
 
                 <!--  WoL 相关设置  -->
                 <StackPanel
+                    Grid.Row="1"
                     Width="250"
                     Margin="0,8,0,16"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Vertical">
                     <TextBlock
+                        x:Uid="DialogWoLHeader"
                         FontSize="20"
-                        FontWeight="Bold"
-                        Text="WoL 相关设置" />
+                        FontWeight="Bold" />
                     <ToggleSwitch
                         x:Name="WoLIsOpenToggleSwitch"
                         Margin="0,-4,0,-4"
-                        OffContent="关闭"
-                        OnContent="开启"
+                        OffContent=""
+                        OnContent=""
                         Toggled="wolIsOpen_Toggled" />
                     <StackPanel x:Name="WoLConfig">
                         <CheckBox
                             x:Name="IndependentAddressCheckBox"
+                            x:Uid="IndependentAddressCheckBox"
                             Checked="IndependentAddress_Checked"
-                            Content="开启独立的 WoL 地址"
                             Unchecked="IndependentAddress_Unchecked" />
                         <TextBlock
+                            x:Uid="IndependentAddressCheckBoxTips"
                             Margin="0,-6,0,8"
                             FontSize="12"
-                            Foreground="Gray"
-                            Text="独立的 WoL 地址可以填写广播地址。"
+                            Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
                             TextWrapping="Wrap" />
                         <TextBox
                             x:Name="IndependentAddressTextBox"
+                            x:Uid="IndependentAddressTextBox"
                             Width="250"
                             Margin="0,0,0,8"
-                            Header="独立的 WoL 地址："
                             MaxLength="17"
                             Paste="IndependentAddressTextPaste"
                             PlaceholderText="eg: 192.168.1.255"
                             TextChanged="IndependentAddressTextChanged" />
                         <TextBox
                             x:Name="MacAddressTextBox"
+                            x:Uid="MacAddressTextBox"
                             Width="250"
                             Margin="0,0,0,8"
-                            Header="目标设备 Mac 地址："
                             MaxLength="17"
                             Paste="MacAddressTextPaste"
                             PlaceholderText="eg: AA:BB:CC:DD:EE:FF"
                             TextChanged="MacAddressTextChanged" />
                         <TextBox
                             x:Name="WoLPortTextBox"
+                            x:Uid="WoLPortTextBox"
                             Width="250"
-                            Header="WoL 端口："
                             Paste="PortTextPaste"
                             PlaceholderText="eg: 9"
                             TextChanged="PortTextChanged" />
@@ -118,26 +123,27 @@
 
                 <!--  RDP 相关设置  -->
                 <StackPanel
+                    Grid.Row="2"
                     Width="250"
                     Margin="0,8,0,16"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Vertical">
                     <TextBlock
+                        x:Uid="DialogRDPHeader"
                         FontSize="20"
-                        FontWeight="Bold"
-                        Text="远程桌面" />
+                        FontWeight="Bold" />
                     <ToggleSwitch
                         x:Name="RDPIsOpenToggleSwitch"
                         Margin="0,-4,0,-4"
-                        OffContent="关闭"
-                        OnContent="开启"
+                        OffContent=""
+                        OnContent=""
                         Toggled="rdpIsOpen_Toggled" />
                     <StackPanel x:Name="RDPConfig">
                         <TextBox
                             x:Name="RDPIPPortTextBox"
+                            x:Uid="RDPIPPortTextBox"
                             Width="250"
-                            Header="RDP 端口："
                             Paste="PortTextPaste"
                             PlaceholderText="eg: 3389"
                             TextChanged="PortTextChanged" />
@@ -146,51 +152,78 @@
 
                 <!--  SSH关机相关设置  -->
                 <StackPanel
+                    Grid.Row="3"
                     Width="250"
                     Margin="0,8,0,16"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Vertical">
                     <TextBlock
+                        x:Uid="DialogSSHShutdownHeader"
                         FontSize="20"
-                        FontWeight="Bold"
-                        Text="SSH 关机" />
+                        FontWeight="Bold" />
                     <ToggleSwitch
                         x:Name="SSHShutdownIsOpenToggleSwitch"
                         Margin="0,-4,0,-4"
-                        OffContent="关闭"
-                        OnContent="开启"
+                        OffContent=""
+                        OnContent=""
                         Toggled="SSHShutdownIsOpen_Toggled" />
                     <StackPanel x:Name="shutdownConfig">
                         <TextBox
                             x:Name="SSHCommandTextBox"
+                            x:Uid="SSHCommandTextBox"
                             Width="250"
                             Margin="0,0,0,8"
-                            Header="SSH 命令："
                             PlaceholderText="eg: shutdown /s /t 0"
                             TextChanged="TextChanged" />
                         <TextBox
                             x:Name="SSHPortTextBox"
+                            x:Uid="SSHPortTextBox"
                             Width="250"
                             Margin="0,0,0,8"
-                            Header="SSH 端口："
                             Paste="PortTextPaste"
                             PlaceholderText="eg: 22"
                             TextChanged="PortTextChanged" />
                         <TextBox
                             x:Name="SSHUserTextBox"
+                            x:Uid="SSHUserTextBox"
                             Width="250"
                             Margin="0,0,0,8"
-                            Header="SSH 用户："
                             PlaceholderText="eg: User"
                             TextChanged="TextChanged" />
-                        <TextBlock Text="使用私钥" />
+                        <!--<TextBlock Text="使用私钥" />
                         <ToggleSwitch
                             x:Name="PrivateKeyIsOpenToggleSwitch"
                             Margin="0,-4,0,-4"
-                            OffContent="关闭"
-                            OnContent="开启"
-                            Toggled="privateKeyIsOpen_Toggled" />
+                            OffContent=""
+                            OnContent=""
+                            Toggled="privateKeyIsOpen_Toggled" />-->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                x:Uid="DialogUsingSSHKeyTextBox"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                VerticalAlignment="Center" />
+
+                            <ToggleSwitch
+                                x:Name="PrivateKeyIsOpenToggleSwitch"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="0,0,-113,0"
+                                HorizontalAlignment="Right"
+                                OffContent=""
+                                OnContent=""
+                                Toggled="privateKeyIsOpen_Toggled" />
+
+                        </Grid>
                         <StackPanel
                             x:Name="SSHPasswordBox"
                             Width="250"
@@ -198,13 +231,14 @@
                             VerticalAlignment="Center"
                             Orientation="Vertical">
                             <TextBlock
+                                x:Uid="SSHPasswordTips1"
                                 FontSize="12"
-                                Foreground="Gray"
-                                Text="SSH 密码会在发出请求前要求您输入，此应用不会以任何形式记录您的密码。"
+                                Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
                                 TextWrapping="Wrap" />
                             <TextBlock
+                                x:Uid="SSHPasswordTips2"
                                 FontSize="12"
-                                Text="请注意：SSH 密码登录并不是一个安全的选择，建议您使用密钥登录。"
+                                Foreground="IndianRed"
                                 TextWrapping="Wrap" />
                         </StackPanel>
                         <StackPanel
@@ -213,16 +247,6 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Orientation="Vertical">
-                            <TextBlock
-                                FontSize="12"
-                                Foreground="Gray"
-                                Text="仅支持 OpenSSH 和 ssh.com 格式的 RSA 和 DSA 私钥。"
-                                TextWrapping="Wrap" />
-                            <TextBlock
-                                FontSize="12"
-                                Foreground="Gray"
-                                Text="此应用仅纪录您的密钥保存位置，并不记录密钥内容。"
-                                TextWrapping="Wrap" />
                             <StackPanel
                                 Width="250"
                                 HorizontalAlignment="Center"
@@ -230,23 +254,33 @@
                                 Orientation="Horizontal">
                                 <TextBox
                                     x:Name="SSHKeyPathTextBox"
+                                    x:Uid="SSHKeyPathTextBox"
                                     Width="186"
                                     Margin="0,0,4,0"
-                                    Header="SSH 密钥地址："
-                                    PlaceholderText="SSH Key"
+                                    PlaceholderText="~/.ssh/id_rsa"
                                     TextChanged="TextChanged" />
                                 <Button
                                     x:Name="SelectSSHKeyPath"
+                                    x:Uid="SelectSSHKeyPath"
                                     Width="60"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Bottom"
-                                    Click="SelectSSHKeyPath_Click"
-                                    Content="选择" />
+                                    Click="SelectSSHKeyPath_Click" />
                             </StackPanel>
+                            <TextBlock
+                                x:Uid="SSHKeyTips1"
+                                FontSize="12"
+                                Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                x:Uid="SSHKeyTips2"
+                                FontSize="12"
+                                Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
+                                TextWrapping="Wrap" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
-            </StackPanel>
+            </Grid>
         </ScrollViewer>
     </Grid>
 </ContentDialog>

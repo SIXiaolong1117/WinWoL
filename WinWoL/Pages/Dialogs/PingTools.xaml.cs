@@ -1,4 +1,4 @@
-using Microsoft.UI.Dispatching;
+Ôªøusing Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Controls;
 using System.Threading;
 using WinWoL.Methods;
@@ -14,24 +14,24 @@ namespace WinWoL.Pages.Dialogs
         {
             this.InitializeComponent();
 
-            // ªÒ»°UIœﬂ≥ÃµƒDispatcherQueue
+            // Ëé∑ÂèñUIÁ∫øÁ®ãÁöÑDispatcherQueue
             _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
             if (wolModel.IPAddress != null)
             {
-                // ‘⁄◊”œﬂ≥Ã÷–÷¥––»ŒŒÒ
+                // Âú®Â≠êÁ∫øÁ®ã‰∏≠ÊâßË°å‰ªªÂä°
                 Thread subThread = new Thread(new ThreadStart(() =>
                 {
                     _dispatcherQueue.TryEnqueue(() =>
                     {
-                        PingRef.Text = "≤‚ ‘÷–";
+                        PingRef.Text = "ÊµãËØï‰∏≠";
                     });
                     string PingRes;
                     while (true)
                     {
                         if (WoLMethod.PingTest(wolModel.IPAddress) == "TimedOut")
                         {
-                            PingRes = "≥¨ ±";
+                            PingRes = "Ë∂ÖÊó∂";
                         }
                         else
                         {
@@ -46,22 +46,22 @@ namespace WinWoL.Pages.Dialogs
                     }
                 }));
                 subThread.Start();
-                // ‘⁄◊”œﬂ≥Ã÷–÷¥––»ŒŒÒ
+                // Âú®Â≠êÁ∫øÁ®ã‰∏≠ÊâßË°å‰ªªÂä°
                 Thread subThread2 = new Thread(new ThreadStart(() =>
                 {
                     string WoLPingRes;
-                    // Ã·π©¡ÀWoL∂Àø⁄
+                    // Êèê‰æõ‰∫ÜWoLÁ´ØÂè£
                     if (wolModel.WoLPort != null && wolModel.WoLPort != "")
                     {
                         _dispatcherQueue.TryEnqueue(() =>
                         {
-                            WoLPingRef.Text = "≤‚ ‘÷–";
+                            WoLPingRef.Text = "ÊµãËØï‰∏≠";
                         });
                         while (true)
                         {
                             if (WoLMethod.TCPingTest(wolModel.IPAddress, wolModel.WoLPort) == -1)
                             {
-                                WoLPingRes = "≥¨ ±";
+                                WoLPingRes = "Ë∂ÖÊó∂";
                             }
                             else
                             {
@@ -78,28 +78,28 @@ namespace WinWoL.Pages.Dialogs
                     {
                         _dispatcherQueue.TryEnqueue(() =>
                         {
-                            WoLPingRef.Text = "≤ª  ”√";
+                            WoLPingRef.Text = "‰∏çÈÄÇÁî®";
                         });
                     }
 
                 }));
                 subThread2.Start();
-                // ‘⁄◊”œﬂ≥Ã÷–÷¥––»ŒŒÒ
+                // Âú®Â≠êÁ∫øÁ®ã‰∏≠ÊâßË°å‰ªªÂä°
                 Thread subThread3 = new Thread(new ThreadStart(() =>
                 {
                     string RDPPingRes;
-                    // Ã·π©¡ÀRDP∂Àø⁄
+                    // Êèê‰æõ‰∫ÜRDPÁ´ØÂè£
                     if (wolModel.RDPPort != null && wolModel.RDPPort != "")
                     {
                         _dispatcherQueue.TryEnqueue(() =>
                         {
-                            RDPPingRef.Text = "≤‚ ‘÷–";
+                            RDPPingRef.Text = "ÊµãËØï‰∏≠";
                         });
                         while (true)
                         {
                             if (WoLMethod.TCPingTest(wolModel.IPAddress, wolModel.RDPPort) == -1)
                             {
-                                RDPPingRes = "≥¨ ±";
+                                RDPPingRes = "Ë∂ÖÊó∂";
                             }
                             else
                             {
@@ -116,27 +116,27 @@ namespace WinWoL.Pages.Dialogs
                     {
                         _dispatcherQueue.TryEnqueue(() =>
                         {
-                            RDPPingRef.Text = "≤ª  ”√";
+                            RDPPingRef.Text = "‰∏çÈÄÇÁî®";
                         });
                     }
                 }));
                 subThread3.Start();
-                // ‘⁄◊”œﬂ≥Ã÷–÷¥––»ŒŒÒ
+                // Âú®Â≠êÁ∫øÁ®ã‰∏≠ÊâßË°å‰ªªÂä°
                 Thread subThread4 = new Thread(new ThreadStart(() =>
                 {
                     string SSHPingRes;
-                    // Ã·π©¡ÀSSH∂Àø⁄
+                    // Êèê‰æõ‰∫ÜSSHÁ´ØÂè£
                     if (wolModel.SSHPort != null && wolModel.SSHPort != "")
                     {
                         _dispatcherQueue.TryEnqueue(() =>
                         {
-                            SSHPingRef.Text = "≤‚ ‘÷–";
+                            SSHPingRef.Text = "ÊµãËØï‰∏≠";
                         });
                         while (true)
                         {
                             if (WoLMethod.TCPingTest(wolModel.IPAddress, wolModel.SSHPort) == -1)
                             {
-                                SSHPingRes = "≥¨ ±";
+                                SSHPingRes = "Ë∂ÖÊó∂";
                             }
                             else
                             {
@@ -153,7 +153,7 @@ namespace WinWoL.Pages.Dialogs
                     {
                         _dispatcherQueue.TryEnqueue(() =>
                         {
-                            SSHPingRef.Text = "≤ª  ”√";
+                            SSHPingRef.Text = "‰∏çÈÄÇÁî®";
                         });
                     }
                 }));

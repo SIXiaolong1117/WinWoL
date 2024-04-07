@@ -10,7 +10,7 @@
 		<PublishProfile>win10-$(Platform).pubxml</PublishProfile>
 		<UseWinUI>true</UseWinUI>
 		<EnableMsixTooling>true</EnableMsixTooling>
-		<DefaultLanguage>zh-CN</DefaultLanguage>
+		<DefaultLanguage>en-US</DefaultLanguage>
 		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
 		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
 		<PackageCertificateThumbprint>17486FA15095A9286A151894772AE5804895D991</PackageCertificateThumbprint>
@@ -64,13 +64,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.13" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.13" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.3" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240311000" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="PInvoke.User32" Version="0.7.124" />
-		<PackageReference Include="SSH.NET" Version="2023.0.0" />
+		<PackageReference Include="SSH.NET" Version="2024.0.0" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 

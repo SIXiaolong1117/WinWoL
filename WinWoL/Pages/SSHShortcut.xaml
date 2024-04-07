@@ -12,7 +12,7 @@
         <!--  定义 ScrollViewer 的样式  -->
         <Style x:Key="TransparentScrollViewerStyle" TargetType="ScrollViewer">
             <!--  设置背景  -->
-            <Setter Property="Background" Value="#11FFFFFF" />
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltMediumLowBrush}" />
             <!--  设置边框  -->
             <Setter Property="BorderBrush" Value="#11FFFFFF" />
             <!--  设置边框厚度  -->
@@ -46,7 +46,7 @@
         </Flyout>
     </Page.Resources>
 
-    <Grid>
+    <Grid Padding="24,24,24,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -62,33 +62,36 @@
             x:Name="Header"
             Grid.Row="0"
             Grid.Column="0"
-            Margin="0,24,0,8"
+            Margin="0,0,0,8"
             HorizontalAlignment="Center"
             FontSize="24" />
         <TextBlock
+            x:Uid="SSHShortcutTips"
             Grid.Row="1"
             Grid.Column="0"
             Margin="0,0,0,8"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontSize="12"
-            Foreground="DarkGray"
-            Text="双击左键执行命令 右键配置打开菜单" />
+            Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
 
         <ScrollViewer
             Grid.Row="2"
             Grid.Column="0"
-            Margin="24,0,24,8"
-            Style="{StaticResource TransparentScrollViewerStyle}">
+            Margin="0,18,0,0"
+            HorizontalAlignment="Stretch">
             <GridView
                 x:Name="dataGridView"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Top">
                 <GridView.ItemTemplate>
                     <DataTemplate>
                         <Grid
+                            Width="100"
+                            Padding="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
+                            Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"
                             DoubleTapped="OnGridViewDoubleTapped"
                             RightTapped="OnGridViewRightTapped">
                             <Grid.RowDefinitions>
@@ -102,8 +105,6 @@
                             <TextBlock
                                 Grid.Row="0"
                                 Grid.Column="0"
-                                Width="140"
-                                Padding="8,8,0,0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Text="{Binding Name}"
@@ -111,8 +112,6 @@
                             <TextBlock
                                 Grid.Row="1"
                                 Grid.Column="0"
-                                Width="140"
-                                Padding="8,0,0,0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 FontSize="12"
@@ -122,8 +121,6 @@
                             <TextBlock
                                 Grid.Row="2"
                                 Grid.Column="0"
-                                Width="140"
-                                Padding="8,0,0,8"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 FontSize="12"
@@ -136,34 +133,25 @@
             </GridView>
         </ScrollViewer>
 
-        <Grid
-            Grid.Row="2"
+        <CommandBar
+            Grid.Row="3"
             Grid.Column="0"
-            Margin="0,0,28,8"
+            Margin="18,0,0,4"
             HorizontalAlignment="Right"
-            VerticalAlignment="Bottom">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            Background="Transparent"
+            DefaultLabelPosition="Right"
+            IsOpen="False">
             <AppBarButton
                 x:Name="AddConfig"
-                Grid.Row="0"
-                Grid.Column="0"
+                x:Uid="AddConfig"
                 Click="AddConfigButton_Click"
-                Icon="Add"
-                Label="添加配置" />
+                Icon="Add" />
             <AppBarButton
                 x:Name="ImportConfig"
-                Grid.Row="0"
-                Grid.Column="1"
+                x:Uid="ImportConfig"
                 Click="ImportConfig_Click"
-                Icon="Import"
-                Label="导入配置" />
-        </Grid>
+                Icon="Import" />
+        </CommandBar>
 
         <!--<Grid Grid.Row="3" Grid.Column="0">
             <Grid.RowDefinitions>
@@ -192,17 +180,17 @@
         </Grid>-->
 
         <StackPanel
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="0"
-            Margin="0,0,0,24"
+            Margin="0,0,0,12"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <TextBlock
+                x:Uid="SponsorMe"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontSize="12"
-                Text="赞助我："
                 TextWrapping="Wrap" />
             <HyperlinkButton
                 x:Name="AboutAliPay"
@@ -222,12 +210,8 @@
         <TeachingTip
             x:Name="SSHResponse"
             x:Uid="SSHResponse"
-            CloseButtonContent="确认"
             IsLightDismissEnabled="True" />
-        <TeachingTip
-            x:Name="SaveFileTips"
-            CloseButtonContent="确认"
-            IsLightDismissEnabled="True" />
+        <TeachingTip x:Name="SaveFileTips" IsLightDismissEnabled="True" />
 
         <TeachingTip x:Name="AboutAliPayTips">
             <TeachingTip.HeroContent>

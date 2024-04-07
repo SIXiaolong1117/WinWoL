@@ -13,7 +13,7 @@
         <!--  定义 ScrollViewer 的样式  -->
         <Style x:Key="TransparentScrollViewerStyle" TargetType="ScrollViewer">
             <!--  设置背景  -->
-            <Setter Property="Background" Value="#11FFFFFF" />
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltMediumLowBrush}" />
             <!--  设置边框  -->
             <Setter Property="BorderBrush" Value="#11FFFFFF" />
             <!--  设置边框厚度  -->
@@ -24,7 +24,7 @@
         <!--  定义 Item 的样式  -->
         <Style x:Key="TransparentItemStyle" TargetType="Grid">
             <!--  设置背景  -->
-            <Setter Property="Background" Value="#11FFFFFF" />
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltMediumLowBrush}" />
             <!--  设置边框  -->
             <Setter Property="BorderBrush" Value="#11FFFFFF" />
             <!--  设置边框厚度  -->
@@ -99,25 +99,25 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TextBlock
+                x:Uid="WoLTips1"
                 Grid.Row="0"
                 Grid.Column="0"
-                Margin="0,0,0,8"
+                Margin="24,0,0,8"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontSize="12"
-                Foreground="DarkGray"
-                Text="双击左键唤醒电脑 右键配置打开菜单" />
+                Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
 
 
             <TextBlock
+                x:Uid="WoLTips2"
                 Grid.Row="0"
                 Grid.Column="1"
-                Margin="0,0,0,8"
+                Margin="0,0,24,8"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontSize="12"
-                Foreground="DarkGray"
-                Text="选中配置的详情" />
+                Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
         </Grid>
 
         <Grid Grid.Row="2" Grid.Column="0">
@@ -140,7 +140,10 @@
                     SelectionChanged="dataListView_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid DoubleTapped="OnListViewDoubleTapped" RightTapped="OnListViewRightTapped">
+                            <Grid
+                                Background="Transparent"
+                                DoubleTapped="OnListViewDoubleTapped"
+                                RightTapped="OnListViewRightTapped">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
@@ -174,34 +177,35 @@
                 </Grid.ColumnDefinitions>
                 <AppBarButton
                     x:Name="AddConfig"
+                    x:Uid="AddConfig"
                     Grid.Row="0"
                     Grid.Column="0"
                     Click="AddConfigButton_Click"
-                    Icon="Add"
-                    Label="添加配置" />
+                    Icon="Add" />
                 <AppBarButton
                     x:Name="ImportConfig"
+                    x:Uid="ImportConfig"
                     Grid.Row="0"
                     Grid.Column="1"
                     Click="ImportConfig_Click"
-                    Icon="Import"
-                    Label="导入配置" />
+                    Icon="Import" />
                 <AppBarToggleButton
                     x:Name="HideConfig"
+                    x:Uid="HideConfig"
                     Grid.Row="0"
                     Grid.Column="2"
-                    Click="HideConfigButton_Click"
-                    Label="显示/隐藏">
+                    Click="HideConfigButton_Click">
                     <AppBarToggleButton.Icon>
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xED1A;" />
                     </AppBarToggleButton.Icon>
                 </AppBarToggleButton>
                 <AppBarButton
                     x:Name="PingRefConfig"
+                    x:Uid="PingRefConfig"
                     Grid.Row="0"
                     Grid.Column="3"
                     Click="PingRefConfig_Click"
-                    Label="Ping 工具">
+                    Label="Ping">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE704;" />
                     </AppBarButton.Icon>
@@ -228,66 +232,57 @@
                                 VerticalAlignment="Center"
                                 Orientation="Vertical">
                                 <TextBlock
+                                    x:Uid="IPAddress"
                                     Margin="0,0,0,8"
-                                    Text="配置别名："
                                     TextWrapping="Wrap" />
                                 <TextBlock
                                     Margin="0,0,0,8"
-                                    Foreground="DarkGray"
-                                    Text="{Binding Name}"
-                                    TextWrapping="Wrap" />
-                                <TextBlock
-                                    Margin="0,0,0,8"
-                                    Text="IP 地址："
-                                    TextWrapping="Wrap" />
-                                <TextBlock
-                                    Margin="0,0,0,8"
-                                    Foreground="DarkGray"
+                                    Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
                                     Text="{Binding IPAddress}"
                                     TextWrapping="Wrap" />
                                 <TextBlock
+                                    x:Uid="WoLAddress"
                                     Margin="0,0,0,8"
-                                    Text="网络唤醒地址："
                                     TextWrapping="Wrap" />
                                 <TextBlock
                                     Margin="0,0,0,8"
-                                    Foreground="DarkGray"
+                                    Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
                                     Text="{Binding WoLAddress}"
                                     TextWrapping="Wrap" />
                                 <TextBlock
+                                    x:Uid="WoLPort"
                                     Margin="0,0,0,8"
-                                    Text="网络唤醒端口："
                                     TextWrapping="Wrap" />
                                 <TextBlock
                                     Margin="0,0,0,8"
-                                    Foreground="DarkGray"
+                                    Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
                                     Text="{Binding WoLPort}"
                                     TextWrapping="Wrap" />
                                 <TextBlock
+                                    x:Uid="RDPPort"
                                     Margin="0,0,0,8"
-                                    Text="远程桌面端口："
                                     TextWrapping="Wrap" />
                                 <TextBlock
                                     Margin="0,0,0,8"
-                                    Foreground="DarkGray"
+                                    Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
                                     Text="{Binding RDPPort}"
                                     TextWrapping="Wrap" />
                                 <TextBlock
+                                    x:Uid="SSHShutdownPort"
                                     Margin="0,0,0,8"
-                                    Text="SSH关机端口："
                                     TextWrapping="Wrap" />
                                 <TextBlock
                                     Margin="0,0,0,8"
-                                    Foreground="DarkGray"
+                                    Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
                                     Text="{Binding SSHPort}"
                                     TextWrapping="Wrap" />
                                 <TextBlock
+                                    x:Uid="SSHShutdownCMD"
                                     Margin="0,0,0,8"
-                                    Text="SSH关机命令："
                                     TextWrapping="Wrap" />
                                 <TextBlock
                                     Margin="0,0,0,8"
-                                    Foreground="DarkGray"
+                                    Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
                                     Text="{Binding SSHCommand}"
                                     TextWrapping="Wrap" />
                             </StackPanel>
@@ -345,10 +340,10 @@
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <TextBlock
+                x:Uid="SponsorMe"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontSize="12"
-                Text="赞助我："
                 TextWrapping="Wrap" />
             <HyperlinkButton
                 x:Name="AboutAliPay"
@@ -365,19 +360,12 @@
                 Click="AboutWePay_Click"
                 FontSize="12" />
         </StackPanel>
-        <TeachingTip
-            x:Name="WoLResultTips"
-            CloseButtonContent="确认"
-            IsLightDismissEnabled="True" />
+        <TeachingTip x:Name="WoLResultTips" IsLightDismissEnabled="True" />
         <TeachingTip
             x:Name="SSHResponse"
             x:Uid="SSHResponse"
-            CloseButtonContent="确认"
             IsLightDismissEnabled="True" />
-        <TeachingTip
-            x:Name="SaveFileTips"
-            CloseButtonContent="确认"
-            IsLightDismissEnabled="True" />
+        <TeachingTip x:Name="SaveFileTips" IsLightDismissEnabled="True" />
 
         <TeachingTip x:Name="AboutAliPayTips">
             <TeachingTip.HeroContent>

@@ -1,10 +1,15 @@
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.Gaming.Preview.GamesEnumeration;
+using Windows.Media.Protection.PlayReady;
+using static System.Net.WebRequestMethods;
 
 namespace WinWoL.Pages
 {
@@ -15,19 +20,19 @@ namespace WinWoL.Pages
         {
             this.InitializeComponent();
 
-            // ÔÚ¹¹Ôìº¯Êı»òÆäËûÊÊµ±Î»ÖÃÉèÖÃ°æ±¾ºÅ
+            // åœ¨æ„é€ å‡½æ•°æˆ–å…¶ä»–é€‚å½“ä½ç½®è®¾ç½®ç‰ˆæœ¬å·
             var package = Package.Current;
             var version = package.Id.Version;
-            // »ñÈ¡UIÏß³ÌµÄDispatcherQueue
+
+            // è·å–UIçº¿ç¨‹çš„DispatcherQueue
             _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
-            APPVersion.Content = $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
-            //APPVersion.NavigateUri = new System.Uri($"https://github.com/Direct5dom/WinWoL/releases/tag/{version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
-            APPVersion.NavigateUri = new System.Uri($"https://www.microsoft.com/store/apps/9P5ZTP14LQBR");
-
-            GetSponsorList();
+            APPVersion.Text = $"{version.Major}.{version.Minor}.{version.Build}";
         }
-
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            GetList();
+        }
         private void AboutAliPay_Click(object sender, RoutedEventArgs e)
         {
             AboutAliPayTips.IsOpen = true;
@@ -36,62 +41,131 @@ namespace WinWoL.Pages
         {
             AboutWePayTips.IsOpen = true;
         }
-        private void GetSponsorList()
+        private async Task<string> HTTPResponse(string http)
         {
-            // ÔÚ×ÓÏß³ÌÖĞÖ´ĞĞÈÎÎñ
-            Thread subThread = new Thread(new ThreadStart(async () =>
+            using (HttpClient client = new HttpClient())
             {
-                string nameList = null;
-                using (HttpClient client = new HttpClient())
+                HttpResponseMessage response = await client.GetAsync(http);
+                if (response.IsSuccessStatusCode)
                 {
-                    // ·¢ÆğGETÇëÇóÒÔ»ñÈ¡ÎÄ¼şÄÚÈİ
-                    // Ê×ÏÈ³¢ÊÔ´ÓGitHub»ñÈ¡Êı¾İ
-                    try
-                    {
-                        HttpResponseMessage response = await client.GetAsync($"https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/List");
-                        if (response.IsSuccessStatusCode)
-                        {
-                            // ´ÓGitHubµÄÏìÓ¦ÖĞ¶ÁÈ¡ÎÄ¼şÄÚÈİ
-                            nameList = await response.Content.ReadAsStringAsync();
-                        }
-                        else
-                        {
-                            nameList = "Try Gitee";
-                        }
-                    }
-                    catch
-                    {
-                        nameList = "Try Gitee";
-                    }
-
-                    // Èç¹ûGitHubÍ¨ĞÅÊ§°Ü£¬³¢ÊÔ´ÓGitee»ñÈ¡Êı¾İ
-                    if (nameList == "Try Gitee")
-                    {
-                        try
-                        {
-                            HttpResponseMessage response = await client.GetAsync($"https://gitee.com/XiaolongSI/Direct5dom/raw/main/README/Sponsor/List");
-                            if (response.IsSuccessStatusCode)
-                            {
-                                // ´ÓGiteeµÄÏìÓ¦ÖĞ¶ÁÈ¡ÎÄ¼şÄÚÈİ
-                                nameList = await response.Content.ReadAsStringAsync();
-                            }
-                            else
-                            {
-                                nameList = "ÎŞ·¨Á¬½ÓÖÁ Github »ò Gitee »ñÈ¡ÔŞÖúÕßÃûµ¥¡£(0)";
-                            }
-                        }
-                        catch
-                        {
-                            nameList = "ÎŞ·¨Á¬½ÓÖÁ Github »ò Gitee »ñÈ¡ÔŞÖúÕßÃûµ¥¡£(1)";
-                        }
-                    }
+                    // ä»GitHubçš„å“åº”ä¸­è¯»å–æ–‡ä»¶å†…å®¹
+                    return await response.Content.ReadAsStringAsync();
                 }
-                _dispatcherQueue.TryEnqueue(() =>
+                else
                 {
-                    NameList.Text = nameList;
-                });
-            }));
-            subThread.Start();
+                    return "";
+                }
+            }
+        }
+        private async void GetList()
+        {
+            string nameList = null;
+            string stringList = null;
+            try
+            {
+                nameList = await HTTPResponse("https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/List");
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    nameList = await HTTPResponse("https://gitee.com/XiaolongSI/Direct5dom/raw/main/README/Sponsor/List");
+                }
+                catch (Exception ex2)
+                {
+                    nameList = "æ— æ³•è¿æ¥è‡³ Github æˆ– Giteeã€‚";
+                }
+            }
+            try
+            {
+                stringList = await HTTPResponse("https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Text/List");
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    stringList = await HTTPResponse("https://gitee.com/XiaolongSI/Direct5dom/raw/main/README/Text/List");
+                }
+                catch (Exception ex2)
+                {
+                    stringList = "";
+                }
+            }
+
+            string randomLine = null;
+            try
+            {
+                // ä½¿ç”¨æ¢è¡Œç¬¦åˆ†å‰²å­—ç¬¦ä¸²æˆæ•°ç»„
+                string[] lines = stringList.Split(new[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+                // ä½¿ç”¨éšæœºæ•°ç”Ÿæˆå™¨ç”Ÿæˆä¸€ä¸ªéšæœºç´¢å¼•
+                Random rand = new Random();
+                int randomIndex = rand.Next(0, lines.Length);
+
+                // éšæœºé€‰æ‹©ä¸€ä¸ªå­—ç¬¦ä¸²
+                randomLine = lines[randomIndex];
+            }
+            catch (Exception ex) { }
+
+            NameList.Text = nameList;
+            TipsTips.Text = randomLine;
+
+
+
+            //// åœ¨å­çº¿ç¨‹ä¸­æ‰§è¡Œä»»åŠ¡
+            //Thread subThread = new Thread(new ThreadStart(async () =>
+            //{
+            //    string nameList = null;
+            //    using (HttpClient client = new HttpClient())
+            //    {
+            //        // å‘èµ·GETè¯·æ±‚ä»¥è·å–æ–‡ä»¶å†…å®¹
+            //        // é¦–å…ˆå°è¯•ä»GitHubè·å–æ•°æ®
+            //        try
+            //        {
+            //            HttpResponseMessage response = await client.GetAsync($"https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/List");
+            //            if (response.IsSuccessStatusCode)
+            //            {
+            //                // ä»GitHubçš„å“åº”ä¸­è¯»å–æ–‡ä»¶å†…å®¹
+            //                nameList = await response.Content.ReadAsStringAsync();
+            //            }
+            //            else
+            //            {
+            //                nameList = "Try Gitee";
+            //            }
+            //        }
+            //        catch
+            //        {
+            //            nameList = "Try Gitee";
+            //        }
+
+            //        // å¦‚æœGitHubé€šä¿¡å¤±è´¥ï¼Œå°è¯•ä»Giteeè·å–æ•°æ®
+            //        if (nameList == "Try Gitee")
+            //        {
+            //            try
+            //            {
+            //                HttpResponseMessage response = await client.GetAsync($"https://gitee.com/XiaolongSI/Direct5dom/raw/main/README/Sponsor/List");
+            //                if (response.IsSuccessStatusCode)
+            //                {
+            //                    // ä»Giteeçš„å“åº”ä¸­è¯»å–æ–‡ä»¶å†…å®¹
+            //                    nameList = await response.Content.ReadAsStringAsync();
+            //                }
+            //                else
+            //                {
+            //                    nameList = "æ— æ³•è¿æ¥è‡³ Github æˆ– Gitee è·å–èµåŠ©è€…åå•ã€‚(0)";
+            //                }
+            //            }
+            //            catch
+            //            {
+            //                nameList = "æ— æ³•è¿æ¥è‡³ Github æˆ– Gitee è·å–èµåŠ©è€…åå•ã€‚(1)";
+            //            }
+            //        }
+            //    }
+            //    _dispatcherQueue.TryEnqueue(() =>
+            //    {
+            //        NameList.Text = nameList;
+            //    });
+            //}));
+            //subThread.Start();
         }
     }
 }

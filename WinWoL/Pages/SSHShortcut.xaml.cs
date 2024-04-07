@@ -1,4 +1,4 @@
-using Microsoft.UI.Dispatching;
+ï»¿using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -25,7 +25,7 @@ namespace WinWoL.Pages
 {
     public sealed partial class SSHShortcut : Page
     {
-        // ÆôÓÃ±¾µØÉèÖÃÊı¾İ
+        // å¯ç”¨æœ¬åœ°è®¾ç½®æ•°æ®
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         ResourceLoader resourceLoader = new ResourceLoader();
         private DispatcherQueue _dispatcherQueue;
@@ -34,7 +34,7 @@ namespace WinWoL.Pages
         {
             this.InitializeComponent();
 
-            // »ñÈ¡UIÏß³ÌµÄDispatcherQueue
+            // è·å–UIçº¿ç¨‹çš„DispatcherQueue
             _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
             LoadData();
@@ -42,68 +42,70 @@ namespace WinWoL.Pages
         }
         private void LoadData()
         {
-            // ÊµÀı»¯SQLiteHelper
+            // å®ä¾‹åŒ–SQLiteHelper
             SQLiteHelper dbHelper = new SQLiteHelper();
-            // ²éÑ¯Êı¾İ
+            // æŸ¥è¯¢æ•°æ®
             List<SSHModel> dataList = dbHelper.QuerySSHData();
 
-            // ½«Êı¾İÁĞ±í°ó¶¨µ½ListView
+            // å°†æ•°æ®åˆ—è¡¨ç»‘å®šåˆ°ListView
             dataGridView.ItemsSource = dataList;
         }
         private void LoadString()
         {
             Header.Text = resourceLoader.GetString("SSHHeader");
+            SSHResponse.CloseButtonContent = resourceLoader.GetString("Confirm");
+            SaveFileTips.CloseButtonContent = resourceLoader.GetString("Confirm");
         }
-        // Ìí¼Ó/ĞŞ¸ÄÅäÖÃ°´Å¥µã»÷
+        // æ·»åŠ /ä¿®æ”¹é…ç½®æŒ‰é’®ç‚¹å‡»
         private async void AddConfigButton_Click(object sender, RoutedEventArgs e)
         {
-            // ´´½¨Ò»¸ö³õÊ¼µÄWoLModel¶ÔÏó
+            // åˆ›å»ºä¸€ä¸ªåˆå§‹çš„WoLModelå¯¹è±¡
             SSHModel initialWoLData = new SSHModel();
 
-            // ´´½¨Ò»¸öĞÂµÄdialog¶ÔÏó
+            // åˆ›å»ºä¸€ä¸ªæ–°çš„dialogå¯¹è±¡
             AddSSH dialog = new AddSSH(initialWoLData);
-            // ¶Ô´Ëdialog¶ÔÏó½øĞĞÅäÖÃ
+            // å¯¹æ­¤dialogå¯¹è±¡è¿›è¡Œé…ç½®
             dialog.XamlRoot = this.XamlRoot;
             dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-            dialog.PrimaryButtonText = "Ìí¼Ó";
-            dialog.CloseButtonText = "¹Ø±Õ";
-            // Ä¬ÈÏ°´Å¥ÎªPrimaryButton
+            dialog.PrimaryButtonText = "æ·»åŠ ";
+            dialog.CloseButtonText = "å…³é—­";
+            // é»˜è®¤æŒ‰é’®ä¸ºPrimaryButton
             dialog.DefaultButton = ContentDialogButton.Primary;
 
-            // ÏÔÊ¾Dialog²¢µÈ´ıÆä¹Ø±Õ
+            // æ˜¾ç¤ºDialogå¹¶ç­‰å¾…å…¶å…³é—­
             ContentDialogResult result = await dialog.ShowAsync();
 
-            // Èç¹û°´ÏÂÁËPrimary
+            // å¦‚æœæŒ‰ä¸‹äº†Primary
             if (result == ContentDialogResult.Primary)
             {
-                // ÊµÀı»¯SQLiteHelper
+                // å®ä¾‹åŒ–SQLiteHelper
                 SQLiteHelper dbHelper = new SQLiteHelper();
-                // ²åÈëĞÂÊı¾İ
+                // æ’å…¥æ–°æ•°æ®
                 dbHelper.InsertSSHData(initialWoLData);
-                // ÖØĞÂ¼ÓÔØÊı¾İ
+                // é‡æ–°åŠ è½½æ•°æ®
                 LoadData();
             }
         }
         private async void ConfirmReplace_Click(object sender, RoutedEventArgs e)
         {
-            // ¹Ø±Õ¶ş´ÎÈ·ÈÏFlyout
+            // å…³é—­äºŒæ¬¡ç¡®è®¤Flyout
             confirmationReplaceFlyout.Hide();
             ImportConfig.IsEnabled = false;
-            // ÊµÀı»¯SQLiteHelper
+            // å®ä¾‹åŒ–SQLiteHelper
             SQLiteHelper dbHelper = new SQLiteHelper();
 
-            // »ñÈ¡µ¼ÈëµÄÊı¾İ
+            // è·å–å¯¼å…¥çš„æ•°æ®
             SSHModel newModel = await SSHMethod.ImportConfig();
 
             if (newModel != null)
             {
-                // »ñÈ¡µ±Ç°ÅäÖÃµÄID
+                // è·å–å½“å‰é…ç½®çš„ID
                 int id = selectedSSHModel.Id;
-                // ¸³¸øµ¼ÈëµÄÅäÖÃ
+                // èµ‹ç»™å¯¼å…¥çš„é…ç½®
                 newModel.Id = id;
-                // ²åÈëĞÂÊı¾İ
+                // æ’å…¥æ–°æ•°æ®
                 dbHelper.UpdateSSHData(newModel);
-                // ÖØĞÂ¼ÓÔØÊı¾İ
+                // é‡æ–°åŠ è½½æ•°æ®
                 LoadData();
             }
             ImportConfig.IsEnabled = true;
@@ -111,46 +113,46 @@ namespace WinWoL.Pages
 
         private void ConfirmDelete_Click(object sender, RoutedEventArgs e)
         {
-            // ¹Ø±Õ¶ş´ÎÈ·ÈÏFlyout
+            // å…³é—­äºŒæ¬¡ç¡®è®¤Flyout
             confirmationFlyout.Hide();
-            // ÊµÀı»¯SQLiteHelper
+            // å®ä¾‹åŒ–SQLiteHelper
             SQLiteHelper dbHelper = new SQLiteHelper();
-            // É¾³ıÊı¾İ
+            // åˆ é™¤æ•°æ®
             dbHelper.DeleteSSHData(selectedSSHModel);
-            // ÖØĞÂ¼ÓÔØÊı¾İ
+            // é‡æ–°åŠ è½½æ•°æ®
             LoadData();
         }
         private void CancelReplace_Click(object sender, RoutedEventArgs e)
         {
-            // ¹Ø±Õ¶ş´ÎÈ·ÈÏFlyout
+            // å…³é—­äºŒæ¬¡ç¡®è®¤Flyout
             confirmationReplaceFlyout.Hide();
         }
         private void CancelDelete_Click(object sender, RoutedEventArgs e)
         {
-            // ¹Ø±Õ¶ş´ÎÈ·ÈÏFlyout
+            // å…³é—­äºŒæ¬¡ç¡®è®¤Flyout
             confirmationFlyout.Hide();
         }
         private async void SSHSend(SSHModel sshModel)
         {
             string sshPasswd = null;
-            // Ê¹ÓÃÃÜÂëµÇÂ¼
+            // ä½¿ç”¨å¯†ç ç™»å½•
             if (sshModel.SSHKeyIsOpen == "False")
             {
                 SSHPasswdModel sshPasswdModel = new SSHPasswdModel();
-                // ´´½¨Ò»¸öĞÂµÄdialog¶ÔÏó
+                // åˆ›å»ºä¸€ä¸ªæ–°çš„dialogå¯¹è±¡
                 EnterSSHPasswd dialog = new EnterSSHPasswd(sshPasswdModel);
-                // ¶Ô´Ëdialog¶ÔÏó½øĞĞÅäÖÃ
+                // å¯¹æ­¤dialogå¯¹è±¡è¿›è¡Œé…ç½®
                 dialog.XamlRoot = this.XamlRoot;
                 dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-                dialog.PrimaryButtonText = "È·ÈÏ";
-                dialog.CloseButtonText = "¹Ø±Õ";
-                // Ä¬ÈÏ°´Å¥ÎªPrimaryButton
+                dialog.PrimaryButtonText = "ç¡®è®¤";
+                dialog.CloseButtonText = "å…³é—­";
+                // é»˜è®¤æŒ‰é’®ä¸ºPrimaryButton
                 dialog.DefaultButton = ContentDialogButton.Primary;
 
-                // ÏÔÊ¾Dialog²¢µÈ´ıÆä¹Ø±Õ
+                // æ˜¾ç¤ºDialogå¹¶ç­‰å¾…å…¶å…³é—­
                 ContentDialogResult result = await dialog.ShowAsync();
 
-                // Èç¹û°´ÏÂÁËPrimary
+                // å¦‚æœæŒ‰ä¸‹äº†Primary
                 if (result == ContentDialogResult.Primary)
                 {
                     sshPasswd = sshPasswdModel.SSHPasswd;
@@ -166,7 +168,7 @@ namespace WinWoL.Pages
         private void SSHSendThread(SSHModel sshModel, string sshPasswd)
         {
             InProgressing.IsActive = true;
-            // ÔÚ×ÓÏß³ÌÖĞÖ´ĞĞÈÎÎñ
+            // åœ¨å­çº¿ç¨‹ä¸­æ‰§è¡Œä»»åŠ¡
             Thread subThread = new Thread(new ThreadStart(() =>
             {
                 string res = GeneralMethod.SendSSHCommand(sshModel.SSHCommand, sshModel.IPAddress, sshModel.SSHPort, sshModel.SSHUser, sshPasswd, sshModel.SSHKeyPath, sshModel.SSHKeyIsOpen);
@@ -181,27 +183,27 @@ namespace WinWoL.Pages
         }
         private async void EditThisConfig(SSHModel sshModel)
         {
-            // ´´½¨Ò»¸öĞÂµÄdialog¶ÔÏó
+            // åˆ›å»ºä¸€ä¸ªæ–°çš„dialogå¯¹è±¡
             AddSSH dialog = new AddSSH(sshModel);
-            // ¶Ô´Ëdialog¶ÔÏó½øĞĞÅäÖÃ
+            // å¯¹æ­¤dialogå¯¹è±¡è¿›è¡Œé…ç½®
             dialog.XamlRoot = this.XamlRoot;
             dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-            dialog.PrimaryButtonText = "ĞŞ¸Ä";
-            dialog.CloseButtonText = "¹Ø±Õ";
-            // Ä¬ÈÏ°´Å¥ÎªPrimaryButton
+            dialog.PrimaryButtonText = "ä¿®æ”¹";
+            dialog.CloseButtonText = "å…³é—­";
+            // é»˜è®¤æŒ‰é’®ä¸ºPrimaryButton
             dialog.DefaultButton = ContentDialogButton.Primary;
 
-            // ÏÔÊ¾Dialog²¢µÈ´ıÆä¹Ø±Õ
+            // æ˜¾ç¤ºDialogå¹¶ç­‰å¾…å…¶å…³é—­
             ContentDialogResult result = await dialog.ShowAsync();
 
-            // Èç¹û°´ÏÂÁËPrimary
+            // å¦‚æœæŒ‰ä¸‹äº†Primary
             if (result == ContentDialogResult.Primary)
             {
-                // ÊµÀı»¯SQLiteHelper
+                // å®ä¾‹åŒ–SQLiteHelper
                 SQLiteHelper dbHelper = new SQLiteHelper();
-                // ¸üĞÂÊı¾İ
+                // æ›´æ–°æ•°æ®
                 dbHelper.UpdateSSHData(sshModel);
-                // ÖØĞÂ¼ÓÔØÊı¾İ
+                // é‡æ–°åŠ è½½æ•°æ®
                 LoadData();
             }
         }
@@ -209,21 +211,21 @@ namespace WinWoL.Pages
         {
             SQLiteHelper dbHelper = new SQLiteHelper();
             dbHelper.InsertSSHData(sshModel);
-            // ÖØĞÂ¼ÓÔØÊı¾İ
+            // é‡æ–°åŠ è½½æ•°æ®
             LoadData();
         }
         private async void ImportConfig_Click(object sender, RoutedEventArgs e)
         {
             ImportConfig.IsEnabled = false;
-            // ÊµÀı»¯SQLiteHelper
+            // å®ä¾‹åŒ–SQLiteHelper
             SQLiteHelper dbHelper = new SQLiteHelper();
-            // »ñÈ¡µ¼ÈëµÄÊı¾İ
+            // è·å–å¯¼å…¥çš„æ•°æ®
             SSHModel sshModel = await SSHMethod.ImportConfig();
             if (sshModel != null)
             {
-                // ²åÈëĞÂÊı¾İ
+                // æ’å…¥æ–°æ•°æ®
                 dbHelper.InsertSSHData(sshModel);
-                // ÖØĞÂ¼ÓÔØÊı¾İ
+                // é‡æ–°åŠ è½½æ•°æ®
                 LoadData();
             }
             ImportConfig.IsEnabled = true;
@@ -244,26 +246,26 @@ namespace WinWoL.Pages
         }
         private void OnGridViewRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            // »ñÈ¡ÓÒ¼üµã»÷µÄItem
+            // è·å–å³é”®ç‚¹å‡»çš„Item
             FrameworkElement gridViewItem = (sender as FrameworkElement);
 
             if (gridViewItem != null && InProgressing.IsActive == false)
             {
-                // »ñÈ¡ÓÒ¼üµã»÷µÄÊı¾İ¶ÔÏó£¨WoLModel£©
+                // è·å–å³é”®ç‚¹å‡»çš„æ•°æ®å¯¹è±¡ï¼ˆWoLModelï¼‰
                 SSHModel selectedItem = gridViewItem?.DataContext as SSHModel;
 
-                // ÊµÀı»¯SQLiteHelper
+                // å®ä¾‹åŒ–SQLiteHelper
                 SQLiteHelper dbHelper = new SQLiteHelper();
 
-                // ½«ÓÒ¼üµã»÷µÄÏîÉèÖÃÎªÑ¡ÖĞÏî
+                // å°†å³é”®ç‚¹å‡»çš„é¡¹è®¾ç½®ä¸ºé€‰ä¸­é¡¹
                 dataGridView.SelectedItem = selectedItem;
 
-                // ´´½¨ContextMenu
+                // åˆ›å»ºContextMenu
                 MenuFlyout menuFlyout = new MenuFlyout();
 
                 MenuFlyoutItem sshShutdownPCMenuItem = new MenuFlyoutItem
                 {
-                    Text = "Ö´ĞĞ SSH ½Å±¾"
+                    Text = "æ‰§è¡Œ SSH è„šæœ¬"
                 };
                 sshShutdownPCMenuItem.Click += (sender, e) =>
                 {
@@ -271,13 +273,13 @@ namespace WinWoL.Pages
                 };
                 menuFlyout.Items.Add(sshShutdownPCMenuItem);
 
-                // Ìí¼Ó·Ö¸îÏß
+                // æ·»åŠ åˆ†å‰²çº¿
                 MenuFlyoutSeparator separator = new MenuFlyoutSeparator();
                 menuFlyout.Items.Add(separator);
 
                 MenuFlyoutItem exportMenuItem = new MenuFlyoutItem
                 {
-                    Text = "µ¼³öÅäÖÃ"
+                    Text = "å¯¼å‡ºé…ç½®"
                 };
                 exportMenuItem.Click += (sender, e) =>
                 {
@@ -287,18 +289,18 @@ namespace WinWoL.Pages
 
                 MenuFlyoutItem replaceMenuItem = new MenuFlyoutItem
                 {
-                    Text = "¸²¸ÇÅäÖÃ"
+                    Text = "è¦†ç›–é…ç½®"
                 };
                 replaceMenuItem.Click += (sender, e) =>
                 {
-                    // ±£´æÑ¡ÖĞµÄÊı¾İ¶ÔÏóÒÔ±ãÈ·ÈÏºóÖ´ĞĞ
+                    // ä¿å­˜é€‰ä¸­çš„æ•°æ®å¯¹è±¡ä»¥ä¾¿ç¡®è®¤åæ‰§è¡Œ
                     selectedSSHModel = selectedItem;
-                    // µ¯³ö¶ş´ÎÈ·ÈÏFlyout
+                    // å¼¹å‡ºäºŒæ¬¡ç¡®è®¤Flyout
                     confirmationReplaceFlyout.ShowAt(gridViewItem);
                 };
                 menuFlyout.Items.Add(replaceMenuItem);
 
-                // Ìí¼Ó·Ö¸îÏß
+                // æ·»åŠ åˆ†å‰²çº¿
                 MenuFlyoutSeparator separator2 = new MenuFlyoutSeparator();
                 menuFlyout.Items.Add(separator2);
 
@@ -306,14 +308,14 @@ namespace WinWoL.Pages
                 {
                     MenuFlyoutItem upSwapMenuItem = new MenuFlyoutItem
                     {
-                        Text = "ÏòÇ°ÒÆ¶¯"
+                        Text = "å‘å‰ç§»åŠ¨"
                     };
                     upSwapMenuItem.Click += (sender, e) =>
                     {
-                        // ÏòÉÏÒÆ¶¯
+                        // å‘ä¸Šç§»åŠ¨
                         if (dbHelper.UpSwapSSHRows(selectedItem))
                         {
-                            // ÖØĞÂ¼ÓÔØÊı¾İ
+                            // é‡æ–°åŠ è½½æ•°æ®
                             LoadData();
                         }
                     };
@@ -324,14 +326,14 @@ namespace WinWoL.Pages
                 {
                     MenuFlyoutItem downSwapMenuItem = new MenuFlyoutItem
                     {
-                        Text = "ÏòºóÒÆ¶¯"
+                        Text = "å‘åç§»åŠ¨"
                     };
                     downSwapMenuItem.Click += (sender, e) =>
                     {
-                        // ÏòÉÏÒÆ¶¯
+                        // å‘ä¸Šç§»åŠ¨
                         if (dbHelper.DownSwapSSHRows(selectedItem))
                         {
-                            // ÖØĞÂ¼ÓÔØÊı¾İ
+                            // é‡æ–°åŠ è½½æ•°æ®
                             LoadData();
                         }
                     };
@@ -340,14 +342,14 @@ namespace WinWoL.Pages
 
                 if (dbHelper.GetSSHPreRowsId(selectedItem) != -1 || dbHelper.GetSSHPosRowsId(selectedItem) != -1)
                 {
-                    // Ìí¼Ó·Ö¸îÏß
+                    // æ·»åŠ åˆ†å‰²çº¿
                     MenuFlyoutSeparator separator3 = new MenuFlyoutSeparator();
                     menuFlyout.Items.Add(separator3);
                 }
 
                 MenuFlyoutItem editMenuItem = new MenuFlyoutItem
                 {
-                    Text = "±à¼­ÅäÖÃ"
+                    Text = "ç¼–è¾‘é…ç½®"
                 };
                 editMenuItem.Click += (sender, e) =>
                 {
@@ -357,7 +359,7 @@ namespace WinWoL.Pages
 
                 MenuFlyoutItem copyMenuItem = new MenuFlyoutItem
                 {
-                    Text = "¸´ÖÆÅäÖÃ"
+                    Text = "å¤åˆ¶é…ç½®"
                 };
                 copyMenuItem.Click += (sender, e) =>
                 {
@@ -367,32 +369,32 @@ namespace WinWoL.Pages
 
                 MenuFlyoutItem deleteMenuItem = new MenuFlyoutItem
                 {
-                    Text = "É¾³ıÅäÖÃ"
+                    Text = "åˆ é™¤é…ç½®"
                 };
                 deleteMenuItem.Click += (sender, e) =>
                 {
-                    // ±£´æÑ¡ÖĞµÄÊı¾İ¶ÔÏóÒÔ±ãÈ·ÈÏºóÖ´ĞĞ
+                    // ä¿å­˜é€‰ä¸­çš„æ•°æ®å¯¹è±¡ä»¥ä¾¿ç¡®è®¤åæ‰§è¡Œ
                     selectedSSHModel = selectedItem;
-                    // µ¯³ö¶ş´ÎÈ·ÈÏFlyout
+                    // å¼¹å‡ºäºŒæ¬¡ç¡®è®¤Flyout
                     confirmationFlyout.ShowAt(gridViewItem);
                 };
                 menuFlyout.Items.Add(deleteMenuItem);
 
                 Thread.Sleep(10);
 
-                // ÔÚÖ¸¶¨Î»ÖÃÏÔÊ¾ContextMenu
+                // åœ¨æŒ‡å®šä½ç½®æ˜¾ç¤ºContextMenu
                 menuFlyout.ShowAt(gridViewItem, e.GetPosition(gridViewItem));
             }
 
         }
         private void OnGridViewDoubleTapped(object sender, RoutedEventArgs e)
         {
-            // ´¦Àí×ó¼üË«»÷ÊÂ¼şµÄ´úÂë
-            // »ñÈ¡ÓÒ¼üµã»÷µÄItem
+            // å¤„ç†å·¦é”®åŒå‡»äº‹ä»¶çš„ä»£ç 
+            // è·å–å³é”®ç‚¹å‡»çš„Item
             FrameworkElement listViewItem = (sender as FrameworkElement);
             if (listViewItem != null && InProgressing.IsActive == false)
             {
-                // »ñÈ¡µã»÷µÄÊı¾İ¶ÔÏó
+                // è·å–ç‚¹å‡»çš„æ•°æ®å¯¹è±¡
                 SSHModel selectedItem = listViewItem?.DataContext as SSHModel;
                 SSHSend(selectedItem);
             }

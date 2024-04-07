@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml.Controls;
+ï»¿using Microsoft.UI.Xaml.Controls;
 using WinWoL.Models;
 
 namespace WinWoL.Pages.Dialogs
@@ -15,13 +15,13 @@ namespace WinWoL.Pages.Dialogs
         }
         private void MyDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            // ÔÚ"È·¶¨"°´Å¥µã»÷ÊÂ¼şÖĞ±£´æÓÃ»§ÊäÈëµÄÄÚÈİ
+            // åœ¨"ç¡®å®š"æŒ‰é’®ç‚¹å‡»äº‹ä»¶ä¸­ä¿å­˜ç”¨æˆ·è¾“å…¥çš„å†…å®¹
             PasswdData.SSHPasswd = SSHPasswordBox.Password;
         }
 
         private void MyDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            // ÔÚ"È¡Ïû"°´Å¥µã»÷ÊÂ¼şÖĞ²»×öÈÎºÎ²Ù×÷
+            // åœ¨"å–æ¶ˆ"æŒ‰é’®ç‚¹å‡»äº‹ä»¶ä¸­ä¸åšä»»ä½•æ“ä½œ
         }
     }
 }
