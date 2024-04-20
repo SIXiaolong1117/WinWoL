@@ -24,7 +24,7 @@
 
 ### 从 Microsoft Store 获取（推荐）
 
-[<img src="https://get.microsoft.com/images/zh-cn%20light.svg"  width="30%" height="30%">](  https://www.microsoft.com/store/apps/9P5ZTP14LQBR)
+[<img src="https://get.microsoft.com/images/zh-cn%20light.svg"  width="30%" height="30%">](https://www.microsoft.com/store/apps/9P5ZTP14LQBR)
 
 ### 从 Releases 获取自签名版（不推荐）
 
