@@ -78,8 +78,10 @@
         <ScrollViewer
             Grid.Row="2"
             Grid.Column="0"
-            Margin="0,18,0,0"
-            HorizontalAlignment="Stretch">
+            Margin="0,0,0,8"
+            Padding="0,4,0,0"
+            HorizontalAlignment="Stretch"
+            Style="{StaticResource TransparentScrollViewerStyle}">
             <GridView
                 x:Name="dataGridView"
                 HorizontalAlignment="Center"
@@ -134,10 +136,11 @@
         </ScrollViewer>
 
         <CommandBar
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="0"
             Margin="18,0,0,4"
             HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
             Background="Transparent"
             DefaultLabelPosition="Right"
             IsOpen="False">
@@ -153,34 +156,8 @@
                 Icon="Import" />
         </CommandBar>
 
-        <!--<Grid Grid.Row="3" Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button
-                x:Name="AddConfig"
-                x:Uid="AddConfig"
-                Grid.Row="0"
-                Grid.Column="0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Click="AddConfigButton_Click" />
-            <Button
-                x:Name="ImportConfig"
-                x:Uid="ImportConfig"
-                Grid.Row="0"
-                Grid.Column="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Click="ImportConfig_Click" />
-        </Grid>-->
-
         <StackPanel
-            Grid.Row="4"
+            Grid.Row="3"
             Grid.Column="0"
             Margin="0,0,0,12"
             HorizontalAlignment="Center"

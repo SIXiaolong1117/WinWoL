@@ -292,46 +292,6 @@
             </ScrollViewer>
         </Grid>
 
-        <!--<Grid
-            Grid.Row="3"
-            Grid.Column="0"
-            Margin="24,0,24,8"
-            HorizontalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button
-                x:Name="AddConfig"
-                x:Uid="AddConfig"
-                Grid.Row="0"
-                Grid.Column="0"
-                Click="AddConfigButton_Click" />
-
-            <Button
-                x:Name="ImportConfig"
-                x:Uid="ImportConfig"
-                Grid.Row="0"
-                Grid.Column="1"
-                Click="ImportConfig_Click" />
-            <Button
-                x:Name="HideConfig"
-                Grid.Row="0"
-                Grid.Column="2"
-                Click="HideConfigButton_Click" />
-            <Button
-                x:Name="PingRefConfig"
-                Grid.Row="0"
-                Grid.Column="3"
-                Click="PingRefConfig_Click"
-                Content="Ping 工具" />
-        </Grid>-->
-
         <StackPanel
             Grid.Row="3"
             Grid.Column="0"
