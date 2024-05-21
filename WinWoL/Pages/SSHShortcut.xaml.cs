@@ -209,6 +209,7 @@ namespace WinWoL.Pages
         }
         private void CopyThisConfig(SSHModel sshModel)
         {
+            sshModel.Name = $"{sshModel.Name} Copy";
             SQLiteHelper dbHelper = new SQLiteHelper();
             dbHelper.InsertSSHData(sshModel);
             // 重新加载数据

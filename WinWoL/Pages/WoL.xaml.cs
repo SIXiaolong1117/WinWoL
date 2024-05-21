@@ -204,6 +204,7 @@ namespace WinWoL.Pages
         }
         private void CopyThisConfig(WoLModel wolModel)
         {
+            wolModel.Name = $"{wolModel.Name} Copy";
             SQLiteHelper dbHelper = new SQLiteHelper();
             dbHelper.InsertData(wolModel);
             // 重新加载数据
