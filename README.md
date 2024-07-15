@@ -2,11 +2,11 @@
   <h1 align="center">远程工具箱 (Remote Toolbox)</h1>
   <p align="center">一个基于 WinUI3 的远程工具箱 (Remote Toolbox)。</p>
   <p align="center">
-    <a href="https://github.com/Direct5dom/WinWoL/blob/master/LICENSE">
-      <img src="https://img.shields.io/github/license/Direct5dom/WinWoL"/>
+    <a href="https://github.com/SIXiaolong1117/WinWoL/blob/master/LICENSE">
+      <img src="https://img.shields.io/github/license/SIXiaolong1117/WinWoL"/>
     </a>
-    <a href="https://github.com/Direct5dom/WinWoL/releases">
-      <img src="https://img.shields.io/github/v/release/Direct5dom/WinWoL?display_name=tag"/>
+    <a href="https://github.com/SIXiaolong1117/WinWoL/releases">
+      <img src="https://img.shields.io/github/v/release/SIXiaolong1117/WinWoL?display_name=tag"/>
     </a>
   </p>
   <p align="center">
@@ -41,7 +41,7 @@
 您可以使用 Git 命令行：
 
 ```powershell
-git clone https://github.com/Direct5dom/WinWoL.git
+git clone https://github.com/SIXiaolong1117/WinWoL.git
 ```
 
 或者更方便的，使用 Visual Studio 的“克隆存储库”克隆本仓库。
