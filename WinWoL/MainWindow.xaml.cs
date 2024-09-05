@@ -1,10 +1,11 @@
-ï»¿using Microsoft.UI.Composition.SystemBackdrops;
+using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using WinRT;
+using WinWoL.Pages;
 
 namespace WinWoL
 {
@@ -22,11 +23,11 @@ namespace WinWoL
         {
             this.InitializeComponent();
 
-            // å¯åŠ¨ä¸ªæ€§åŒ–TitleBar
+            // Æô¶¯¸öĞÔ»¯TitleBar
             ExtendsContentIntoTitleBar = true;
-            // å°†UIè®¾ç½®ä¸ºTitleBar
+            // ½«UIÉèÖÃÎªTitleBar
             SetTitleBar(AppTitleBar);
-            // è®¾ç½®ä»»åŠ¡æ æ˜¾ç¤ºåç§°
+            // ÉèÖÃÈÎÎñÀ¸ÏÔÊ¾Ãû³Æ
             Title = resourceLoader.GetString("AppTitle");
 
             TrySetSystemBackdrop();
