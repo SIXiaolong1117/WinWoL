@@ -118,14 +118,14 @@
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        NavigateUri="https://raw.githubusercontent.com/Direct5dom/WinWoL/master/PRIVACY" />
+                        NavigateUri="https://raw.githubusercontent.com/SIXiaolong1117/WinWoL/master/PRIVACY" />
                     <HyperlinkButton
                         x:Uid="FeedbackBugs"
                         Grid.Row="1"
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        NavigateUri="https://github.com/Direct5dom/WinWoL/issues" />
+                        NavigateUri="https://github.com/SIXiaolong1117/WinWoL/issues" />
                     <HyperlinkButton
                         x:Uid="AboutWiki"
                         Grid.Row="2"
@@ -140,7 +140,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         FontSize="14"
-                        NavigateUri="https://github.com/Direct5dom/WinWoL" />
+                        NavigateUri="https://github.com/SIXiaolong1117/WinWoL" />
                     <HyperlinkButton
                         x:Uid="AboutMITLicense"
                         Grid.Row="4"
@@ -148,7 +148,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         FontSize="14"
-                        NavigateUri="https://raw.githubusercontent.com/Direct5dom/WinWoL/master/LICENSE" />
+                        NavigateUri="https://raw.githubusercontent.com/SIXiaolong1117/WinWoL/master/LICENSE" />
                 </Grid>
 
                 <TextBlock

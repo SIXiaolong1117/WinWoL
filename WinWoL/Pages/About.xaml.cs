@@ -63,13 +63,13 @@ namespace WinWoL.Pages
             string stringList = null;
             try
             {
-                nameList = await HTTPResponse("https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/List");
+                nameList = await HTTPResponse("https://raw.githubusercontent.com/SIXiaolong1117/SIXiaolong1117/main/README/Sponsor/List");
             }
             catch (Exception ex)
             {
                 try
                 {
-                    nameList = await HTTPResponse("https://gitee.com/XiaolongSI/Direct5dom/raw/main/README/Sponsor/List");
+                    nameList = await HTTPResponse("https://gitee.com/XiaolongSI/SIXiaolong1117/raw/main/README/Sponsor/List");
                 }
                 catch (Exception ex2)
                 {
@@ -78,13 +78,13 @@ namespace WinWoL.Pages
             }
             try
             {
-                stringList = await HTTPResponse("https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Text/List");
+                stringList = await HTTPResponse("https://raw.githubusercontent.com/SIXiaolong1117/SIXiaolong1117/main/README/Text/List");
             }
             catch (Exception ex)
             {
                 try
                 {
-                    stringList = await HTTPResponse("https://gitee.com/XiaolongSI/Direct5dom/raw/main/README/Text/List");
+                    stringList = await HTTPResponse("https://gitee.com/XiaolongSI/SIXiaolong1117/raw/main/README/Text/List");
                 }
                 catch (Exception ex2)
                 {
@@ -122,7 +122,7 @@ namespace WinWoL.Pages
             //        // 首先尝试从GitHub获取数据
             //        try
             //        {
-            //            HttpResponseMessage response = await client.GetAsync($"https://raw.githubusercontent.com/Direct5dom/Direct5dom/main/README/Sponsor/List");
+            //            HttpResponseMessage response = await client.GetAsync($"https://raw.githubusercontent.com/SIXiaolong1117/SIXiaolong1117/main/README/Sponsor/List");
             //            if (response.IsSuccessStatusCode)
             //            {
             //                // 从GitHub的响应中读取文件内容
@@ -143,7 +143,7 @@ namespace WinWoL.Pages
             //        {
             //            try
             //            {
-            //                HttpResponseMessage response = await client.GetAsync($"https://gitee.com/XiaolongSI/Direct5dom/raw/main/README/Sponsor/List");
+            //                HttpResponseMessage response = await client.GetAsync($"https://gitee.com/XiaolongSI/SIXiaolong1117/raw/main/README/Sponsor/List");
             //                if (response.IsSuccessStatusCode)
             //                {
             //                    // 从Gitee的响应中读取文件内容
