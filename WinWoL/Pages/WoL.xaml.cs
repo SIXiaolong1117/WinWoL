@@ -72,8 +72,8 @@ namespace WinWoL.Pages
             // 对此dialog对象进行配置
             dialog.XamlRoot = this.XamlRoot;
             dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-            dialog.PrimaryButtonText = "添加";
-            dialog.CloseButtonText = "关闭";
+            dialog.PrimaryButtonText = resourceLoader.GetString("Add");
+            dialog.CloseButtonText = resourceLoader.GetString("Cancel");
             // 默认按钮为PrimaryButton
             dialog.DefaultButton = ContentDialogButton.Primary;
 
@@ -150,8 +150,8 @@ namespace WinWoL.Pages
                     _dispatcherQueue.TryEnqueue(() =>
                     {
                         WoLResultTips.IsOpen = true;
-                        WoLResultTips.Title = "Magic Packet 发送成功！";
-                        WoLResultTips.Subtitle = "Magic Packet 已经通过 UDP 成功发送";
+                        WoLResultTips.Title = resourceLoader.GetString("MagicPacketSentSuccessfully");
+                        WoLResultTips.Subtitle = resourceLoader.GetString("MagicPacketSentSuccessfullySubtitle");
                     });
                 }
                 else
@@ -159,8 +159,8 @@ namespace WinWoL.Pages
                     _dispatcherQueue.TryEnqueue(() =>
                     {
                         WoLResultTips.IsOpen = true;
-                        WoLResultTips.Title = "Magic Packet 发送失败！";
-                        WoLResultTips.Subtitle = "请检查您填写的配置内容";
+                        WoLResultTips.Title = resourceLoader.GetString("MagicPacketSendingFailed");
+                        WoLResultTips.Subtitle = resourceLoader.GetString("MagicPacketSendingFailedSubtitle");
                     });
                 }
                 _dispatcherQueue.TryEnqueue(() =>
@@ -177,8 +177,8 @@ namespace WinWoL.Pages
             // 对此dialog对象进行配置
             dialog.XamlRoot = this.XamlRoot;
             dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-            dialog.PrimaryButtonText = "修改";
-            dialog.CloseButtonText = "关闭";
+            dialog.PrimaryButtonText = resourceLoader.GetString("Change");
+            dialog.CloseButtonText = resourceLoader.GetString("Cancel");
             // 默认按钮为PrimaryButton
             dialog.DefaultButton = ContentDialogButton.Primary;
 
@@ -222,8 +222,8 @@ namespace WinWoL.Pages
                 // 对此dialog对象进行配置
                 dialog.XamlRoot = this.XamlRoot;
                 dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-                dialog.PrimaryButtonText = "确认";
-                dialog.CloseButtonText = "关闭";
+                dialog.PrimaryButtonText = resourceLoader.GetString("Confirm");
+                dialog.CloseButtonText = resourceLoader.GetString("Cancel");
                 // 默认按钮为PrimaryButton
                 dialog.DefaultButton = ContentDialogButton.Primary;
 
@@ -336,7 +336,7 @@ namespace WinWoL.Pages
                 // 对此dialog对象进行配置
                 dialog.XamlRoot = this.XamlRoot;
                 dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-                dialog.CloseButtonText = "关闭";
+                dialog.CloseButtonText = resourceLoader.GetString("Cancel");
                 // 默认按钮为PrimaryButton
                 dialog.DefaultButton = ContentDialogButton.Primary;
 
@@ -410,7 +410,7 @@ namespace WinWoL.Pages
                 {
                     MenuFlyoutItem wolPCMenuItem = new MenuFlyoutItem
                     {
-                        Text = "网络唤醒"
+                        Text = resourceLoader.GetString("WoL")
                     };
                     wolPCMenuItem.Click += (sender, e) =>
                     {
@@ -423,7 +423,7 @@ namespace WinWoL.Pages
                 {
                     MenuFlyoutItem rdpPCMenuItem = new MenuFlyoutItem
                     {
-                        Text = "远程桌面"
+                        Text = resourceLoader.GetString("RDP")
                     };
                     rdpPCMenuItem.Click += (sender, e) =>
                     {
@@ -437,7 +437,7 @@ namespace WinWoL.Pages
                 {
                     MenuFlyoutItem sshShutdownPCMenuItem = new MenuFlyoutItem
                     {
-                        Text = "远程关机"
+                        Text = resourceLoader.GetString("SSHShutdown")
                     };
                     sshShutdownPCMenuItem.Click += (sender, e) =>
                     {
@@ -458,7 +458,7 @@ namespace WinWoL.Pages
 
                 MenuFlyoutItem exportMenuItem = new MenuFlyoutItem
                 {
-                    Text = "导出配置"
+                    Text = resourceLoader.GetString("Export")
                 };
                 exportMenuItem.Click += (sender, e) =>
                 {
@@ -468,7 +468,7 @@ namespace WinWoL.Pages
 
                 MenuFlyoutItem replaceMenuItem = new MenuFlyoutItem
                 {
-                    Text = "覆盖配置"
+                    Text = resourceLoader.GetString("Overlay")
                 };
                 replaceMenuItem.Click += (sender, e) =>
                 {
@@ -487,7 +487,7 @@ namespace WinWoL.Pages
                 {
                     MenuFlyoutItem upSwapMenuItem = new MenuFlyoutItem
                     {
-                        Text = "向上移动"
+                        Text = resourceLoader.GetString("MoveForward")
                     };
                     upSwapMenuItem.Click += (sender, e) =>
                     {
@@ -505,7 +505,7 @@ namespace WinWoL.Pages
                 {
                     MenuFlyoutItem downSwapMenuItem = new MenuFlyoutItem
                     {
-                        Text = "向下移动"
+                        Text = resourceLoader.GetString("MoveBackward")
                     };
                     downSwapMenuItem.Click += (sender, e) =>
                     {
@@ -528,7 +528,7 @@ namespace WinWoL.Pages
 
                 MenuFlyoutItem editMenuItem = new MenuFlyoutItem
                 {
-                    Text = "编辑配置"
+                    Text = resourceLoader.GetString("Edit")
                 };
                 editMenuItem.Click += (sender, e) =>
                 {
@@ -538,7 +538,7 @@ namespace WinWoL.Pages
 
                 MenuFlyoutItem copyMenuItem = new MenuFlyoutItem
                 {
-                    Text = "复制配置"
+                    Text = resourceLoader.GetString("Copy")
                 };
                 copyMenuItem.Click += (sender, e) =>
                 {
@@ -548,7 +548,7 @@ namespace WinWoL.Pages
 
                 MenuFlyoutItem deleteMenuItem = new MenuFlyoutItem
                 {
-                    Text = "删除配置"
+                    Text = resourceLoader.GetString("Delete")
                 };
                 deleteMenuItem.Click += (sender, e) =>
                 {

@@ -153,6 +153,9 @@
   <data name="AboutWoLRight.Text" xml:space="preserve">
     <value>远程工具箱</value>
   </data>
+  <data name="Add" xml:space="preserve">
+    <value>添加</value>
+  </data>
   <data name="AddConfig.Content" xml:space="preserve">
     <value>添加配置</value>
   </data>
@@ -171,11 +174,20 @@
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
+  <data name="Change" xml:space="preserve">
+    <value>修改</value>
+  </data>
   <data name="Confirm" xml:space="preserve">
     <value>确认</value>
   </data>
+  <data name="Copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
   <data name="DatabaseSetting.Text" xml:space="preserve">
     <value>数据库</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>删除</value>
   </data>
   <data name="DialogConfigNameTextBox.Header" xml:space="preserve">
     <value>名称</value>
@@ -213,6 +225,12 @@
   <data name="DialogWoLHeader.Text" xml:space="preserve">
     <value>WoL 配置</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>导出</value>
+  </data>
   <data name="FeedbackBugs.Content" xml:space="preserve">
     <value>反馈问题</value>
   </data>
@@ -243,6 +261,27 @@
   <data name="MacAddressTextBox.Header" xml:space="preserve">
     <value>Mac 地址</value>
   </data>
+  <data name="MagicPacketSendingFailed" xml:space="preserve">
+    <value>Magic Packet 发送失败！</value>
+  </data>
+  <data name="MagicPacketSendingFailedSubtitle" xml:space="preserve">
+    <value>请检查您填写的配置内容</value>
+  </data>
+  <data name="MagicPacketSentSuccessfully" xml:space="preserve">
+    <value>Magic Packet 发送成功！</value>
+  </data>
+  <data name="MagicPacketSentSuccessfullySubtitle" xml:space="preserve">
+    <value>Magic Packet 已经通过 UDP 成功发送</value>
+  </data>
+  <data name="MoveBackward" xml:space="preserve">
+    <value>向后移动</value>
+  </data>
+  <data name="MoveForward" xml:space="preserve">
+    <value>向前移动</value>
+  </data>
+  <data name="Overlay" xml:space="preserve">
+    <value>覆盖</value>
+  </data>
   <data name="PingRefHeader.Text" xml:space="preserve">
     <value>Ping 测试</value>
   </data>
@@ -251,6 +290,9 @@
   </data>
   <data name="PRIVACYLink.Content" xml:space="preserve">
     <value>隐私策略</value>
+  </data>
+  <data name="RDP" xml:space="preserve">
+    <value>远程桌面</value>
   </data>
   <data name="RDPIPPortTextBox.Header" xml:space="preserve">
     <value>RDP 端口</value>
@@ -269,6 +311,9 @@
   </data>
   <data name="ResetDatabaseTips.Title" xml:space="preserve">
     <value>您确定要重置数据库吗？</value>
+  </data>
+  <data name="RunSSHScript" xml:space="preserve">
+    <value>执行 SSH 脚本</value>
   </data>
   <data name="SelectSSHKeyPath.Content" xml:space="preserve">
     <value>选择…</value>
@@ -315,6 +360,9 @@
   <data name="SSHShortcutTips.Text" xml:space="preserve">
     <value>双击执行命令，右键打开菜单</value>
   </data>
+  <data name="SSHShutdown" xml:space="preserve">
+    <value>SSH关机</value>
+  </data>
   <data name="SSHShutdownCMD.Text" xml:space="preserve">
     <value>SSH 关机命令</value>
   </data>
@@ -335,6 +383,9 @@
   </data>
   <data name="ThemeSetting.Text" xml:space="preserve">
     <value>应用主题</value>
+  </data>
+  <data name="WoL" xml:space="preserve">
+    <value>网络唤醒</value>
   </data>
   <data name="WoLAddress.Text" xml:space="preserve">
     <value>WoL 地址</value>

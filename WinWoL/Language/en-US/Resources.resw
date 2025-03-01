@@ -153,6 +153,9 @@
   <data name="AboutWoLRight.Text" xml:space="preserve">
     <value>Remote Toolbox</value>
   </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
   <data name="AddConfig.Content" xml:space="preserve">
     <value>Add</value>
   </data>
@@ -170,6 +173,9 @@
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>Confirm</value>
@@ -213,8 +219,14 @@
   <data name="DialogWoLHeader.Text" xml:space="preserve">
     <value>WoL configuration</value>
   </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
   <data name="FeedbackBugs.Content" xml:space="preserve">
     <value>Feedback bugs</value>
+  </data>
+  <data name="MoveForward" xml:space="preserve">
+    <value>Move Forward</value>
   </data>
   <data name="HideConfig.Label" xml:space="preserve">
     <value>Show/Hide</value>
@@ -243,6 +255,9 @@
   <data name="MacAddressTextBox.Header" xml:space="preserve">
     <value>Mac address</value>
   </data>
+  <data name="Overlay" xml:space="preserve">
+    <value>Overlay</value>
+  </data>
   <data name="PingRefHeader.Text" xml:space="preserve">
     <value>Ping Test</value>
   </data>
@@ -269,6 +284,9 @@
   </data>
   <data name="ResetDatabaseTips.Title" xml:space="preserve">
     <value>Reset database?</value>
+  </data>
+  <data name="RunSSHScript" xml:space="preserve">
+    <value>Run SSH Script</value>
   </data>
   <data name="SelectSSHKeyPath.Content" xml:space="preserve">
     <value>Select…</value>
@@ -353,5 +371,38 @@
   </data>
   <data name="WoLTips2.Text" xml:space="preserve">
     <value>Selected configuration details</value>
+  </data>
+  <data name="MoveBackward" xml:space="preserve">
+    <value>Move Backward </value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="MagicPacketSentSuccessfully" xml:space="preserve">
+    <value>Magic Packet sent successfully!</value>
+  </data>
+  <data name="MagicPacketSendingFailed" xml:space="preserve">
+    <value>Magic Packet sending failed!</value>
+  </data>
+  <data name="MagicPacketSentSuccessfullySubtitle" xml:space="preserve">
+    <value>Magic Packet has been sent successfully over UDP.</value>
+  </data>
+  <data name="MagicPacketSendingFailedSubtitle" xml:space="preserve">
+    <value>Please check the configuration you have filled in.</value>
+  </data>
+  <data name="WoL" xml:space="preserve">
+    <value>Wake on LAN</value>
+  </data>
+  <data name="RDP" xml:space="preserve">
+    <value>RDP</value>
+  </data>
+  <data name="SSHShutdown" xml:space="preserve">
+    <value>SSH Shutdown</value>
   </data>
 </root>
